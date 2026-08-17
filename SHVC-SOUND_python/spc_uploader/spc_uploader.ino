@@ -1,12 +1,15 @@
 /*
- * spc_uploader.ino - SHVC-SOUND (SPC700 IPL ROM) 転送用ファームウェア (Arduino Nano)
+ * spc_uploader.ino - SHVC-SOUND (SPC700 IPL ROM) 転送用ファームウェア (Arduino Uno R3 / Nano)
  *
  * PC側 spc_play.py とシリアル(115200bps)でやり取りし、そのコマンドを
  * SHVC-SOUNDのパラレルバス(D0-D7, A0/A1, /WR, /RD, /RESET)経由で
  * SPC700標準IPL ROMアップロードプロトコルに変換して実行する。
  *
+ * Uno R3とNanoはどちらもATmega328P・16MHz・5Vロジックなので、
+ * 下記ピン名はそのまま共通で使える。
+ *
  * ピン配置 (PROJECT_BRIEF.md 3.1節と一致させること):
- *   Nano D2-D9  -> SHVC-SOUND D0-D7
+ *   D2-D9  -> SHVC-SOUND D0-D7
  *   Nano A0     -> SHVC-SOUND A0
  *   Nano A1     -> SHVC-SOUND A1
  *   Nano A2     -> SHVC-SOUND /WR

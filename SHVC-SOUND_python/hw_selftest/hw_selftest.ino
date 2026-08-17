@@ -1,11 +1,11 @@
 /*
- * hw_selftest.ino - SHVC-SOUND 最小構成ハードウェア自己診断 (Arduino Nano)
+ * hw_selftest.ino - SHVC-SOUND 最小構成ハードウェア自己診断 (Arduino Uno R3 / Nano)
  *
  * PCのPythonを使わず、Arduino単体でSHVC-SOUNDからノイズ音を出す。
  * 「ハードの配線が悪いのか、spc_play.pyの転送が悪いのか」を切り分けるための道具。
  *
  * 使い方:
- *   1. このスケッチをNanoに書き込む
+ *   1. このスケッチを書き込む
  *   2. Arduino IDEのシリアルモニタを 115200bps で開く
  *   3. 自動でテストが走る。何かキーを送ると再実行。
  *
@@ -186,7 +186,7 @@ uint16_t buildProgram(uint8_t *out) {
 
 // ---------------- テスト本体 ----------------
 
-// 文字列はすべてフラッシュに置く(NanoのRAMは2KBしかないため)
+// 文字列はすべてフラッシュに置く(ATmega328PのRAMは2KBしかないため)
 void ok(const __FlashStringHelper *msg) { Serial.print(F("  [OK] ")); Serial.println(msg); }
 void ng(const __FlashStringHelper *msg) { Serial.print(F("  [NG] ")); Serial.println(msg); }
 
@@ -272,7 +272,7 @@ void runSelfTest() {
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial) { /* USB接続待ち(Nanoでは即座に抜ける) */ }
+  while (!Serial) { /* USB接続待ち(ATmega328P系では即座に抜ける) */ }
 
   pinMode(PIN_A0, OUTPUT);
   pinMode(PIN_A1, OUTPUT);

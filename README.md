@@ -1,6 +1,6 @@
 # SHVC-SOUND スタンドアロンプレイヤー
 
-Arduino Nano (Type-C / ATmega328P) で SHVC-SOUND(スーファミ音源モジュール: S-SMP + S-DSP + ARAM + DAC)を駆動し、
+Arduino Uno R3 / Nano (ATmega328P・5Vロジック) で SHVC-SOUND(スーファミ音源モジュール: S-SMP + S-DSP + ARAM + DAC)を駆動し、
 `.spc` ファイルを実チップで再生するプロジェクト。音声は TDA7053A(ステレオBTL)で増幅し3.5mmジャックへ出力する。
 
 ## 構成
@@ -10,7 +10,7 @@ Arduino Nano (Type-C / ATmega328P) で SHVC-SOUND(スーファミ音源モジュ
 | `SHVC-SOUND-KiCad_project/` | 基板設計(KiCad)。スキーマ・PCB・カスタムフットプリント |
 | `SHVC-SOUND_python/` | 再生ソフト一式 |
 | `SHVC-SOUND_python/spc_play.py` | PC側。`.spc` を解析しシリアル経由でArduinoへ転送する |
-| `SHVC-SOUND_python/spc_uploader/` | Arduino Nano側。シリアルコマンドをSPC700 IPL ROMプロトコルへ変換する |
+| `SHVC-SOUND_python/spc_uploader/` | Arduino側。シリアルコマンドをSPC700 IPL ROMプロトコルへ変換する |
 | `SHVC-SOUND_python/hw_selftest/` | Arduino単体で動く自己診断。PCなしでノイズを鳴らして配線を検証する |
 | `docs/minimal-bringup.md` | 最小構成での実機立ち上げ手順と配線表 |
 
@@ -22,7 +22,7 @@ Arduino Nano (Type-C / ATmega328P) で SHVC-SOUND(スーファミ音源モジュ
 
 ## 使い方
 
-Arduino IDE で `spc_uploader/spc_uploader.ino` を Nano に書き込み、以下を実行する。
+Arduino IDE で `spc_uploader/spc_uploader.ino` を書き込み、以下を実行する。
 
 ```bash
 python spc_play.py COM3 song.spc
@@ -36,9 +36,9 @@ pip install pyserial
 
 診断用フラグ: `--test`(強制ノイズ再生)、`--skip-bulk`、`--low-addr`、`--only-stub`
 
-## 配線 (Arduino Nano ⇔ SHVC-SOUND 24pin)
+## 配線 (Arduino ⇔ SHVC-SOUND 24pin)
 
-| Nano | SHVC-SOUND pin | 信号 |
+| Arduino | SHVC-SOUND pin | 信号 |
 |---|---|---|
 | D2-D9 | 7-14 | D0-D7 |
 | A0 | 3 | A0 |
@@ -61,6 +61,8 @@ pip install pyserial
   この領域をサンプルやエコーバッファに使う曲ではノイズが出る。エコーバッファ領域への配置か、スタブのループ化による小型化が要検討。
 - **基板のDRC違反が未修正**: シルク重なり2件、シルクが銅箔にかかる6件、フットプリント型不一致1件、ライブラリ不一致1件。
 - 実機での動作確認は未完了。
+- **基板はArduino Nanoフットプリント**(`Module:Arduino_Nano_WithMountingHoles`)。
+  Uno R3はピン互換だがフットプリントが合わないため、基板に載せる場合は要変更。ジャンパ配線での検証には支障なし。
 
 ## ライセンス / 帰属
 

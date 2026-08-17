@@ -1,0 +1,87 @@
+(footprint "35RASMT4BHNTRX"
+  (version 20241229)
+  (generator "kicad-mcp")
+  (generator_version "9.0")
+  (layer "F.Cu")
+  (descr "Switchcraft 35RASMT4BHNTRX 3.5mm SMT right-angle stereo jack (COMPACT APPROXIMATION — verify pad layout against real datasheet/STEP before fabrication)")
+  (tags "audio jack 3.5mm SMT approximate compact")
+
+  (property "Reference" "REF**" (at 0 -1.27 0)
+    (layer "F.SilkS")
+    (uuid "b159d5a9-675d-4c49-a1f2-021d0986cc13")
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (property "Value" "35RASMT4BHNTRX" (at 0 1.27 0)
+    (layer "F.Fab")
+    (uuid "6090cc64-aa25-400a-b370-6184c5dae491")
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (property "Datasheet" "" (at 0 0 0)
+    (layer "F.Fab")
+    (uuid "0407ebbf-0dc3-4bed-a5d3-26385ca57ed0")
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+
+  (fp_rect
+    (start -4.5 -2.75)
+    (end 4.5 2.75)
+    (stroke (width 0.05) (type default))
+    (fill none)
+    (layer "F.CrtYd")
+    (uuid "110b2df8-5169-4d05-a763-414e89677522")
+  )
+
+  (fp_rect
+    (start -4.25 -2.5)
+    (end 4.25 2.5)
+    (stroke (width 0.12) (type default))
+    (fill none)
+    (layer "F.SilkS")
+    (uuid "403286c4-20ac-433e-8e69-fc43bd031f4b")
+  )
+
+  (fp_rect
+    (start -4.25 -2.5)
+    (end 4.25 2.5)
+    (stroke (width 0.1) (type default))
+    (fill none)
+    (layer "F.Fab")
+    (uuid "3d802327-b0d9-451f-abd3-c5f5af7e70af")
+  )
+
+  (pad "1" smd rect
+    (at -3 0)
+    (size 1.2 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (uuid "f06576c9-7fa9-4164-ac9e-450870611f1c")
+  )
+
+  (pad "2" smd rect
+    (at -1.5 0)
+    (size 1.2 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (uuid "1eac2172-d611-44bc-8c44-5ca2c555ed20")
+  )
+
+  (pad "3" smd rect
+    (at 0 0)
+    (size 1.2 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (uuid "95868c37-d0dd-458f-964f-1ddca4bfafe6")
+  )
+
+  (pad "4" smd rect
+    (at 1.5 0)
+    (size 1.2 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (uuid "69d8a9d4-71c6-4cb1-bfbb-24acfcc7602e")
+  )
+
+  (pad "5" smd rect
+    (at 3 0)
+    (size 1.2 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (uuid "50dc0430-fa8a-4ba5-a03f-72a46b4966f3")
+  )
+
+)

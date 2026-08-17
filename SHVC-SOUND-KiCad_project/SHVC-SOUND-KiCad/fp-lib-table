@@ -1,0 +1,5 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Arduino_MountingHole")(type "KiCad")(uri "${KIPRJMOD}/Arduino_MountingHole.pretty")(options "")(descr ""))
+  (lib (name "SHVC-SOUND-KiCad")(type "KiCad")(uri "C:/Users/札幌日大/OneDrive - 学校法人札幌日本大学学園/ドキュメント/SHVC-SOUND/SHVC-SOUND-KiCad/SHVC-SOUND-KiCad.pretty")(options "")(descr ""))
+)

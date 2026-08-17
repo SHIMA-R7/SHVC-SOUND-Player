@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "SHVC-SOUND-KiCad-eagle-import") (type "KiCad") (uri "${KIPRJMOD}/SHVC-SOUND-KiCad-eagle-import.kicad_sym") (options "") (descr ""))
+)

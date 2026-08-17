@@ -1,0 +1,118 @@
+{
+  "board": "SHVC-SOUND-KiCad.kicad_pcb",
+  "timestamp": "2026-07-30T15:10:40",
+  "total_violations": 10,
+  "violation_counts": {
+    "footprint_type_mismatch": 1,
+    "silk_overlap": 2,
+    "silk_over_copper": 6,
+    "lib_footprint_mismatch": 1
+  },
+  "severity_counts": {
+    "error": 9,
+    "warning": 1,
+    "info": 0
+  },
+  "violations": [
+    {
+      "type": "footprint_type_mismatch",
+      "severity": "error",
+      "message": "フットプリントのコンポーネントタイプとフットプリントのパッドが一致しない (期待値は 'Through hole'; 現状 'SMD')",
+      "location": {
+        "x": 110.36,
+        "y": 93.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "error",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 99.63,
+        "y": 89.92,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "error",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 128.6,
+        "y": 104.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "error",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 103.0,
+        "y": 114.73,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "error",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 109.86,
+        "y": 93.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "error",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 109.86,
+        "y": 93.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "error",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 128.6,
+        "y": 104.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "error",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 161.0,
+        "y": 80.73,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "error",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 161.0,
+        "y": 80.73,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_mismatch",
+      "severity": "warning",
+      "message": "フットプリント '35RASMT4BHNTRX' が、ライブラリ 'SHVC-SOUND-KiCad' のコピーと一致しません",
+      "location": {
+        "x": 103.0,
+        "y": 116.0,
+        "unit": "mm"
+      }
+    }
+  ]
+}

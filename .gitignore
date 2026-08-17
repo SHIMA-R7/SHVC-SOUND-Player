@@ -1,0 +1,15 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# KiCad: ローカル固有の状態・自動バックアップ
+*.kicad_prl
+*-backups/
+fp-info-cache
+*.kicad_pcb-bak
+*.kicad_sch-bak
+
+# ツールが生成した作業用ディレクトリ
+.history/
+.mcp-backups/

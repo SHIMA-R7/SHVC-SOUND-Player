@@ -86,7 +86,7 @@ class SpcFile:
 
 
 class SpcController:
-    def __init__(self, port, baud=115200, log=None, progress=None):
+    def __init__(self, port, baud=500000, log=None, progress=None):
         """
         log      : log(msg:str) 進行状況の文字列を受け取るコールバック
         progress : progress(done:int, total:int) 転送済み/全体バイト数
@@ -142,32 +142,38 @@ class SpcController:
         if echoed_len != length:
             raise RuntimeError(f"lenが化けた! 送った長さ={length}, Arduinoが受け取った長さ={echoed_len}")
 
-        # Arduinoのシリアル受信バッファ(64バイト)を溢れさせないよう、
-        # 16バイトずつ送って毎回ACKを待つ(きちんとしたフロー制御)
-        CHUNK = 16
+        # Arduinoのシリアル受信バッファ(64バイト)を溢れさせないよう
+        # PING_INTERVAL(Arduino側と一致させること)バイトずつ送って
+        # 「まとめて1回だけ」確認応答を待つ。
+        #
+        # かつては1バイト送るごとに1往復のUSBシリアル通信が発生しており、
+        # 実機計測で65216バイトの転送に約38秒かかっていた(バイト単位の
+        # bit伝送時間ではなく、USB経由のシリアル往復レイテンシが支配的
+        # だった)。往復回数を1/PING_INTERVALに減らすことで大幅に短縮する。
+        PING_INTERVAL = 64
         pos = 0
         while pos < length:
-            chunk_len = min(CHUNK, length - pos)
+            chunk_len = min(PING_INTERVAL, length - pos)
             self.ser.write(data[pos:pos + chunk_len])
-            for _ in range(chunk_len):
-                marker = self.ser.read(1)
-                if len(marker) != 1:
-                    raise RuntimeError(f"応答なし(タイムアウト)。進捗={pos}/{length}")
-                if marker[0] == 0xEE:
-                    rest = self.ser.read(4)
-                    idx = rest[0] | (rest[1] << 8)
-                    raise RuntimeError(
-                        f"転送中にタイムアウト: バイト位置 {idx}/{length} で停止。"
-                        f"送信した値=0x{rest[2]:02X}, 期待した応答=0x{idx & 0xFF:02X}, "
-                        f"実際に読めた値=0x{rest[3]:02X}"
-                    )
-                if marker[0] != 0xCD:
-                    raise RuntimeError(f"想定外の応答バイト: 0x{marker[0]:02X} (進捗={pos}/{length})")
-                self.ser.read(1)  # インデックスの下位バイト(内容チェックは省略)
-                pos += 1
-            if pos % 320 == 0 or pos == length:
-                total = self.total_bytes or length
-                self.on_progress(self.done_bytes + pos, total)
+
+            marker = self.ser.read(1)
+            if len(marker) != 1:
+                raise RuntimeError(f"応答なし(タイムアウト)。進捗={pos}/{length}")
+            if marker[0] == 0xEE:
+                rest = self.ser.read(4)
+                idx = rest[0] | (rest[1] << 8)
+                raise RuntimeError(
+                    f"転送中にタイムアウト: バイト位置 {idx}/{length} で停止。"
+                    f"送信した値=0x{rest[2]:02X}, 期待した応答=0x{idx & 0xFF:02X}, "
+                    f"実際に読めた値=0x{rest[3]:02X}"
+                )
+            if marker[0] != 0xCD:
+                raise RuntimeError(f"想定外の応答バイト: 0x{marker[0]:02X} (進捗={pos}/{length})")
+
+            pos += chunk_len
+            total = self.total_bytes or length
+            self.on_progress(self.done_bytes + pos, total)
+            if pos % (PING_INTERVAL * 5) == 0 or pos == length:
                 self.log(f"    進捗: {pos}/{length} バイト転送済み")
 
         final = self.ser.read(1)
@@ -362,7 +368,7 @@ def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False,
             check_cancel()
 
             if not skip_bulk:
-                log("RAM $0100-$FFBF 転送中(数十秒かかります)...")
+                log("RAM $0100-$FFBF 転送中...")
                 ctl.write_block(0x0100, bulk)
                 ctl.done_bytes += len(bulk)
                 check_cancel()

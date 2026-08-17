@@ -53,27 +53,57 @@ const uint8_t MARKER_TIMEOUT = 0xEE;
 uint8_t transferIndex = 0;  // ブロック内のバイトカウンタ(port0へ書く値)
 bool firstBlock = true;     // リセット直後の最初のブロックか(0xCCキック要否の判定)
 
+// ==================== 高速バスI/O(AVRポートレジスタ直叩き) ====================
+//
+// digitalWrite()/digitalRead()は1回あたり数マイクロ秒かかる重い実装で、
+// 1バイト転送するたびに8〜16回呼ぶと合計38秒もかかっていた(実測)。
+// ここではATmega328Pのポートレジスタを直接操作し、1バイトあたりの
+// 処理をポート書き込み数回(各1〜2クロック)まで削る。
+//
+// DATA_PINS = {2,3,4,5,6,7,8,9} のピン配置(Uno/Nano共通)は
+//   D2-D7 -> PORTD bit2-7 (上位6bit分がここに乗る形)
+//   D8-D9 -> PORTB bit0-1
+// という2ポートにまたがった配置なので、データバイトを
+// 下位6bit(D2-D7側)と上位2bit(D8-D9側)に分けて書く。
+//
+// A0/A1/WR/RD/RESET は ARD_A0=A0(PC0), ARD_A1=A1(PC1),
+// PIN_WR=A2(PC2), PIN_RD=A3(PC3), PIN_RESET=A4(PC4) と
+// すべてPORTC上に収まっているので、アドレス選択とWR/RDの
+// トグルはPORTCのビット操作だけで完結する。
+//
+// pinMode()自体は起動時とデータバスの入出力切り替え時にしか
+// 呼ばないので(1バイトごとには呼ばない)、そこは従来通りの
+// DDR直接操作に留め、速度が問題になる箇所だけを最適化する。
+
+const uint8_t DATA_LOW_MASK = 0b11111100;   // PORTD bit2-7 (D2-D7)
+const uint8_t DATA_HIGH_MASK = 0b00000011;  // PORTB bit0-1 (D8-D9)
+
 void setDataBusOutput() {
-  for (uint8_t i = 0; i < 8; i++) pinMode(DATA_PINS[i], OUTPUT);
+  DDRD |= DATA_LOW_MASK;
+  DDRB |= DATA_HIGH_MASK;
 }
 
 void setDataBusInput() {
-  for (uint8_t i = 0; i < 8; i++) pinMode(DATA_PINS[i], INPUT);
+  DDRD &= ~DATA_LOW_MASK;
+  DDRB &= ~DATA_HIGH_MASK;
+  // 入力時のプルアップは付けない(バスは常にどちらかがHIGH/LOWを
+  // 明示的に駆動する前提のため、フローティング入力にしても
+  // readPort()を呼ぶ瞬間は必ずSHVC-SOUND側が駆動している)。
 }
 
-void busWriteData(uint8_t v) {
-  for (uint8_t i = 0; i < 8; i++) digitalWrite(DATA_PINS[i], (v >> i) & 1);
+inline void busWriteData(uint8_t v) {
+  PORTD = (PORTD & ~DATA_LOW_MASK) | ((v << 2) & DATA_LOW_MASK);
+  PORTB = (PORTB & ~DATA_HIGH_MASK) | ((v >> 6) & DATA_HIGH_MASK);
 }
 
-uint8_t busReadData() {
-  uint8_t v = 0;
-  for (uint8_t i = 0; i < 8; i++) v |= (digitalRead(DATA_PINS[i]) << i);
-  return v;
+inline uint8_t busReadData() {
+  uint8_t low = (PIND & DATA_LOW_MASK) >> 2;
+  uint8_t high = (PINB & DATA_HIGH_MASK) << 6;
+  return low | high;
 }
 
-void selectAddr(uint8_t port) {
-  digitalWrite(ARD_A0, port & 1);
-  digitalWrite(ARD_A1, (port >> 1) & 1);
+inline void selectAddr(uint8_t port) {
+  PORTC = (PORTC & ~0b00000011) | (port & 0b00000011);
 }
 
 void writePort(uint8_t port, uint8_t val) {
@@ -81,19 +111,19 @@ void writePort(uint8_t port, uint8_t val) {
   selectAddr(port);
   busWriteData(val);
   delayMicroseconds(1);
-  digitalWrite(PIN_WR, LOW);
+  PORTC &= ~(1 << 2);  // /WR = A2 = PC2 を LOW
   delayMicroseconds(1);
-  digitalWrite(PIN_WR, HIGH);
+  PORTC |= (1 << 2);   // /WR を HIGH に戻す
   delayMicroseconds(1);
 }
 
 uint8_t readPort(uint8_t port) {
   setDataBusInput();
   selectAddr(port);
-  digitalWrite(PIN_RD, LOW);
+  PORTC &= ~(1 << 3);  // /RD = A3 = PC3 を LOW
   delayMicroseconds(1);
   uint8_t v = busReadData();
-  digitalWrite(PIN_RD, HIGH);
+  PORTC |= (1 << 3);   // /RD を HIGH に戻す
   delayMicroseconds(1);
   return v;
 }
@@ -221,6 +251,13 @@ void handleSetAddr() {
   }
 }
 
+// PC側は PING_INTERVAL バイト書いてから1回だけ応答を待つ(バックプレッシャー
+// 兼進捗確認)。1バイトごとに往復していた旧方式はUSBシリアルの往復遅延が
+// 支配的になり65216バイトの転送に40秒近くかかっていたため、この単位で
+// まとめることで往復回数を1/64に減らす。Arduinoの受信バッファ(64バイト)を
+// 超えない値にしておくこと。
+const uint16_t PING_INTERVAL = 64;
+
 void handleSendBytes() {
   uint8_t lenBuf[2];
   if (!readSerialExact(lenBuf, 2, 5000)) return;
@@ -255,9 +292,14 @@ void handleSendBytes() {
       return;
     }
 
-    Serial.write(MARKER_BYTE_OK);
-    Serial.write(transferIndex);
     transferIndex = (uint8_t)(transferIndex + 1);
+
+    // PING_INTERVALバイトごと(と末尾)にだけ確認応答を1バイト返す。
+    bool isLast = (pos == length - 1);
+    bool isBoundary = ((pos % PING_INTERVAL) == (PING_INTERVAL - 1));
+    if (isBoundary || isLast) {
+      Serial.write(MARKER_BYTE_OK);
+    }
   }
 
   Serial.write(ACK_SENDBYTES);
@@ -280,7 +322,9 @@ void handleSetVolume() {
 }
 
 void setup() {
-  Serial.begin(115200);
+  // spc_play.py側と揃えること。115200から500000へ引き上げ、
+  // 65216バイトの曲データ転送にかかる時間を短縮している。
+  Serial.begin(500000);
 
   pinMode(ARD_A0, OUTPUT);
   pinMode(ARD_A1, OUTPUT);

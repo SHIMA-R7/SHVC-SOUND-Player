@@ -106,25 +106,33 @@ inline void selectAddr(uint8_t port) {
   PORTC = (PORTC & ~0b00000011) | (port & 0b00000011);
 }
 
+// digitalWrite()版は1回の呼び出しだけで数マイクロ秒かかっていたため、
+// 明示的な delayMicroseconds(1) 以上の「余分な余裕」がバスタイミングに
+// 意図せず乗っていた。直接ポート操作にした際にそのマージンが消え、
+// ACK(カウンタの一致だけを見る仕組みのため、データが化けていても
+// 成功と報告されてしまう)は通るのに実際のデータが化ける不具合が起きた。
+// そのため明示的なディレイを増やし、確実なマージンを確保する。
+const uint8_t BUS_DELAY_US = 3;
+
 void writePort(uint8_t port, uint8_t val) {
   setDataBusOutput();
   selectAddr(port);
   busWriteData(val);
-  delayMicroseconds(1);
+  delayMicroseconds(BUS_DELAY_US);
   PORTC &= ~(1 << 2);  // /WR = A2 = PC2 を LOW
-  delayMicroseconds(1);
+  delayMicroseconds(BUS_DELAY_US);
   PORTC |= (1 << 2);   // /WR を HIGH に戻す
-  delayMicroseconds(1);
+  delayMicroseconds(BUS_DELAY_US);
 }
 
 uint8_t readPort(uint8_t port) {
   setDataBusInput();
   selectAddr(port);
   PORTC &= ~(1 << 3);  // /RD = A3 = PC3 を LOW
-  delayMicroseconds(1);
+  delayMicroseconds(BUS_DELAY_US);
   uint8_t v = busReadData();
   PORTC |= (1 << 3);   // /RD を HIGH に戻す
-  delayMicroseconds(1);
+  delayMicroseconds(BUS_DELAY_US);
   return v;
 }
 

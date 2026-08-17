@@ -35,6 +35,11 @@
   .pin { font-weight: bold; text-align: center; width: 13mm; }
   .sig { font-family: Consolas, monospace; font-size: 9.2pt; }
   tr.hl td { background: #ddd; font-weight: bold; }
+  tr.skip td { color: #888; font-style: italic; }
+
+  table.wt th:nth-child(3), table.wt td.sig { width: 20mm; }
+  table.wt th:nth-child(4), table.wt td.ty { width: 12mm; font-size: 8.4pt; color: #333; }
+  table.wt th:last-child, table.wt td:last-child { font-size: 9.2pt; }
 
   .cols { display: flex; gap: 5mm; }
   .cols > div { flex: 1; }
@@ -79,69 +84,57 @@
   </ul>
 </div>
 
+<h2>SHVC-SOUND 24pin 結線表 <span class="n">pin1 → pin24 の順</span></h2>
 <div class="cols">
   <div>
-    <h2>電源 <span class="n">4本</span></h2>
-    <table>
-      <tr><th class="chk"></th><th>Arduino</th><th class="pin">pin</th><th>信号</th></tr>
-      <tr><td class="chk"><div></div></td><td>5V</td><td class="pin">18</td><td class="sig">VCC</td></tr>
-      <tr class="hl"><td class="chk"><div></div></td><td>5V</td><td class="pin">24</td><td class="sig">VS ←忘れやすい</td></tr>
-      <tr><td class="chk"><div></div></td><td>GND</td><td class="pin">19</td><td class="sig">GND</td></tr>
-      <tr><td class="chk"><div></div></td><td>GND</td><td class="pin">23</td><td class="sig">GND</td></tr>
+    <table class="wt">
+      <tr><th class="chk"></th><th class="pin">pin</th><th>信号</th><th>種別</th><th>接続先</th></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">1</td><td class="sig">/CS</td><td class="ty">固定</td><td>GND</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">2</td><td class="sig">CS</td><td class="ty">固定</td><td>+5V</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">3</td><td class="sig">A0</td><td class="ty">バス</td><td>A0</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">4</td><td class="sig">A1</td><td class="ty">バス</td><td>A1</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">5</td><td class="sig">/WR</td><td class="ty">バス</td><td>A2</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">6</td><td class="sig">/RD</td><td class="ty">バス</td><td>A3</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">7</td><td class="sig">D0</td><td class="ty">バス</td><td>D2</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">8</td><td class="sig">D1</td><td class="ty">バス</td><td>D3</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">9</td><td class="sig">D2</td><td class="ty">バス</td><td>D4</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">10</td><td class="sig">D3</td><td class="ty">バス</td><td>D5</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">11</td><td class="sig">D4</td><td class="ty">バス</td><td>D6</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">12</td><td class="sig">D5</td><td class="ty">バス</td><td>D7</td></tr>
     </table>
   </div>
   <div>
-    <h2>固定ピン <span class="n">3本</span></h2>
-    <table>
-      <tr><th class="chk"></th><th>接続先</th><th class="pin">pin</th><th>信号</th></tr>
-      <tr><td class="chk"><div></div></td><td>GND</td><td class="pin">1</td><td class="sig">/CS</td></tr>
-      <tr><td class="chk"><div></div></td><td>+5V</td><td class="pin">2</td><td class="sig">CS</td></tr>
-      <tr><td class="chk"><div></div></td><td>+5V</td><td class="pin">20</td><td class="sig">/MUTE</td></tr>
-    </table>
-    <ul class="note">
-      <li>pin 16 (NC) と pin 17 (DCK) は<b>未接続のまま</b></li>
-      <li>/MUTE は D10 を使わず +5V 直結でよい</li>
-    </ul>
-  </div>
-</div>
-
-<h2>バス <span class="n">13本</span></h2>
-<div class="cols">
-  <div>
-    <table>
-      <tr><th class="chk"></th><th>Arduino</th><th class="pin">pin</th><th>信号</th></tr>
-      <tr><td class="chk"><div></div></td><td>D2</td><td class="pin">7</td><td class="sig">D0</td></tr>
-      <tr><td class="chk"><div></div></td><td>D3</td><td class="pin">8</td><td class="sig">D1</td></tr>
-      <tr><td class="chk"><div></div></td><td>D4</td><td class="pin">9</td><td class="sig">D2</td></tr>
-      <tr><td class="chk"><div></div></td><td>D5</td><td class="pin">10</td><td class="sig">D3</td></tr>
-      <tr><td class="chk"><div></div></td><td>D6</td><td class="pin">11</td><td class="sig">D4</td></tr>
-      <tr><td class="chk"><div></div></td><td>D7</td><td class="pin">12</td><td class="sig">D5</td></tr>
-      <tr><td class="chk"><div></div></td><td>D8</td><td class="pin">13</td><td class="sig">D6</td></tr>
-    </table>
-  </div>
-  <div>
-    <table>
-      <tr><th class="chk"></th><th>Arduino</th><th class="pin">pin</th><th>信号</th></tr>
-      <tr><td class="chk"><div></div></td><td>D9</td><td class="pin">14</td><td class="sig">D7</td></tr>
-      <tr><td class="chk"><div></div></td><td>A0</td><td class="pin">3</td><td class="sig">A0</td></tr>
-      <tr><td class="chk"><div></div></td><td>A1</td><td class="pin">4</td><td class="sig">A1</td></tr>
-      <tr><td class="chk"><div></div></td><td>A2</td><td class="pin">5</td><td class="sig">/WR</td></tr>
-      <tr><td class="chk"><div></div></td><td>A3</td><td class="pin">6</td><td class="sig">/RD</td></tr>
-      <tr><td class="chk"><div></div></td><td>A4</td><td class="pin">15</td><td class="sig">/RESET</td></tr>
-      <tr><td colspan="4" style="border:none;background:none"></td></tr>
+    <table class="wt">
+      <tr><th class="chk"></th><th class="pin">pin</th><th>信号</th><th>種別</th><th>接続先</th></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">13</td><td class="sig">D6</td><td class="ty">バス</td><td>D8</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">14</td><td class="sig">D7</td><td class="ty">バス</td><td>D9</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">15</td><td class="sig">/RESET</td><td class="ty">バス</td><td>A4</td></tr>
+      <tr class="skip"><td class="chk">-</td><td class="pin">16</td><td class="sig">NC</td><td class="ty">-</td><td>未接続</td></tr>
+      <tr class="skip"><td class="chk">-</td><td class="pin">17</td><td class="sig">DCK</td><td class="ty">-</td><td>未接続</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">18</td><td class="sig">VCC</td><td class="ty">電源</td><td>+5V</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">19</td><td class="sig">GND</td><td class="ty">電源</td><td>GND</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">20</td><td class="sig">/MUTE</td><td class="ty">固定</td><td>+5V</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">21</td><td class="sig">Audio-L</td><td class="ty">音声</td><td>コンデンサ経由でスピーカーL</td></tr>
+      <tr><td class="chk"><div></div></td><td class="pin">22</td><td class="sig">Audio-R</td><td class="ty">音声</td><td>コンデンサ経由でスピーカーR(任意)</td></tr>
+      <tr class="hl"><td class="chk"><div></div></td><td class="pin">23</td><td class="sig">GND</td><td class="ty">電源</td><td>GND</td></tr>
+      <tr class="hl"><td class="chk"><div></div></td><td class="pin">24</td><td class="sig">VS</td><td class="ty">電源</td><td>+5V ←忘れやすい</td></tr>
     </table>
   </div>
 </div>
+<ul class="note">
+  <li>「バス」の接続先は<b>Arduinoのデジタル/アナログピン名</b>(D2-D9, A0-A4)。「電源」「固定」「音声」の接続先はArduinoの±ではなく<b>回路上の+5V/GND/スピーカー</b>を指す</li>
+  <li>pin16(NC)・pin17(DCK)は未接続のまま</li>
+  <li>/MUTE(pin20)はD10を使わず+5V直結でよい</li>
+</ul>
 
-<h2>音声出力 <span class="n">最小構成はモノラル2本</span></h2>
+<h2>音声出力の結線イメージ <span class="n">最小構成はモノラルでも可</span></h2>
 <pre>
  SHVC pin21 (Audio-L) ──┤├── アンプ付きスピーカー L
                        + 10µF -
  共通GND ───────────────────── アンプ付きスピーカー GND
 </pre>
 <ul class="note">
-  <li>電解コンデンサの<b>+側をモジュール側</b>へ向ける。容量は 10µF〜100µF なら何でもよい</li>
-  <li>ステレオで聴くなら pin22 (Audio-R) にも同様にもう1本</li>
+  <li>電解コンデンサの<b>+側をモジュール側</b>へ向ける(出力にDCオフセットが乗っているため直結しない)。容量は 10µF〜100µF なら何でもよい</li>
   <li><b>イヤホン直挿しは避ける。</b>アンプ付きPCスピーカー、またはオーディオIFのライン入力を使う</li>
 </ul>
 

@@ -23,8 +23,8 @@
  */
 
 const uint8_t DATA_PINS[8] = {2, 3, 4, 5, 6, 7, 8, 9};
-const uint8_t PIN_A0 = A0;
-const uint8_t PIN_A1 = A1;
+const uint8_t ARD_A0 = A0;
+const uint8_t ARD_A1 = A1;
 const uint8_t PIN_WR = A2;
 const uint8_t PIN_RD = A3;
 const uint8_t PIN_RESET = A4;
@@ -66,8 +66,8 @@ uint8_t busReadData() {
 }
 
 void selectAddr(uint8_t port) {
-  digitalWrite(PIN_A0, port & 1);
-  digitalWrite(PIN_A1, (port >> 1) & 1);
+  digitalWrite(ARD_A0, port & 1);
+  digitalWrite(ARD_A1, (port >> 1) & 1);
 }
 
 void writePort(uint8_t port, uint8_t val) {
@@ -268,8 +268,8 @@ void handleReadPort() {
 void setup() {
   Serial.begin(115200);
 
-  pinMode(PIN_A0, OUTPUT);
-  pinMode(PIN_A1, OUTPUT);
+  pinMode(ARD_A0, OUTPUT);
+  pinMode(ARD_A1, OUTPUT);
   pinMode(PIN_WR, OUTPUT);
   pinMode(PIN_RD, OUTPUT);
   pinMode(PIN_RESET, OUTPUT);

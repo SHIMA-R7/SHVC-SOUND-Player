@@ -17,8 +17,8 @@
  */
 
 const uint8_t DATA_PINS[8] = {2, 3, 4, 5, 6, 7, 8, 9};
-const uint8_t PIN_A0 = A0;
-const uint8_t PIN_A1 = A1;
+const uint8_t ARD_A0 = A0;
+const uint8_t ARD_A1 = A1;
 const uint8_t PIN_WR = A2;
 const uint8_t PIN_RD = A3;
 const uint8_t PIN_RESET = A4;
@@ -30,8 +30,8 @@ void setDataBusOutput() { for (uint8_t i = 0; i < 8; i++) pinMode(DATA_PINS[i], 
 void setDataBusInput()  { for (uint8_t i = 0; i < 8; i++) pinMode(DATA_PINS[i], INPUT); }
 
 void selectAddr(uint8_t port) {
-  digitalWrite(PIN_A0, port & 1);
-  digitalWrite(PIN_A1, (port >> 1) & 1);
+  digitalWrite(ARD_A0, port & 1);
+  digitalWrite(ARD_A1, (port >> 1) & 1);
 }
 
 void writePort(uint8_t port, uint8_t val) {
@@ -274,8 +274,8 @@ void setup() {
   Serial.begin(115200);
   while (!Serial) { /* USB接続待ち(ATmega328P系では即座に抜ける) */ }
 
-  pinMode(PIN_A0, OUTPUT);
-  pinMode(PIN_A1, OUTPUT);
+  pinMode(ARD_A0, OUTPUT);
+  pinMode(ARD_A1, OUTPUT);
   pinMode(PIN_WR, OUTPUT);
   pinMode(PIN_RD, OUTPUT);
   pinMode(PIN_RESET, OUTPUT);

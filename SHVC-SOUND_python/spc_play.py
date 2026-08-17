@@ -139,7 +139,26 @@ class SpcController:
         return resp[1]
 
 
-def build_final_stub(spc: SpcFile, force_test_tone: bool = False) -> bytes:
+def boost_master_volume(dsp: bytes, factor: float) -> bytes:
+    """
+    MVOLL($0C)/MVOLR($1C)を底上げしたDSPレジスタ配列を返す(元は変更しない)。
+
+    S-DSPのマスター音量は符号付き8bit(-128〜127)。正の値が大きいほど
+    音量が大きい(負値は位相反転付きの音量で、曲データで意図的に使われる
+    ことがあるため符号は保持する)。単純に factor 倍して、
+    signed 8bit の範囲(-128〜127)でクランプする。
+    """
+    out = bytearray(dsp)
+    for reg in (0x0C, 0x1C):  # MVOLL, MVOLR
+        raw = dsp[reg]
+        signed = raw - 256 if raw >= 128 else raw
+        boosted = round(signed * factor)
+        boosted = max(-128, min(127, boosted))
+        out[reg] = boosted & 0xFF
+    return bytes(out)
+
+
+def build_final_stub(spc: SpcFile, force_test_tone: bool = False, volume_factor: float = 1.0) -> bytes:
     """
     DSPレジスタ128個・コントロール/タイマー・CPUレジスタをすべて復元して
     実行を開始する、SPC700側で実際に動くコード。
@@ -163,6 +182,8 @@ def build_final_stub(spc: SpcFile, force_test_tone: bool = False) -> bytes:
     """
     stub = bytearray()
 
+    dsp = spc.dsp if volume_factor == 1.0 else boost_master_volume(spc.dsp, volume_factor)
+
     # 診断: スタブが実際に実行開始されたか確認するためのマーカー。
     # 実行されれば$F4(host側から見てport0)に0x99が現れるはず。
     stub += bytes([0x8F, 0x99, 0xF4])  # mov $F4,#0x99
@@ -182,10 +203,10 @@ def build_final_stub(spc: SpcFile, force_test_tone: bool = False) -> bytes:
     order = [i for i in range(0x80) if i not in (0x6C, 0x4C)] + [0x4C]
     for i in order:
         stub += bytes([0x8F, i, 0xF2])
-        stub += bytes([0x8F, spc.dsp[i], 0xF3])
+        stub += bytes([0x8F, dsp[i], 0xF3])
 
     stub += bytes([0x8F, 0x6C, 0xF2])
-    stub += bytes([0x8F, spc.dsp[0x6C], 0xF3])
+    stub += bytes([0x8F, dsp[0x6C], 0xF3])
 
     # コントロールレジスタ・タイマー分周値を復元
     stub += bytes([0x8F, spc.ram[0xF1], 0xF1])
@@ -232,7 +253,8 @@ def build_final_stub(spc: SpcFile, force_test_tone: bool = False) -> bytes:
     return bytes(stub)
 
 
-def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False, only_stub=False):
+def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False, only_stub=False,
+         volume_factor=1.0):
     spc = SpcFile(spc_path)
     ctl = SpcController(port)
 
@@ -257,7 +279,9 @@ def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False,
     # 2. DSPレジスタ・コントロール・タイマー・CPUレジスタをまとめて復元する
     #    実行コードを、曲データを壊さない高位アドレスに配置して実行する。
     print("復元スタブを構築・転送中...")
-    stub = build_final_stub(spc, force_test_tone=force_test_tone)
+    if volume_factor != 1.0:
+        print(f"マスター音量を{volume_factor:.2f}倍に変更(元の値からのブースト)")
+    stub = build_final_stub(spc, force_test_tone=force_test_tone, volume_factor=volume_factor)
     if low_addr:
         stub_addr = 0x0200
         print("  (診断モード: 低位アドレス$0200を使用)")
@@ -278,12 +302,17 @@ def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False,
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print(f"使い方: {sys.argv[0]} <シリアルポート> <spcファイル> [--test] [--skip-bulk] [--low-addr] [--only-stub]")
+        print(f"使い方: {sys.argv[0]} <シリアルポート> <spcファイル> "
+              f"[--test] [--skip-bulk] [--low-addr] [--only-stub] [--volume N]")
+        print("  --volume N : マスター音量(MVOLL/MVOLR)をN倍にする。例: --volume 1.5")
         sys.exit(1)
     flags = sys.argv[3:]
     test_mode = "--test" in flags
     skip_bulk_mode = "--skip-bulk" in flags
     low_addr_mode = "--low-addr" in flags
     only_stub_mode = "--only-stub" in flags
+    volume_factor = 1.0
+    if "--volume" in flags:
+        volume_factor = float(flags[flags.index("--volume") + 1])
     play(sys.argv[1], sys.argv[2], force_test_tone=test_mode, skip_bulk=skip_bulk_mode,
-         low_addr=low_addr_mode, only_stub=only_stub_mode)
+         low_addr=low_addr_mode, only_stub=only_stub_mode, volume_factor=volume_factor)

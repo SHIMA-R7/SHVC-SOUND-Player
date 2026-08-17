@@ -8,6 +8,14 @@ TDA7053A・12V PDトリガー・音量制御・3.5mmジャックは**全部外�
 基板が既にできている場合は、TDA7053AをICソケットから抜き、12V電源を繋がずに、
 モジュールの音声ピンから直接引き出す。
 
+> **印刷用**: この配線表はA4 2ページのPDFにしてある → [`SHVC-SOUND_配線表_A4.pdf`](SHVC-SOUND_配線表_A4.pdf)
+> チェックボックス付きなので、配線しながら1本ずつ潰していける。
+> 再生成は `wiring-sheet.html` を編集して以下を実行:
+>
+> ```
+> chrome --headless=new --no-pdf-header-footer --print-to-pdf=docs/SHVC-SOUND_配線表_A4.pdf file:///.../docs/wiring-sheet.html
+> ```
+
 ## 配線一覧(全17本)
 
 ### 電源(4本)

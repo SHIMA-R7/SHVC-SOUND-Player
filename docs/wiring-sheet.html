@@ -1,0 +1,177 @@
+<meta charset="utf-8">
+<title>SHVC-SOUND 最小構成 配線表</title>
+<style>
+  @page { size: A4; margin: 11mm 12mm; }
+
+  * { box-sizing: border-box; }
+  body {
+    font-family: "BIZ UDPGothic", "Yu Gothic", "Meiryo", sans-serif;
+    color: #000; background: #fff;
+    font-size: 9.6pt; line-height: 1.45; margin: 0;
+  }
+
+  h1 { font-size: 17pt; margin: 0 0 1mm; letter-spacing: .02em; }
+  .sub { font-size: 10pt; color: #333; margin: 0 0 3mm; }
+  h2 {
+    font-size: 11pt; margin: 0 0 1.5mm; padding: 1mm 2mm;
+    background: #1a1a1a; color: #fff; border-radius: 1mm;
+  }
+  h2 .n { float: right; font-weight: normal; font-size: 9.5pt; }
+  h3 { font-size: 10.5pt; margin: 4mm 0 1.5mm; border-bottom: 1.2pt solid #000; padding-bottom: .8mm; }
+
+  .warn {
+    border: 1.6pt solid #000; border-left-width: 4mm;
+    padding: 2mm 3mm; margin: 0 0 4mm; border-radius: 1mm;
+  }
+  .warn b { font-size: 10.5pt; }
+  .warn ul { margin: 1mm 0 0; padding-left: 5mm; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 3mm; }
+  th, td { border: .6pt solid #555; padding: 1.1mm 1.6mm; text-align: left; }
+  th { background: #e8e8e8; font-size: 8.8pt; font-weight: bold; }
+  td { font-size: 9.6pt; }
+  .chk { width: 7mm; text-align: center; padding: 0; }
+  .chk div { width: 3.6mm; height: 3.6mm; border: 1pt solid #000; margin: 0 auto; }
+  .pin { font-weight: bold; text-align: center; width: 13mm; }
+  .sig { font-family: Consolas, monospace; font-size: 9.2pt; }
+  tr.hl td { background: #ddd; font-weight: bold; }
+
+  .cols { display: flex; gap: 5mm; }
+  .cols > div { flex: 1; }
+
+  .note { font-size: 8.6pt; color: #222; margin: 0 0 3mm; padding-left: 3mm; }
+  .note li { margin-bottom: .6mm; }
+
+  pre {
+    font-family: Consolas, monospace; font-size: 9pt; line-height: 1.5;
+    border: .6pt solid #555; padding: 2mm; margin: 0 0 2mm; background: #f4f4f4;
+  }
+  .foot { font-size: 8pt; color: #444; border-top: .6pt solid #999; padding-top: 1.5mm; margin-top: 4mm; }
+  .page2 { page-break-before: always; }
+</style>
+
+<h1>SHVC-SOUND 最小構成 配線表</h1>
+<p class="sub">Arduino Uno R3 / Nano(ATmega328P・5V) ⇔ SHVC-SOUND 24pin ／ 全17本</p>
+
+<div class="warn">
+  <b>⚠ この構成では以下を必ず守る</b>
+  <ul>
+    <li><b>12Vは一切繋がない。</b>TDA7053Aはソケットから抜き、PDトリガーボードも外す</li>
+    <li>音声出力は<b>コンデンサを必ず挟む</b>(直結するとDCオフセットでスピーカーを傷める)</li>
+    <li>モジュール側のpin 1がどちら側か、コネクタの向きを先に確認すること</li>
+  </ul>
+</div>
+
+<div class="cols">
+  <div>
+    <h2>電源 <span class="n">4本</span></h2>
+    <table>
+      <tr><th class="chk"></th><th>Arduino</th><th class="pin">pin</th><th>信号</th></tr>
+      <tr><td class="chk"><div></div></td><td>5V</td><td class="pin">18</td><td class="sig">VCC</td></tr>
+      <tr class="hl"><td class="chk"><div></div></td><td>5V</td><td class="pin">24</td><td class="sig">VS ←忘れやすい</td></tr>
+      <tr><td class="chk"><div></div></td><td>GND</td><td class="pin">19</td><td class="sig">GND</td></tr>
+      <tr><td class="chk"><div></div></td><td>GND</td><td class="pin">23</td><td class="sig">GND</td></tr>
+    </table>
+  </div>
+  <div>
+    <h2>固定ピン <span class="n">3本</span></h2>
+    <table>
+      <tr><th class="chk"></th><th>接続先</th><th class="pin">pin</th><th>信号</th></tr>
+      <tr><td class="chk"><div></div></td><td>GND</td><td class="pin">1</td><td class="sig">/CS</td></tr>
+      <tr><td class="chk"><div></div></td><td>+5V</td><td class="pin">2</td><td class="sig">CS</td></tr>
+      <tr><td class="chk"><div></div></td><td>+5V</td><td class="pin">20</td><td class="sig">/MUTE</td></tr>
+    </table>
+    <ul class="note">
+      <li>pin 16 (NC) と pin 17 (DCK) は<b>未接続のまま</b></li>
+      <li>/MUTE は D10 を使わず +5V 直結でよい</li>
+    </ul>
+  </div>
+</div>
+
+<h2>バス <span class="n">13本</span></h2>
+<div class="cols">
+  <div>
+    <table>
+      <tr><th class="chk"></th><th>Arduino</th><th class="pin">pin</th><th>信号</th></tr>
+      <tr><td class="chk"><div></div></td><td>D2</td><td class="pin">7</td><td class="sig">D0</td></tr>
+      <tr><td class="chk"><div></div></td><td>D3</td><td class="pin">8</td><td class="sig">D1</td></tr>
+      <tr><td class="chk"><div></div></td><td>D4</td><td class="pin">9</td><td class="sig">D2</td></tr>
+      <tr><td class="chk"><div></div></td><td>D5</td><td class="pin">10</td><td class="sig">D3</td></tr>
+      <tr><td class="chk"><div></div></td><td>D6</td><td class="pin">11</td><td class="sig">D4</td></tr>
+      <tr><td class="chk"><div></div></td><td>D7</td><td class="pin">12</td><td class="sig">D5</td></tr>
+      <tr><td class="chk"><div></div></td><td>D8</td><td class="pin">13</td><td class="sig">D6</td></tr>
+    </table>
+  </div>
+  <div>
+    <table>
+      <tr><th class="chk"></th><th>Arduino</th><th class="pin">pin</th><th>信号</th></tr>
+      <tr><td class="chk"><div></div></td><td>D9</td><td class="pin">14</td><td class="sig">D7</td></tr>
+      <tr><td class="chk"><div></div></td><td>A0</td><td class="pin">3</td><td class="sig">A0</td></tr>
+      <tr><td class="chk"><div></div></td><td>A1</td><td class="pin">4</td><td class="sig">A1</td></tr>
+      <tr><td class="chk"><div></div></td><td>A2</td><td class="pin">5</td><td class="sig">/WR</td></tr>
+      <tr><td class="chk"><div></div></td><td>A3</td><td class="pin">6</td><td class="sig">/RD</td></tr>
+      <tr><td class="chk"><div></div></td><td>A4</td><td class="pin">15</td><td class="sig">/RESET</td></tr>
+      <tr><td colspan="4" style="border:none;background:none"></td></tr>
+    </table>
+  </div>
+</div>
+
+<h2>音声出力 <span class="n">最小構成はモノラル2本</span></h2>
+<pre>
+ SHVC pin21 (Audio-L) ──┤├── アンプ付きスピーカー L
+                       + 10µF -
+ 共通GND ───────────────────── アンプ付きスピーカー GND
+</pre>
+<ul class="note">
+  <li>電解コンデンサの<b>+側をモジュール側</b>へ向ける。容量は 10µF〜100µF なら何でもよい</li>
+  <li>ステレオで聴くなら pin22 (Audio-R) にも同様にもう1本</li>
+  <li><b>イヤホン直挿しは避ける。</b>アンプ付きPCスピーカー、またはオーディオIFのライン入力を使う</li>
+</ul>
+
+<p class="foot">
+  配線後 → <b>hw_selftest.ino</b> を書き込み、シリアルモニタを <b>115200bps</b> で開く。判定は裏面参照。
+</p>
+
+<!-- ============ 2ページ目 ============ -->
+<div class="page2">
+<h1>診断結果の読み方</h1>
+<p class="sub">hw_selftest.ino / シリアルモニタ 115200bps ／ 何かキーを送ると再実行</p>
+
+<h3>まず結論から</h3>
+<table>
+  <tr><th style="width:38%">シリアルモニタの表示</th><th>意味</th></tr>
+  <tr class="hl"><td>全部 [OK] + ノイズが鳴る</td><td>ハードは完動。音が出ない原因は <b>spc_play.py 側</b>にある</td></tr>
+  <tr><td>全部 [OK] なのに無音</td><td>転送も実行も成功している。<b>原因は音声出力側だけ</b>に絞れる。コンデンサの極性 / スピーカーの音量 / pin20(/MUTE)がHIGHか を確認</td></tr>
+</table>
+
+<h3>[1] で止まる ─ port0/port1 が $AA/$BB にならない</h3>
+<p class="note">モジュールが起動していない。表示された値で原因が切り分けられる。</p>
+<table>
+  <tr><th style="width:26mm">読めた値</th><th>疑う所</th></tr>
+  <tr><td class="sig"><b>$FF</b></td><td>モジュールが応答していない。<b>VCC(18)とVS(24)の両方</b>に5Vが来ているか / GND(19,23)がArduinoと共通か / /CS(1)=GND・CS(2)=+5V か / /RESET(15)がA4に繋がっているか</td></tr>
+  <tr><td class="sig"><b>$00</b></td><td>データバスがGNDに落ちている。D0-D7(pin 7〜14)の配線を確認</td></tr>
+  <tr><td>毎回違う値</td><td>/RD(A3) か /WR(A2) の配線ミス、または結線が浮いている</td></tr>
+</table>
+
+<h3>[2] で止まる ─ 1ブロック目の転送に失敗</h3>
+<p class="note">リセットは通るのに書き込みが通らない。D0-D7 のどれかが<b>入れ替わっている</b>か浮いている。A0(pin3)/A1(pin4) の配線も確認する。</p>
+
+<h3>[3] で止まる ─ 2ブロック目の転送に失敗</h3>
+<p class="note">1ブロック目は通るのに2ブロック目で落ちる = ブロック切り替えのタイミング問題。配線自体は概ね正しい。ジャンパ線を短くする、電源にパスコン(0.1µF)を追加する。</p>
+
+<h3>[5] でマーカーが $99 にならない</h3>
+<p class="note">転送は通ったがジャンプが失敗している。</p>
+
+<h3>よくある落とし穴</h3>
+<table>
+  <tr><td class="chk"><div></div></td><td><b>VS(pin24)の繋ぎ忘れ</b> — VCCだけ繋いで動かない例が最も多い</td></tr>
+  <tr><td class="chk"><div></div></td><td><b>GNDが共通でない</b> — 外部電源を併用する場合は必ずArduinoのGNDと繋ぐ</td></tr>
+  <tr><td class="chk"><div></div></td><td><b>ジャンパ線が長い</b> — 20cm級を使うとバスが不安定になる。10cm以下にする</td></tr>
+  <tr><td class="chk"><div></div></td><td><b>音声出力の直結</b> — DCオフセットでスピーカーを傷める。必ずコンデンサを挟む</td></tr>
+  <tr><td class="chk"><div></div></td><td><b>D0-D7の順序間違い</b> — D2→pin7 から始まる。D0→pin7 ではない</td></tr>
+</table>
+
+<p class="foot">
+  SHVC-SOUND スタンドアロンプレイヤー ／ 詳細は docs/minimal-bringup.md
+</p>
+</div>

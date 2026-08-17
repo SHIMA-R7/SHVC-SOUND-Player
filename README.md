@@ -11,6 +11,14 @@ Arduino Nano (Type-C / ATmega328P) で SHVC-SOUND(スーファミ音源モジュ
 | `SHVC-SOUND_python/` | 再生ソフト一式 |
 | `SHVC-SOUND_python/spc_play.py` | PC側。`.spc` を解析しシリアル経由でArduinoへ転送する |
 | `SHVC-SOUND_python/spc_uploader/` | Arduino Nano側。シリアルコマンドをSPC700 IPL ROMプロトコルへ変換する |
+| `SHVC-SOUND_python/hw_selftest/` | Arduino単体で動く自己診断。PCなしでノイズを鳴らして配線を検証する |
+| `docs/minimal-bringup.md` | 最小構成での実機立ち上げ手順と配線表 |
+
+## まず実機で音を確認する
+
+いきなり `spc_play.py` を試す前に、アンプと12V系を外した最小構成で
+`hw_selftest/hw_selftest.ino` を走らせる。ハードの問題か転送ソフトの問題かが一発で切り分けられる。
+手順と配線表は [docs/minimal-bringup.md](docs/minimal-bringup.md) を参照。
 
 ## 使い方
 

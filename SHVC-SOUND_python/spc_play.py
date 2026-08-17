@@ -29,6 +29,7 @@ CMD_RESET = 0x01
 CMD_SETADDR = 0x02
 CMD_SENDBYTES = 0x03
 CMD_READPORT = 0x04
+CMD_SETVOLUME = 0x05
 
 ACK_RESET = 0x01
 ACK_SETADDR = 0x02
@@ -136,6 +137,20 @@ class SpcController:
         resp = self.ser.read(2)
         if len(resp) != 2 or resp[0] != 0x04:
             raise RuntimeError(f"read_port応答が異常: {resp!r}")
+        return resp[1]
+
+    def set_volume(self, duty):
+        """
+        TDA7053AのVC1/VC2へつながるPWM(Arduino D10)のデューティ比を設定する。
+        duty は 0(無音側)〜255(最大音量側)。R5/R6/C5の分圧値が未校正の場合、
+        実際に0.4V以下/1.4V以上になる値は現物合わせで探る必要がある
+        (PROJECT_BRIEF.md 3.4節・5節参照)。
+        """
+        duty = max(0, min(255, int(duty)))
+        self.ser.write(bytes([CMD_SETVOLUME, duty]))
+        resp = self.ser.read(2)
+        if len(resp) != 2 or resp[0] != CMD_SETVOLUME:
+            raise RuntimeError(f"set_volume応答が異常: {resp!r}")
         return resp[1]
 
 
@@ -262,7 +277,7 @@ def build_final_stub(spc: SpcFile, force_test_tone: bool = False, volume_factor:
 
 
 def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False, only_stub=False,
-         volume_factor=1.0):
+         volume_factor=1.0, amp_volume=None):
     spc = SpcFile(spc_path)
     ctl = SpcController(port)
 
@@ -305,14 +320,19 @@ def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False,
     p0 = ctl.read_port(0)
     print(f"  (診断: 実行開始マーカー確認 port0=0x{p0:02X}, 期待値=0x99)")
 
+    if amp_volume is not None:
+        actual = ctl.set_volume(amp_volume)
+        print(f"アンプ音量(PWMデューティ比)を {actual}/255 に設定")
+
     print("再生開始しました。")
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         print(f"使い方: {sys.argv[0]} <シリアルポート> <spcファイル> "
-              f"[--test] [--skip-bulk] [--low-addr] [--only-stub] [--volume N]")
-        print("  --volume N : マスター音量(MVOLL/MVOLR)をN倍にする。例: --volume 1.5")
+              f"[--test] [--skip-bulk] [--low-addr] [--only-stub] [--volume N] [--amp-volume N]")
+        print("  --volume N     : マスター/各ボイス音量(DSPレジスタ)をN倍にする。例: --volume 1.5")
+        print("  --amp-volume N : TDA7053Aのアンプ段PWM音量を0-255で設定する(D10)。例: --amp-volume 180")
         sys.exit(1)
     flags = sys.argv[3:]
     test_mode = "--test" in flags
@@ -322,5 +342,9 @@ if __name__ == "__main__":
     volume_factor = 1.0
     if "--volume" in flags:
         volume_factor = float(flags[flags.index("--volume") + 1])
+    amp_volume = None
+    if "--amp-volume" in flags:
+        amp_volume = int(flags[flags.index("--amp-volume") + 1])
     play(sys.argv[1], sys.argv[2], force_test_tone=test_mode, skip_bulk=skip_bulk_mode,
-         low_addr=low_addr_mode, only_stub=only_stub_mode, volume_factor=volume_factor)
+         low_addr=low_addr_mode, only_stub=only_stub_mode, volume_factor=volume_factor,
+         amp_volume=amp_volume)

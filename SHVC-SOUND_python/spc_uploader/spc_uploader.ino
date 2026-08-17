@@ -15,7 +15,12 @@
  *   Nano A2     -> SHVC-SOUND /WR
  *   Nano A3     -> SHVC-SOUND /RD
  *   Nano A4     -> SHVC-SOUND /RESET
- *   (D10 = /MUTE は基板側で常時HIGH固定、本スケッチでは未使用)
+ *   D10         -> TDA7053A VC1/VC2への音量制御PWM出力
+ *                  (R6=10kΩ経由でノードへ、ノード-R5-GND、ノード-C5-GND、
+ *                   ノードをVC1/VC2に接続。PROJECT_BRIEF.md 3.4節)
+ *
+ * /MUTE(SHVC-SOUND pin20)はD10を使わず基板側で+5V直結に固定する
+ * (このスケッチではD10をPWM音量出力として使うため)。
  *
  * ポートマップ (SPC700 IPL ROM):
  *   port0 = $F4 (A1A0=00)  port1 = $F5 (A1A0=01)
@@ -28,13 +33,14 @@ const uint8_t ARD_A1 = A1;
 const uint8_t PIN_WR = A2;
 const uint8_t PIN_RD = A3;
 const uint8_t PIN_RESET = A4;
-const uint8_t PIN_MUTE = 10; // SHVC-SOUND pin20 (/MUTE) 常時HIGH固定
+const uint8_t PIN_VOLUME = 10; // TDA7053A VC1/VC2への音量制御PWM出力
 
 // シリアルコマンド (PC -> Arduino)
 const uint8_t CMD_RESET = 0x01;
 const uint8_t CMD_SETADDR = 0x02;
 const uint8_t CMD_SENDBYTES = 0x03;
 const uint8_t CMD_READPORT = 0x04;
+const uint8_t CMD_SETVOLUME = 0x05; // 1バイト引数(PWMデューティ比 0-255)
 
 // シリアル応答 (Arduino -> PC)
 const uint8_t ACK_RESET = 0x01;
@@ -265,6 +271,14 @@ void handleReadPort() {
   Serial.write(val);
 }
 
+void handleSetVolume() {
+  int16_t dutyB = serialReadByteBlocking(3000);
+  if (dutyB < 0) return;
+  analogWrite(PIN_VOLUME, (uint8_t)dutyB);
+  Serial.write(CMD_SETVOLUME);
+  Serial.write((uint8_t)dutyB);
+}
+
 void setup() {
   Serial.begin(115200);
 
@@ -273,12 +287,12 @@ void setup() {
   pinMode(PIN_WR, OUTPUT);
   pinMode(PIN_RD, OUTPUT);
   pinMode(PIN_RESET, OUTPUT);
-  pinMode(PIN_MUTE, OUTPUT);
+  pinMode(PIN_VOLUME, OUTPUT);
 
   digitalWrite(PIN_WR, HIGH);
   digitalWrite(PIN_RD, HIGH);
   digitalWrite(PIN_RESET, HIGH); // SHVC-SOUNDを動作状態に(初期化はCMD_RESETで行う)
-  digitalWrite(PIN_MUTE, HIGH); // /MUTE常時HIGH固定
+  analogWrite(PIN_VOLUME, 0);    // 起動直後は無音側(未校正のR5/R6分圧に対する安全側の初期値)
 
   setDataBusInput();
 }
@@ -298,6 +312,9 @@ void loop() {
       break;
     case CMD_READPORT:
       handleReadPort();
+      break;
+    case CMD_SETVOLUME:
+      handleSetVolume();
       break;
     default:
       // 未知コマンドは無視 (PC側はACK待ちでタイムアウトする)

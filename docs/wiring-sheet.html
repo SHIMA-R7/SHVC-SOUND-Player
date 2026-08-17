@@ -47,6 +47,23 @@
     border: .6pt solid #555; padding: 2mm; margin: 0 0 2mm; background: #f4f4f4;
   }
   .foot { font-size: 8pt; color: #444; border-top: .6pt solid #999; padding-top: 1.5mm; margin-top: 4mm; }
+
+  /* コネクタ配置図 */
+  table.conn { margin-bottom: 2mm; }
+  table.conn td {
+    text-align: center; font-weight: bold; font-size: 10pt;
+    padding: 1.2mm .5mm; width: 9%;
+  }
+  table.conn td span { display: block; font-weight: normal; font-size: 6.8pt; }
+  table.conn td.gnd { background: #333; color: #fff; }
+  table.conn td.aud { background: #ccc; }
+  table.conn td.dots { border-left: none; border-right: none; letter-spacing: .1em; }
+  table.conn td.lbl { width: 13mm; background: #e8e8e8; font-size: 8.4pt; }
+  table.conn td.lbl2 { width: 9mm; background: #e8e8e8; font-size: 7.6pt; line-height: 1.2; }
+  table.conn td.cap {
+    border: none; background: none; font-weight: normal;
+    font-size: 8pt; text-align: center; padding-top: 1mm;
+  }
   .page2 { page-break-before: always; }
 </style>
 
@@ -58,7 +75,7 @@
   <ul>
     <li><b>12Vは一切繋がない。</b>TDA7053Aはソケットから抜き、PDトリガーボードも外す</li>
     <li>音声出力は<b>コンデンサを必ず挟む</b>(直結するとDCオフセットでスピーカーを傷める)</li>
-    <li>モジュール側のpin 1がどちら側か、コネクタの向きを先に確認すること</li>
+    <li><b>コネクタにはキー(切り欠き)が無く、逆向きにも挿さる。</b>pin 1 の位置は<b>裏面の手順で必ず確定してから</b>配線する</li>
   </ul>
 </div>
 
@@ -134,7 +151,63 @@
 
 <!-- ============ 2ページ目 ============ -->
 <div class="page2">
-<h1>診断結果の読み方</h1>
+<h1>① 1番ピンの確定 ─ 配線より先にやる</h1>
+<p class="sub">テスターの導通モードだけで確実に判別できる。電源は入れないこと。</p>
+
+<div class="warn">
+  <b>なぜ必要か</b>
+  <ul>
+    <li>24pinコネクタは <b>2列×12・2mmピッチ</b>で、<b>キー(切り欠き)が無い</b>ため逆向きにも物理的に挿さる</li>
+    <li>逆向きにすると <b>pin24(VS/+5V) の位置に pin1(/CS) が来る</b> = 電源とGNDが入れ替わりモジュールを壊す</li>
+  </ul>
+</div>
+
+<h3>手順 ─ GNDピンを探すだけでよい</h3>
+<table>
+  <tr><th class="chk"></th><th>手順</th></tr>
+  <tr><td class="chk"><div></div></td><td>テスターを<b>導通(ブザー)モード</b>にし、片方のプローブをモジュールの<b>金属シールド、または基板の大きなベタ面</b>に当てて固定する</td></tr>
+  <tr><td class="chk"><div></div></td><td>もう片方で24本すべてを順に当たり、<b>導通する(鳴る)ピンを全部書き出す</b></td></tr>
+  <tr class="hl"><td class="chk"><div></div></td><td>導通するのは <b>pin19 と pin23 の2本だけ</b>。この2本が下の特徴に一致するはず</td></tr>
+</table>
+
+<h3>GND 2本が示す決定的な特徴</h3>
+<table class="conn">
+  <tr>
+    <td class="lbl">奇数列</td>
+    <td class="gnd">23<span>GND</span></td>
+    <td class="aud">21<span>Audio-L</span></td>
+    <td class="gnd">19<span>GND</span></td>
+    <td>17</td><td>15</td><td class="dots">…</td><td>5</td><td>3</td><td>1</td>
+    <td class="lbl2" rowspan="2">←<br>pin<br>1/2<br>側</td>
+  </tr>
+  <tr>
+    <td class="lbl">偶数列</td>
+    <td>24</td><td>22</td><td>20</td><td>18</td><td>16</td>
+    <td class="dots">…</td><td>6</td><td>4</td><td>2</td>
+  </tr>
+  <tr>
+    <td class="lbl"></td>
+    <td colspan="3" class="cap">↑ 導通するのはこの2本だけ<br>この端が 23/24 側</td>
+    <td colspan="6" class="cap">この側には導通するピンは1本も無い</td>
+    <td></td>
+  </tr>
+</table>
+<table>
+  <tr><th style="width:32%">見つかった状態</th><th>結論</th></tr>
+  <tr><td>導通する2本が<b>同じ列</b>にあり、<b>間に1本挟んで</b>並び、<b>片方がコネクタの端</b></td>
+      <td><b>端にある方が pin23</b>／間の1本が pin21(Audio-L)／もう片方が pin19。<br>
+          <b>その列が奇数列</b>、<b>その端が23/24側</b> → <b>反対の端が pin1/2で、pin1 は GND と同じ列</b></td></tr>
+  <tr><td>導通するピンが3本以上ある / 上の並びにならない</td>
+      <td><b>ここで止める。</b>基準にしたベタ面がGNDでない可能性がある。別の基準点で取り直す</td></tr>
+</table>
+<ul class="note">
+  <li>反対の端(pin1/2側)には導通するピンが1本も無いことも併せて確認する。<b>GNDの並びは片側にしか現れない</b>ので、これで向きが一意に決まる</li>
+  <li>pin1(/CS)は入力ピンなので、モジュール内部でGNDに落ちてはいない。誤検出にはならない</li>
+</ul>
+
+<p class="foot">向きが確定したら、油性ペンでモジュールのpin1側に印を付けておく。</p>
+
+<h1 style="margin-top:6mm">② 診断結果の読み方</h1>
 <p class="sub">hw_selftest.ino / シリアルモニタ 115200bps ／ 何かキーを送ると再実行</p>
 
 <h3>まず結論から</h3>

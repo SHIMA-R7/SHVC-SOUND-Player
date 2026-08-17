@@ -141,15 +141,23 @@ class SpcController:
 
 def boost_master_volume(dsp: bytes, factor: float) -> bytes:
     """
-    MVOLL($0C)/MVOLR($1C)を底上げしたDSPレジスタ配列を返す(元は変更しない)。
+    マスター音量(MVOLL/MVOLR)と各ボイスのVOLL/VOLRをまとめて底上げした
+    DSPレジスタ配列を返す(元は変更しない)。
 
-    S-DSPのマスター音量は符号付き8bit(-128〜127)。正の値が大きいほど
+    S-DSPの音量レジスタは符号付き8bit(-128〜127)。正の値が大きいほど
     音量が大きい(負値は位相反転付きの音量で、曲データで意図的に使われる
     ことがあるため符号は保持する)。単純に factor 倍して、
     signed 8bit の範囲(-128〜127)でクランプする。
+
+    マスター音量(MVOLL/MVOLR)は多くの曲で既に127(最大)近くまで
+    使われているため、そこだけ底上げしても頭打ちで変化が出にくい。
+    実際に鳴っている音量を支配しているのは各ボイスのVOLL/VOLR($x0/$x1,
+    x=0-7のボイス番号)なので、そちらも同じ倍率で底上げする。
     """
     out = bytearray(dsp)
-    for reg in (0x0C, 0x1C):  # MVOLL, MVOLR
+    regs = [0x0C, 0x1C]                              # MVOLL, MVOLR
+    regs += [v * 0x10 + off for v in range(8) for off in (0x00, 0x01)]  # 各ボイスVOLL/VOLR
+    for reg in regs:
         raw = dsp[reg]
         signed = raw - 256 if raw >= 128 else raw
         boosted = round(signed * factor)
@@ -280,7 +288,7 @@ def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False,
     #    実行コードを、曲データを壊さない高位アドレスに配置して実行する。
     print("復元スタブを構築・転送中...")
     if volume_factor != 1.0:
-        print(f"マスター音量を{volume_factor:.2f}倍に変更(元の値からのブースト)")
+        print(f"マスター音量・各ボイス音量を{volume_factor:.2f}倍に変更(元の値からのブースト)")
     stub = build_final_stub(spc, force_test_tone=force_test_tone, volume_factor=volume_factor)
     if low_addr:
         stub_addr = 0x0200

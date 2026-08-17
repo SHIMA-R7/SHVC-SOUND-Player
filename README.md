@@ -9,7 +9,9 @@ Arduino Uno R3 / Nano (ATmega328P・5Vロジック) で SHVC-SOUND(スーファ�
 |---|---|
 | `SHVC-SOUND-KiCad_project/` | 基板設計(KiCad)。スキーマ・PCB・カスタムフットプリント |
 | `SHVC-SOUND_python/` | 再生ソフト一式 |
-| `SHVC-SOUND_python/spc_play.py` | PC側。`.spc` を解析しシリアル経由でArduinoへ転送する |
+| `SHVC-SOUND_python/spc_gui.py` | **GUIアプリ**(Tkinter製)。プレイリスト再生・音量調整・ROM解析 |
+| `SHVC-SOUND_python/spc_play.py` | PC側。`.spc` を解析しシリアル経由でArduinoへ転送する(CLI/GUI共用) |
+| `SHVC-SOUND_python/rom_tools.py` | スーファミROMの内部ヘッダ解析(マッパ判別・チェックサム検証) |
 | `SHVC-SOUND_python/spc_uploader/` | Arduino側。シリアルコマンドをSPC700 IPL ROMプロトコルへ変換する |
 | `SHVC-SOUND_python/hw_selftest/` | Arduino単体で動く自己診断。PCなしでノイズを鳴らして配線を検証する |
 | `docs/minimal-bringup.md` | 最小構成での実機立ち上げ手順と配線表 |
@@ -20,7 +22,34 @@ Arduino Uno R3 / Nano (ATmega328P・5Vロジック) で SHVC-SOUND(スーファ�
 `hw_selftest/hw_selftest.ino` を走らせる。ハードの問題か転送ソフトの問題かが一発で切り分けられる。
 手順と配線表は [docs/minimal-bringup.md](docs/minimal-bringup.md) を参照。
 
-## 使い方
+## GUIアプリ
+
+```bash
+python spc_gui.py
+```
+
+- プレイリストに `.spc` をまとめて登録して再生。ID666タグ(曲名・ゲーム・作曲者)を表示
+- DSP音量倍率とアンプPWM音量をスライダーで調整
+- 転送はワーカースレッドで実行され、進捗バーとログをリアルタイム表示。中止も可能
+- **フォルダ監視**: エミュレータのSPC出力先を指定しておくと、新しくダンプされた
+  `.spc` を自動でプレイリストに追加する
+- ROM解析タブ: 吸い出したROMのタイトル・マッパ(LoROM/HiROM/ExHiROM)・容量・
+  リージョン・チェックサムを表示
+
+### ROMからのSPC抽出について
+
+**ROMの中に `.spc` は入っていない**ため、直接抽出はできない。
+`.spc` はSPC700が曲を再生中の ARAM 64KB + DSPレジスタ + CPUレジスタの
+スナップショットであり、ROMにあるのはサウンドドライバ・BRRサンプル・
+シーケンスデータがバラバラに格納されたもの。ARAMの完成イメージは
+ゲームを実際に起動して初めて組み上がる。
+
+実用的な手順は、SPCダンプ機能を持つエミュレータ(Mesen2、bsnes/higan、
+一部のSnes9xビルド)でROMを動かし、曲の再生中にダンプすること。
+出力先をGUIの「フォルダを監視」に指定しておけば、ダンプした瞬間に
+プレイリストへ入って実機で鳴らせる。
+
+## CLIでの使い方
 
 Arduino IDE で `spc_uploader/spc_uploader.ino` を書き込み、以下を実行する。
 

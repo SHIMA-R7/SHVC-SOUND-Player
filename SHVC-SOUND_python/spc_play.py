@@ -37,12 +37,42 @@ ACK_CHUNK = 0x10
 ACK_SENDBYTES = 0x03
 
 
+class TransferCancelled(Exception):
+    """転送がユーザー操作で中断されたことを示す。"""
+
+
+def _decode_tag(raw: bytes) -> str:
+    """ID666タグの文字列フィールドをデコードする。NUL以降は切り捨てる。"""
+    raw = raw.split(b"\x00", 1)[0]
+    for enc in ("cp932", "utf-8", "latin-1"):
+        try:
+            return raw.decode(enc).strip()
+        except UnicodeDecodeError:
+            continue
+    return ""
+
+
 class SpcFile:
     def __init__(self, path):
         with open(path, "rb") as f:
             data = f.read()
         if len(data) < 0x10180:
             raise ValueError(".spcファイルとして小さすぎます(壊れているかも)")
+
+        # --- ID666タグ(あれば) ---
+        # 0x23 が 26(0x1A) ならタグあり、27(0x1B) ならタグなし。
+        # ここではテキスト形式のオフセットで読む(最も一般的な形式)。
+        self.tags = {}
+        if data[0x23] == 0x1A:
+            self.tags = {
+                "title": _decode_tag(data[0x2E:0x4E]),
+                "game": _decode_tag(data[0x4E:0x6E]),
+                "dumper": _decode_tag(data[0x6E:0x7E]),
+                "comment": _decode_tag(data[0x7E:0x9E]),
+                "date": _decode_tag(data[0x9E:0xA9]),
+                "seconds": _decode_tag(data[0xA9:0xAC]),
+                "artist": _decode_tag(data[0xB1:0xD1]),
+            }
 
         self.pc = data[0x25] | (data[0x26] << 8)
         self.a = data[0x27]
@@ -56,10 +86,27 @@ class SpcFile:
 
 
 class SpcController:
-    def __init__(self, port, baud=115200):
+    def __init__(self, port, baud=115200, log=None, progress=None):
+        """
+        log      : log(msg:str) 進行状況の文字列を受け取るコールバック
+        progress : progress(done:int, total:int) 転送済み/全体バイト数
+        いずれも省略時は標準出力へprint / 何もしない。
+        """
+        self.log = log if log is not None else print
+        self.on_progress = progress if progress is not None else (lambda d, t: None)
+        # 全体進捗の集計用。play()が転送開始前にtotal_bytesを設定する。
+        self.total_bytes = 0
+        self.done_bytes = 0
+
         self.ser = serial.Serial(port, baud, timeout=10)
         time.sleep(2)  # Arduinoのリセット待ち(DTRでリセットがかかる環境向け)
         self.ser.reset_input_buffer()
+
+    def close(self):
+        try:
+            self.ser.close()
+        except Exception:
+            pass
 
     def _read_ack(self, expected):
         b = self.ser.read(1)
@@ -67,10 +114,10 @@ class SpcController:
             raise RuntimeError(f"想定外の応答: {b!r} (期待値 0x{expected:02X})")
 
     def reset(self):
-        print("SPC700をリセットしてready待ち...")
+        self.log("SPC700をリセットしてready待ち...")
         self.ser.write(bytes([CMD_RESET]))
         self._read_ack(ACK_RESET)
-        print("SPC700 ready.")
+        self.log("SPC700 ready.")
 
     def set_address(self, addr, continue_transfer):
         self.ser.write(bytes([CMD_SETADDR, addr & 0xFF, (addr >> 8) & 0xFF,
@@ -119,7 +166,9 @@ class SpcController:
                 self.ser.read(1)  # インデックスの下位バイト(内容チェックは省略)
                 pos += 1
             if pos % 320 == 0 or pos == length:
-                print(f"    進捗: {pos}/{length} バイト転送済み")
+                total = self.total_bytes or length
+                self.on_progress(self.done_bytes + pos, total)
+                self.log(f"    進捗: {pos}/{length} バイト転送済み")
 
         final = self.ser.read(1)
         if len(final) != 1 or final[0] != ACK_SENDBYTES:
@@ -277,54 +326,91 @@ def build_final_stub(spc: SpcFile, force_test_tone: bool = False, volume_factor:
 
 
 def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False, only_stub=False,
-         volume_factor=1.0, amp_volume=None):
+         volume_factor=1.0, amp_volume=None, log=None, progress=None, cancelled=None):
+    """
+    log       : log(msg:str)                 進行状況の文字列
+    progress  : progress(done:int, total:int) 転送済み/全体バイト数
+    cancelled : cancelled() -> bool           Trueを返すと転送を中断する
+    """
+    log = log if log is not None else print
     spc = SpcFile(spc_path)
-    ctl = SpcController(port)
+    ctl = SpcController(port, log=log, progress=progress)
 
-    ctl.reset()
+    def check_cancel():
+        if cancelled is not None and cancelled():
+            raise TransferCancelled()
 
-    if not only_stub:
-        # 1. メインRAMダンプを転送 ($F0-$FFは飛ばす。I/Oレジスタ領域で単純書き込み不可)
-        # 重要: $0000/$0001 はIPL ROMが転送中に内部の転送先ポインタとして使うため、
-        # 通常のデータ転送で書き込んではいけない。ここは$0002からにする。
-        print("RAM $0002-$00EF 転送中...")
-        ctl.write_block(0x0002, spc.ram[0x0002:0x00F0])
+    try:
+        ctl.reset()
+        check_cancel()
 
-        if not skip_bulk:
-            print("RAM $0100-$FFBF 転送中(数秒かかります)...")
-            ctl.write_block(0x0100, spc.ram[0x0100:0xFFC0])
+        # 復元スタブを先に作っておく(全体バイト数を進捗表示に使うため)
+        stub = build_final_stub(spc, force_test_tone=force_test_tone,
+                                volume_factor=volume_factor)
+
+        head = spc.ram[0x0002:0x00F0]
+        bulk = b"" if (skip_bulk or only_stub) else spc.ram[0x0100:0xFFC0]
+        ctl.total_bytes = (0 if only_stub else len(head)) + len(bulk) + len(stub)
+
+        if not only_stub:
+            # 1. メインRAMダンプを転送 ($F0-$FFは飛ばす。I/Oレジスタ領域で単純書き込み不可)
+            # 重要: $0000/$0001 はIPL ROMが転送中に内部の転送先ポインタとして使うため、
+            # 通常のデータ転送で書き込んではいけない。ここは$0002からにする。
+            log("RAM $0002-$00EF 転送中...")
+            ctl.write_block(0x0002, head)
+            ctl.done_bytes += len(head)
+            check_cancel()
+
+            if not skip_bulk:
+                log("RAM $0100-$FFBF 転送中(数十秒かかります)...")
+                ctl.write_block(0x0100, bulk)
+                ctl.done_bytes += len(bulk)
+                check_cancel()
+            else:
+                log("(診断モード: RAM $0100-$FFBF 転送をスキップ)")
+            # $FFC0-$FFFF (IPL ROMシャドウ領域) は転送不要
         else:
-            print("(診断モード: RAM $0100-$FFBF 転送をスキップ)")
-        # $FFC0-$FFFF (IPL ROMシャドウ領域) は転送不要
-    else:
-        print("(診断モード: スタブのみをリセット後最初の転送として送信)")
+            log("(診断モード: スタブのみをリセット後最初の転送として送信)")
 
-    # 2. DSPレジスタ・コントロール・タイマー・CPUレジスタをまとめて復元する
-    #    実行コードを、曲データを壊さない高位アドレスに配置して実行する。
-    print("復元スタブを構築・転送中...")
-    if volume_factor != 1.0:
-        print(f"マスター音量・各ボイス音量を{volume_factor:.2f}倍に変更(元の値からのブースト)")
-    stub = build_final_stub(spc, force_test_tone=force_test_tone, volume_factor=volume_factor)
-    if low_addr:
-        stub_addr = 0x0200
-        print("  (診断モード: 低位アドレス$0200を使用)")
-    else:
-        stub_addr = 0xFFC0 - len(stub)
-    print(f"  (スタブサイズ={len(stub)}バイト, 配置アドレス=${stub_addr:04X})")
-    ctl.write_block(stub_addr, stub)
+        # 2. DSPレジスタ・コントロール・タイマー・CPUレジスタをまとめて復元する
+        #    実行コードを、曲データを壊さない高位アドレスに配置して実行する。
+        log("復元スタブを構築・転送中...")
+        if volume_factor != 1.0:
+            log(f"マスター音量・各ボイス音量を{volume_factor:.2f}倍に変更(元の値からのブースト)")
+        if low_addr:
+            stub_addr = 0x0200
+            log("  (診断モード: 低位アドレス$0200を使用)")
+        else:
+            stub_addr = 0xFFC0 - len(stub)
+        log(f"  (スタブサイズ={len(stub)}バイト, 配置アドレス=${stub_addr:04X})")
+        ctl.write_block(stub_addr, stub)
+        ctl.done_bytes += len(stub)
 
-    print("実行開始...")
-    ctl.jump_to(stub_addr)
+        log("実行開始...")
+        ctl.jump_to(stub_addr)
 
-    time.sleep(0.1)
-    p0 = ctl.read_port(0)
-    print(f"  (診断: 実行開始マーカー確認 port0=0x{p0:02X}, 期待値=0x99)")
+        time.sleep(0.1)
+        p0 = ctl.read_port(0)
+        log(f"  (診断: 実行開始マーカー確認 port0=0x{p0:02X}, 期待値=0x99)")
 
-    if amp_volume is not None:
-        actual = ctl.set_volume(amp_volume)
-        print(f"アンプ音量(PWMデューティ比)を {actual}/255 に設定")
+        if amp_volume is not None:
+            actual = ctl.set_volume(amp_volume)
+            log(f"アンプ音量(PWMデューティ比)を {actual}/255 に設定")
 
-    print("再生開始しました。")
+        log("再生開始しました。")
+    finally:
+        ctl.close()
+
+
+def stop(port, log=None):
+    """SHVC-SOUNDをリセットして再生を止める。"""
+    log = log if log is not None else print
+    ctl = SpcController(port, log=log)
+    try:
+        ctl.reset()
+        log("再生を停止しました(SPC700をリセット)。")
+    finally:
+        ctl.close()
 
 
 if __name__ == "__main__":

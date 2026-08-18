@@ -3,6 +3,11 @@
 __pycache__/
 *.pyc
 
+# PyInstaller (exe化のビルド成果物は容量が大きいのでコミットしない)
+build_tmp/
+dist/
+*.spec
+
 # KiCad: ローカル固有の状態・自動バックアップ
 *.kicad_prl
 *-backups/

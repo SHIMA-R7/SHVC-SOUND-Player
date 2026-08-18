@@ -1,7 +1,10 @@
 package com.shvc.soundplayer
 
 import com.hoho.android.usbserial.driver.UsbSerialPort
+import com.hoho.android.usbserial.util.SerialInputOutputManager
 import java.io.IOException
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.TimeUnit
 
 /**
  * SHVC-SOUND(SPC700 IPL ROM)への転送プロトコル。
@@ -43,6 +46,30 @@ class SpcController(
 
     class TransferCancelled : Exception()
 
+    // 受信は port.read() による同期ポーリングではなく、ライブラリ公式推奨の
+    // SerialInputOutputManager(専用スレッドで継続的にUSB受信バッファを
+    // 汲み出し続ける方式)を使う。機種によっては同期read()方式だと
+    // 最初の1回は動いても、以降のやり取りで詰まることがあるため。
+    private val rxQueue = LinkedBlockingQueue<Byte>()
+
+    private val ioManager = SerialInputOutputManager(port, object : SerialInputOutputManager.Listener {
+        override fun onNewData(data: ByteArray) {
+            for (b in data) rxQueue.offer(b)
+        }
+        override fun onRunError(e: Exception) {
+            log("受信スレッドエラー: ${e.message}")
+        }
+    })
+
+    init {
+        ioManager.start()
+    }
+
+    /** USB接続を閉じる前に呼ぶこと。 */
+    fun stopIo() {
+        ioManager.stop()
+    }
+
     private var cancelled: (() -> Boolean)? = null
 
     fun setCancelCheck(check: () -> Boolean) {
@@ -55,30 +82,34 @@ class SpcController(
 
     // ---------------------------------------------------------- 低レベルI/O
 
+    // USBフルスピードのバルク転送は1パケット最大64バイト。ちょうど64バイト
+    // (境界値)を1回のwrite()で送ると、デバイス側が「まだ続きがある」と
+    // 解釈して確定させず止まってしまう既知の問題がある(PCのシリアル
+    // ドライバはこれを吸収してくれるが、Androidの生USB通信では露呈しやすい)。
+    // そのため必ず64バイト未満の単位に分割して送る。
+    private val USB_WRITE_CHUNK = 32
+
     private fun writeAll(bytes: ByteArray, timeoutMs: Int = 5000) {
-        // このライブラリのバージョンの write() は書き込みバイト数を返さず、
-        // 指定したバイト列を全部書き終わるかタイムアウトで例外を投げるまで
-        // ブロックする(戻り値なし)ため、ループでの分割送信は不要。
-        port.write(bytes, timeoutMs)
+        var offset = 0
+        while (offset < bytes.size) {
+            val end = minOf(offset + USB_WRITE_CHUNK, bytes.size)
+            port.write(bytes.copyOfRange(offset, end), timeoutMs)
+            offset = end
+        }
     }
 
     /** ちょうどn バイト読めるまで待つ(タイムアウトしたら例外)。 */
     private fun readExact(n: Int, timeoutMs: Long): ByteArray {
         val result = ByteArray(n)
-        var got = 0
         val deadline = System.currentTimeMillis() + timeoutMs
-        val buf = ByteArray(64)
-        while (got < n) {
+        for (i in 0 until n) {
             val remaining = deadline - System.currentTimeMillis()
             if (remaining <= 0) {
-                throw IOException("応答なし(タイムアウト)。$got/$n バイトのみ受信")
+                throw IOException("応答なし(タイムアウト)。$i/$n バイトのみ受信")
             }
-            val readLen = port.read(buf, remaining.coerceAtMost(1000L).toInt())
-            if (readLen > 0) {
-                val copyLen = minOf(readLen, n - got)
-                System.arraycopy(buf, 0, result, got, copyLen)
-                got += copyLen
-            }
+            val b = rxQueue.poll(remaining, TimeUnit.MILLISECONDS)
+                ?: throw IOException("応答なし(タイムアウト)。$i/$n バイトのみ受信")
+            result[i] = b
         }
         return result
     }
@@ -98,6 +129,7 @@ class SpcController(
     }
 
     fun setAddress(addr: Int, continueTransfer: Boolean) {
+        log("→ CMD_SETADDR addr=\$${"%04X".format(addr)} continue=$continueTransfer を送信...")
         writeAll(
             byteArrayOf(
                 CMD_SETADDR.toByte(),
@@ -106,7 +138,9 @@ class SpcController(
                 (if (continueTransfer) 1 else 0).toByte(),
             )
         )
+        log("  送信完了、応答待ち...")
         val b = readByte(5000)
+        log("  応答受信: 0x%02X".format(b))
         if (b == MARKER_TIMEOUT) {
             val rest = readExact(4, 5000)
             if ((rest[0].toInt() and 0xFF) == 0xFF && (rest[1].toInt() and 0xFF) == 0xFF) {
@@ -121,6 +155,7 @@ class SpcController(
 
     fun sendBytes(data: ByteArray) {
         val length = data.size
+        log("→ CMD_SENDBYTES len=$length を送信...")
         writeAll(
             byteArrayOf(
                 CMD_SENDBYTES.toByte(),
@@ -128,8 +163,10 @@ class SpcController(
                 ((length shr 8) and 0xFF).toByte(),
             )
         )
+        log("  送信完了、診断応答待ち...")
 
         val diag = readExact(3, 5000)
+        log("  診断応答受信: ${diag.joinToString { "%02X".format(it) }}")
         if ((diag[0].toInt() and 0xFF) != 0xAB) {
             throw IOException("len診断応答が異常: ${diag.joinToString()} (送った長さ=$length)")
         }
@@ -142,12 +179,19 @@ class SpcController(
         // (詳細は spc_play.py の send_bytes() コメント参照。1バイトごとの
         // 往復方式はUSBシリアルの往復遅延が支配的になり大幅に遅かった)
         var pos = 0
+        var firstChunk = true
         while (pos < length) {
             checkCancel()
             val chunkLen = minOf(PING_INTERVAL, length - pos)
+            if (firstChunk) {
+                log("  1回目のチャンク($chunkLen バイト)を送信...")
+                firstChunk = false
+            }
             writeAll(data.copyOfRange(pos, pos + chunkLen))
+            if (pos == 0) log("  1回目のチャンク送信完了、応答待ち...")
 
             val marker = readByte(5000)
+            if (pos == 0) log("  1回目の応答受信: 0x%02X".format(marker))
             if (marker == MARKER_TIMEOUT) {
                 val rest = readExact(4, 5000)
                 val idx = (rest[0].toInt() and 0xFF) or ((rest[1].toInt() and 0xFF) shl 8)

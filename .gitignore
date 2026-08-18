@@ -5,8 +5,12 @@ __pycache__/
 
 # PyInstaller (exe化のビルド成果物は容量が大きいのでコミットしない)
 build_tmp/
+build/
 dist/
 *.spec
+
+# ツールが生成した音声(test.mid から作り直せる)
+*.wav
 
 # KiCad: ローカル固有の状態・自動バックアップ
 *.kicad_prl

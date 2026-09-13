@@ -50,6 +50,7 @@ const uint8_t CMD_DSPWRITE = 0x07;
 const uint8_t CMD_STREAM = 0x08;
 const uint8_t CMD_PANIC = 0x09;
 const uint8_t CMD_PING = 0x0A;
+const uint8_t CMD_WRITEPORT = 0x0B;   // 2バイト引数(ポート番号, 値)。SPC再生開始時に曲の入力ポート値を置く
 
 // PING応答。PC側はこれでファームの種類とバージョンを確認する。
 // 旧 spc_uploader.ino は未知のコマンドを黙って捨てるため、
@@ -64,6 +65,7 @@ const uint8_t ACK_SENDBYTES = 0x03;
 const uint8_t ACK_DSPWRITE = 0x07;
 const uint8_t ACK_STREAM_DONE = 0x08;
 const uint8_t ACK_PANIC = 0x09;
+const uint8_t ACK_WRITEPORT = 0x0B;
 const uint8_t MARKER_BYTE_OK = 0xCD;
 const uint8_t MARKER_TIMEOUT = 0xEE;
 const uint8_t CREDIT_BYTE = 0x5A;
@@ -454,6 +456,13 @@ void handleReadPort() {
   Serial.write(val);
 }
 
+void handleWritePort() {
+  uint8_t buf[2];
+  if (!readSerialExact(buf, 2, 3000)) return;
+  writePort(buf[0] & 0x03, buf[1]);
+  Serial.write(ACK_WRITEPORT);
+}
+
 void handleSetVolume() {
   int16_t dutyB = serialReadByteBlocking(3000);
   if (dutyB < 0) return;
@@ -493,6 +502,7 @@ void loop() {
     case CMD_STREAM:    handleStream();    break;
     case CMD_PANIC:     handlePanic();     break;
     case CMD_PING:      handlePing();      break;
+    case CMD_WRITEPORT: handleWritePort(); break;
     default: break;
   }
 }

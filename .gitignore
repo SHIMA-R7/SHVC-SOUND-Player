@@ -22,3 +22,9 @@ fp-info-cache
 # ツールが生成した作業用ディレクトリ
 .history/
 .mcp-backups/
+
+# SHVC-SOUND_python/tools: 大きい外部ソフト・作業用環境・生成物
+SHVC-SOUND_python/tools/voicevox_engine/
+.venv-transcribe/
+*.brr
+*_stems/

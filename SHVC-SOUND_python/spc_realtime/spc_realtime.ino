@@ -51,6 +51,9 @@ const uint8_t CMD_STREAM = 0x08;
 const uint8_t CMD_PANIC = 0x09;
 const uint8_t CMD_PING = 0x0A;
 const uint8_t CMD_WRITEPORT = 0x0B;   // 2バイト引数(ポート番号, 値)。SPC再生開始時に曲の入力ポート値を置く
+const uint8_t CMD_PCMCHUNK = 0x0C;    // 1バイト長さN + Nバイト。PCMストリーミング用ドライバのリングバッファへ書く
+const uint8_t CMD_DRVQUERY = 0x0D;    // 3バイト(ドライバのコマンド, 引数1, 引数2)。応答は [0x0D, $F5, $F6]
+const uint8_t CMD_DRVPEEK = 0x0E;     // 1バイト長さN。ドライバの読み返し(6)をN回行い、[0x0E, Nバイト]を返す
 
 // PING応答。PC側はこれでファームの種類とバージョンを確認する。
 // 旧 spc_uploader.ino は未知のコマンドを黙って捨てるため、
@@ -66,6 +69,7 @@ const uint8_t ACK_DSPWRITE = 0x07;
 const uint8_t ACK_STREAM_DONE = 0x08;
 const uint8_t ACK_PANIC = 0x09;
 const uint8_t ACK_WRITEPORT = 0x0B;
+const uint8_t ACK_PCMCHUNK = 0x0C;
 const uint8_t MARKER_BYTE_OK = 0xCD;
 const uint8_t MARKER_TIMEOUT = 0xEE;
 const uint8_t CREDIT_BYTE = 0x5A;
@@ -183,6 +187,9 @@ bool readSerialExact(uint8_t *buf, uint8_t len, uint32_t timeoutMs) {
 const uint32_t DRIVER_TIMEOUT_MS = 100;
 
 bool dspWrite(uint8_t reg, uint8_t val) {
+  // $F7はPCMストリーミング用ドライバのコマンド欄(0=DSP書き込み)。
+  // 従来の23バイトのドライバは$F7を読まないので、書いても影響しない。
+  writePort(3, 0);
   writePort(1, reg);
   writePort(2, val);
   driverSeq++;
@@ -456,6 +463,69 @@ void handleReadPort() {
   Serial.write(val);
 }
 
+// PCMストリーミング: 受け取ったNバイトを、SPC700のドライバに2バイトずつ($F7=2)、
+// 端数は1バイト($F7=1)で書かせる。先にシリアルから全部読んでから送る
+// (受信バッファ64バイトを溢れさせないため)。
+uint8_t pcmBuf[255];
+
+void handlePcmChunk() {
+  int16_t n = serialReadByteBlocking(3000);
+  if (n < 0) return;
+  if (!readSerialExact(pcmBuf, (uint8_t)n, 3000)) return;
+  uint8_t i = 0;
+  while (i < (uint8_t)n) {
+    uint8_t cnt = ((uint8_t)n - i >= 2) ? 2 : 1;
+    writePort(1, pcmBuf[i]);
+    if (cnt == 2) writePort(2, pcmBuf[i + 1]);
+    writePort(3, cnt);
+    driverSeq++;
+    writePort(0, driverSeq);
+    if (!waitForPort(0, driverSeq, DRIVER_TIMEOUT_MS)) {
+      Serial.write(ERR_DRIVER_TIMEOUT);
+      return;
+    }
+    i += cnt;
+  }
+  Serial.write(ACK_PCMCHUNK);
+}
+
+// PCMストリーミング用ドライバへの問い合わせ(3=書き込みポインタ, 4=DSPレジスタ読み出し)。
+// シーケンス値はdspWriteと同じdriverSeqを使うので、ホストが直接ポートを叩くのと違ってずれない。
+void handleDrvQuery() {
+  uint8_t buf[3];
+  if (!readSerialExact(buf, 3, 3000)) return;
+  writePort(3, buf[0]);
+  writePort(1, buf[1]);
+  writePort(2, buf[2]);
+  driverSeq++;
+  writePort(0, driverSeq);
+  if (!waitForPort(0, driverSeq, DRIVER_TIMEOUT_MS)) {
+    Serial.write(ERR_DRIVER_TIMEOUT);
+    return;
+  }
+  Serial.write(CMD_DRVQUERY);
+  Serial.write(readPort(1));
+  Serial.write(readPort(2));
+}
+
+// ARAMの読み返し検査。ドライバの6番(1バイト読んでポインタを進める)をN回繰り返す。
+void handleDrvPeek() {
+  int16_t n = serialReadByteBlocking(3000);
+  if (n < 0) return;
+  writePort(3, 6);
+  for (uint8_t i = 0; i < (uint8_t)n; i++) {
+    driverSeq++;
+    writePort(0, driverSeq);
+    if (!waitForPort(0, driverSeq, DRIVER_TIMEOUT_MS)) {
+      Serial.write(ERR_DRIVER_TIMEOUT);
+      return;
+    }
+    pcmBuf[i] = readPort(1);
+  }
+  Serial.write(CMD_DRVPEEK);
+  Serial.write(pcmBuf, (uint8_t)n);
+}
+
 void handleWritePort() {
   uint8_t buf[2];
   if (!readSerialExact(buf, 2, 3000)) return;
@@ -503,6 +573,9 @@ void loop() {
     case CMD_PANIC:     handlePanic();     break;
     case CMD_PING:      handlePing();      break;
     case CMD_WRITEPORT: handleWritePort(); break;
+    case CMD_PCMCHUNK:  handlePcmChunk();  break;
+    case CMD_DRVQUERY:  handleDrvQuery();  break;
+    case CMD_DRVPEEK:   handleDrvPeek();   break;
     default: break;
   }
 }

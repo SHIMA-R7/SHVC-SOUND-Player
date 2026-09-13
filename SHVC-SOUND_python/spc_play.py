@@ -30,6 +30,11 @@ CMD_SETADDR = 0x02
 CMD_SENDBYTES = 0x03
 CMD_READPORT = 0x04
 CMD_SETVOLUME = 0x05
+CMD_WRITEPORT = 0x0B
+
+# 曲開始前の待ち合わせ(build_final_stub の port_handshake 参照)
+STUB_MARK_STARTED = 0x99
+STUB_MARK_WAITING = 0x98
 
 ACK_RESET = 0x01
 ACK_SETADDR = 0x02
@@ -187,6 +192,20 @@ class SpcController:
     def jump_to(self, addr):
         self.set_address(addr, False)
 
+    def write_port(self, port, val):
+        self.ser.write(bytes([CMD_WRITEPORT, port & 0x03, val & 0xFF]))
+        b = self.ser.read(1)
+        if len(b) != 1 or b[0] != CMD_WRITEPORT:
+            raise RuntimeError(f"write_port応答が異常: {b!r} (spc_realtime.inoが古い可能性)")
+
+    def wait_port(self, port, values, timeout=2.0):
+        """ポートの値が values のどれかになるまで待ち、その値を返す。"""
+        deadline = time.time() + timeout
+        while True:
+            v = self.read_port(port)
+            if v in values or time.time() > deadline:
+                return v
+
     def read_port(self, port):
         self.ser.write(bytes([CMD_READPORT, port]))
         resp = self.ser.read(2)
@@ -236,7 +255,18 @@ def boost_master_volume(dsp: bytes, factor: float) -> bytes:
     return bytes(out)
 
 
-def build_final_stub(spc: SpcFile, force_test_tone: bool = False, volume_factor: float = 1.0) -> bytes:
+def handshake_values(spc: SpcFile):
+    """
+    曲開始前の待ち合わせに使う (開始合図, 最終的な$F4の値) を返す。
+    開始合図は、曲が期待する$F4の値と必ず異なるものを選ぶ。
+    """
+    final_f4 = spc.ram[0xF4]
+    signal = 0x5A if final_f4 != 0x5A else 0xA5
+    return signal, final_f4
+
+
+def build_final_stub(spc: SpcFile, force_test_tone: bool = False, volume_factor: float = 1.0,
+                     port_handshake: bool = False) -> bytes:
     """
     DSPレジスタ128個・コントロール/タイマー・CPUレジスタをすべて復元して
     実行を開始する、SPC700側で実際に動くコード。
@@ -312,6 +342,20 @@ def build_final_stub(spc: SpcFile, force_test_tone: bool = False, volume_factor:
         stub += bytes([0x2F, 0xFE])  # BRA自己ループ
         return bytes(stub)
 
+    if port_handshake:
+        # 曲のプログラムは$F4-$F7を「ゲーム本体からの指示」として読む。
+        # ジャンプ直後のポートにはIPL転送で使ったジャンプ先アドレス等が残っていて、
+        # それを指示と解釈して壊れる曲がある(SimCity等。毎回同じ壊れ方をする)。
+        # そこで曲へ飛ぶ前にホストを待ち、SPCファイルに記録された入力値を
+        # 置いてもらってから開始する。
+        #   1. $F4 に開始合図が来るまで待つ(ホストはその前に$F5-$F7を書く)
+        #   2. $F4へ0x98を出して「待機中」を知らせる
+        #   3. $F4 が曲の期待値になるまで待つ
+        signal, final_f4 = handshake_values(spc)
+        stub += bytes([0x78, signal, 0xF4, 0xD0, 0xFB])            # cmp $F4,#signal / bne 自分
+        stub += bytes([0x8F, STUB_MARK_WAITING, 0xF4])             # mov $F4,#$98
+        stub += bytes([0x78, final_f4, 0xF4, 0xD0, 0xFB])          # cmp $F4,#final / bne 自分
+
     # CPUレジスタ復元+ジャンプ
     # $00/$01 はメインRAM転送であえてスキップしている
     # (IPL ROMが転送中にこの2バイトを内部の転送先ポインタとして使うため)ので、
@@ -351,8 +395,9 @@ def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False,
         check_cancel()
 
         # 復元スタブを先に作っておく(全体バイト数を進捗表示に使うため)
+        handshake = not force_test_tone
         stub = build_final_stub(spc, force_test_tone=force_test_tone,
-                                volume_factor=volume_factor)
+                                volume_factor=volume_factor, port_handshake=handshake)
 
         head = spc.ram[0x0002:0x00F0]
         bulk = b"" if (skip_bulk or only_stub) else spc.ram[0x0100:0xFFC0]
@@ -395,9 +440,25 @@ def play(port, spc_path, force_test_tone=False, skip_bulk=False, low_addr=False,
         log("実行開始...")
         ctl.jump_to(stub_addr)
 
-        time.sleep(0.1)
-        p0 = ctl.read_port(0)
-        log(f"  (診断: 実行開始マーカー確認 port0=0x{p0:02X}, 期待値=0x99)")
+        if handshake:
+            # スタブが動き出したのを確認してから、曲が期待する入力ポート値を置く
+            signal, final_f4 = handshake_values(spc)
+            p0 = ctl.wait_port(0, (STUB_MARK_STARTED, STUB_MARK_WAITING))
+            if p0 not in (STUB_MARK_STARTED, STUB_MARK_WAITING):
+                raise RuntimeError(f"復元スタブが動き出しません (port0=0x{p0:02X})")
+            for p in (1, 2, 3):
+                ctl.write_port(p, spc.ram[0xF4 + p])
+            ctl.write_port(0, signal)
+            p0 = ctl.wait_port(0, (STUB_MARK_WAITING,))
+            if p0 != STUB_MARK_WAITING:
+                raise RuntimeError(f"復元スタブが開始合図に応答しません (port0=0x{p0:02X})")
+            ctl.write_port(0, final_f4)
+            log("  入力ポートを曲の保存値 "
+                + " ".join(f"{b:02X}" for b in spc.ram[0xF4:0xF8]) + " にして開始")
+        else:
+            time.sleep(0.1)
+            p0 = ctl.read_port(0)
+            log(f"  (診断: 実行開始マーカー確認 port0=0x{p0:02X}, 期待値=0x99)")
 
         if amp_volume is not None:
             actual = ctl.set_volume(amp_volume)

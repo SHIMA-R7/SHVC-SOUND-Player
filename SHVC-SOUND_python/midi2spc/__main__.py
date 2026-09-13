@@ -78,6 +78,14 @@ def main(argv=None):
                    help="曲の最後に足す余韻の秒数 (既定: 1.0)")
     p.add_argument("--dump-events", type=int, nargs="?", const=60, default=None,
                    metavar="N", help="送出するDSPイベントをN件表示する(既定60)")
+    p.add_argument("--drop-channels", metavar="2,5,9", default="",
+                   help="変換しないMIDIチャンネル(1-16、カンマ区切り)。"
+                        "同じ音を重ねただけのパートを外して8ボイスを空けるのに使う")
+    p.add_argument("--lead-channels", metavar="1", default="",
+                   help="主旋律のMIDIチャンネル(1-16、カンマ区切り)。"
+                        "音量を持ち上げ、ボイス不足でも優先して残す")
+    p.add_argument("--lead-gain", type=float, default=1.6,
+                   help="--lead-channels の音量倍率 (既定: 1.6)")
     p.add_argument("--port", metavar="COM3",
                    help="実機(SHVC-SOUND)のシリアルポート。指定するとPCではなく実機で鳴らす")
     p.add_argument("--no-audio", action="store_true",
@@ -111,8 +119,27 @@ def main(argv=None):
     print("音色バンクを構築中(BRRエンコード)...")
     bank = instruments.build_bank()
 
+    def channel_list(text, option):
+        try:
+            chans = [int(c) - 1 for c in text.split(",") if c.strip()]
+        except ValueError:
+            p.error(f"{option} は 1-16 の数字をカンマ区切りで指定してください")
+        if any(not 0 <= c < 16 for c in chans):
+            p.error(f"{option} は 1-16 の範囲で指定してください")
+        return chans
+
+    drop = channel_list(args.drop_channels, "--drop-channels")
+    lead = channel_list(args.lead_channels, "--lead-channels")
+    if drop:
+        print(f"  外すチャンネル: {', '.join(str(c + 1) for c in sorted(drop))}")
+    if lead:
+        print(f"  主旋律チャンネル: {', '.join(str(c + 1) for c in sorted(lead))} "
+              f"(音量x{args.lead_gain})")
+
     print("S-DSPイベント列に変換中...")
-    events, stats = engine.convert(midi_events, bank, master_volume=args.master)
+    events, stats = engine.convert(midi_events, bank, master_volume=args.master,
+                                   drop_channels=drop, lead_channels=lead,
+                                   lead_gain=args.lead_gain)
     print(f"  ノート {stats['notes']}個 → DSPイベント {stats['events']}件, "
           f"長さ {stats['duration']:.1f}秒")
     if stats["stolen"]:

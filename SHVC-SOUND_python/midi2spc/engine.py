@@ -102,14 +102,15 @@ def _pitch_register(hz, natural_hz):
     return max(1, min(PITCH_MAX, value))
 
 
-def _volume_pair(velocity, ch: _ChannelState, master=1.0):
+def _volume_pair(velocity, ch: _ChannelState, master=1.0, gain=1.0):
     """
     ベロシティ・CC7・CC11・パンから VOLL/VOLR を計算する。
 
     S-DSPの音量は符号付き8bitなので最大127。複数ボイスが同時に鳴ると
     加算で飽和しやすいため、master で全体を絞れるようにしてある。
+    gain はチャンネル単位の倍率(主旋律を前に出す等)。
     """
-    amp = (velocity / 127.0) * (ch.volume / 127.0) * (ch.expression / 127.0) * master
+    amp = (velocity / 127.0) * (ch.volume / 127.0) * (ch.expression / 127.0) * master * gain
     amp = max(0.0, min(1.0, amp))
 
     # 等パワーパン(中央でも音量が落ち込まないように)
@@ -127,15 +128,24 @@ def _volume_pair(velocity, ch: _ChannelState, master=1.0):
 class Sequencer:
     """MIDIイベントを受け取り、DSPイベント列を組み立てる。"""
 
-    def __init__(self, bank, master_volume=0.55, drum_channel=DRUM_CHANNEL):
+    def __init__(self, bank, master_volume=0.55, drum_channel=DRUM_CHANNEL,
+                 lead_channels=(), lead_gain=1.6):
         self.bank = bank
         self.master = master_volume
-        self.drum_channel = drum_channel
+        # 主旋律チャンネル: 音量を持ち上げ、ボイス不足でも奪われにくくする
+        self.lead_channels = set(lead_channels)
+        self.lead_gain = lead_gain
+        # 既定はチャンネル10だけがドラム。XG/GSではバンクセレクトMSB=127で
+        # 他のチャンネルもドラムにできるので、CC0を見て出し入れする。
+        self.drum_channels = {drum_channel}
         self.channels = [_ChannelState() for _ in range(16)]
         self.voices = [_VoiceState() for _ in range(NUM_VOICES)]
         self.events = []
         self.stolen = 0
         self.notes_played = 0
+
+    def _gain(self, channel):
+        return self.lead_gain if channel in self.lead_channels else 1.0
 
     # -- ボイス割り当て --
     def _allocate(self, time):
@@ -147,7 +157,12 @@ class Sequencer:
         for i, v in enumerate(self.voices):
             if not v.active:
                 return i
-        oldest = min(range(NUM_VOICES), key=lambda i: self.voices[i].start_time)
+        # 主旋律以外から奪う。全部が主旋律なら仕方なく一番古いものを奪う。
+        candidates = [i for i in range(NUM_VOICES)
+                      if self.voices[i].channel not in self.lead_channels]
+        if not candidates:
+            candidates = range(NUM_VOICES)
+        oldest = min(candidates, key=lambda i: self.voices[i].start_time)
         self.events.append(KeyOff(time, oldest))
         self.voices[oldest].active = False
         self.stolen += 1
@@ -163,7 +178,7 @@ class Sequencer:
     def note_on(self, time, channel, note, velocity):
         ch = self.channels[channel]
 
-        if channel == self.drum_channel:
+        if channel in self.drum_channels:
             name = instruments.DRUM_NOTE_TO_NAME.get(note, "tom")
             inst = self.bank.get(name)
             if inst is None:
@@ -191,7 +206,7 @@ class Sequencer:
 
         vi = self._allocate(time)
         pitch = _pitch_register(base_hz, inst.natural_hz)
-        voll, volr = _volume_pair(velocity, ch, self.master)
+        voll, volr = _volume_pair(velocity, ch, self.master, self._gain(channel))
 
         v = self.voices[vi]
         v.active = True
@@ -222,7 +237,13 @@ class Sequencer:
 
     def control_change(self, time, channel, controller, value):
         ch = self.channels[channel]
-        if controller == 7:
+        if controller == 0:
+            # バンクセレクトMSB。127はXG/GSのドラムキット。
+            if value == 127:
+                self.drum_channels.add(channel)
+            elif channel != DRUM_CHANNEL:
+                self.drum_channels.discard(channel)
+        elif controller == 7:
             ch.volume = value
             self._refresh_volumes(time, channel)
         elif controller == 11:
@@ -253,7 +274,7 @@ class Sequencer:
     def pitch_bend(self, time, channel, value):
         ch = self.channels[channel]
         ch.bend = value
-        if channel == self.drum_channel:
+        if channel in self.drum_channels:
             return
         semitones = (value / 8192.0) * ch.bend_range
         for vi, v in enumerate(self.voices):
@@ -268,21 +289,31 @@ class Sequencer:
         ch = self.channels[channel]
         for vi, v in enumerate(self.voices):
             if v.active and v.channel == channel:
-                voll, volr = _volume_pair(v.velocity, ch, self.master)
+                voll, volr = _volume_pair(v.velocity, ch, self.master, self._gain(channel))
                 if (voll, volr) != v.last_vol:
                     v.last_vol = (voll, volr)
                     self.events.append(SetVolume(time, vi, voll, volr))
 
 
-def convert(midi_events, bank, master_volume=0.55):
+def convert(midi_events, bank, master_volume=0.55, drop_channels=(),
+            lead_channels=(), lead_gain=1.6):
     """
     MIDIイベント列(smf.parse_midi の出力)をDSPイベント列に変換する。
     戻り値は (イベント列, 統計情報dict)。
+
+    drop_channels: 変換しないチャンネル(0始まり)。同じ音を重ねただけの
+    パートなど、8ボイスを食い潰すだけのものを事前に外すのに使う。
+    lead_channels: 主旋律チャンネル(0始まり)。lead_gain倍に持ち上げ、
+    ボイス不足時に奪う対象から外す。
     """
     from .smf import NoteOn, NoteOff, ControlChange, ProgramChange, PitchBend
 
-    seq = Sequencer(bank, master_volume=master_volume)
+    drop = set(drop_channels)
+    seq = Sequencer(bank, master_volume=master_volume,
+                    lead_channels=lead_channels, lead_gain=lead_gain)
     for ev in midi_events:
+        if ev.channel in drop:
+            continue
         if isinstance(ev, NoteOn):
             seq.note_on(ev.time, ev.channel, ev.note, ev.velocity)
         elif isinstance(ev, NoteOff):

@@ -54,6 +54,18 @@ def _wave_harmonics(weights):
     return out / peak if peak > 0 else out
 
 
+def _wave_bl_saw(n_harmonics=12):
+    """帯域制限したノコギリ波。32サンプルの角ばった波形をそのままBRRに
+    通すと、角の部分で4bit量子化の誤差が暴れてジリジリした音になるため、
+    倍音を1/kで足して作る。"""
+    return _wave_harmonics([1.0 / k for k in range(1, n_harmonics + 1)])
+
+
+def _wave_bl_square(n_harmonics=15):
+    """帯域制限した矩形波(奇数倍音のみ、1/k)。理由は _wave_bl_saw と同じ。"""
+    return _wave_harmonics([1.0 / k if k % 2 else 0.0 for k in range(1, n_harmonics + 1)])
+
+
 def _noise_burst(length, decay, seed=1234):
     """打楽器用の短い減衰ノイズ(ループなし)。"""
     rng = np.random.default_rng(seed)
@@ -131,7 +143,9 @@ def build_bank():
                             ar=11, dr=3, sl=6, sr=8)
     bank["reed"] = _looped("reed", _wave_square(0.25), ar=12, dr=3, sl=6, sr=8, gain=0.7)
     bank["flute"] = _looped("flute", _wave_sine(), ar=10, dr=2, sl=7, sr=4, gain=0.9)
-    bank["lead"] = _looped("lead", _wave_square(0.5), ar=15, dr=2, sl=6, sr=8, gain=0.7)
+    bank["lead"] = _looped("lead", _wave_bl_square(), ar=15, dr=2, sl=6, sr=8, gain=0.7)
+    bank["sawlead"] = _looped("sawlead", _wave_bl_saw(), ar=15, dr=2, sl=6, sr=8, gain=0.7)
+    bank["synbass"] = _looped("synbass", _wave_bl_saw(6), ar=15, dr=5, sl=4, sr=10, gain=0.9)
     bank["pad"] = _looped("pad", _wave_harmonics([1.0, 0.3, 0.6, 0.2, 0.3, 0.1]),
                           ar=6, dr=1, sl=6, sr=4, gain=0.8)
     bank["bell"] = _looped("bell", _wave_harmonics([1.0, 0.0, 0.0, 0.6, 0.0, 0.35, 0.0, 0.2]),
@@ -180,6 +194,10 @@ def _gm_map():
     assign(120, 127, "pluck")    # 効果音
     m[4] = "epiano"
     m[5] = "epiano"
+    m[38] = "synbass"            # シンセベース1/2
+    m[39] = "synbass"
+    m[81] = "sawlead"            # ノコギリ波リード(矩形波とは別物)
+    m[87] = "sawlead"            # ベース+リード
     return m
 
 

@@ -27,6 +27,8 @@ render.py がPC上のS-DSPモデルに流していたイベント列を、
     $0400-       BRRサンプル本体(音色バンク全部でおよそ13KB)
 """
 
+import contextlib
+import sys
 import time
 
 from . import engine
@@ -479,12 +481,39 @@ class HardwarePlayer:
             self.log(f"消音に失敗: {e}")
 
 
+@contextlib.contextmanager
+def _keep_awake():
+    """
+    演奏中だけWindowsのアイドルスリープを止める。
+    数分のストリーム中にPCが眠るとUSBシリアルが切れ、
+    ClearCommError で演奏が途中終了するため。
+    設定は変えず、このスレッドが抜けた時点で元に戻る(動画プレイヤーと同じ仕組み)。
+    """
+    if sys.platform != "win32":
+        yield
+        return
+    import ctypes
+    ES_CONTINUOUS = 0x80000000
+    ES_SYSTEM_REQUIRED = 0x00000001
+    kernel32 = ctypes.windll.kernel32
+    kernel32.SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
+    try:
+        yield
+    finally:
+        kernel32.SetThreadExecutionState(ES_CONTINUOUS)
+
+
 def play_on_hardware(port, events, bank, master_volume=0x7F,
                      log=None, progress=None, cancelled=None):
     """
     イベント列を実機で最初から最後まで演奏する(この関数はブロックする)。
     """
     log = log if log is not None else print
+    with _keep_awake():
+        _play_on_hardware(port, events, bank, master_volume, log, progress, cancelled)
+
+
+def _play_on_hardware(port, events, bank, master_volume, log, progress, cancelled):
     player = HardwarePlayer(port, bank, log=log)
     try:
         # 転送を始める前にファームウェアを確認する。ここで弾いておかないと、

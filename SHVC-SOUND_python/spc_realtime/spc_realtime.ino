@@ -105,27 +105,34 @@ inline void selectAddr(uint8_t port) {
   PORTC = (PORTC & ~0b00000011) | (port & 0b00000011);
 }
 
-const uint8_t BUS_DELAY_US = 3;
+// 書き込みだけの転送(BRRサンプル・常駐ドライバ等)は3µsのままでも
+// 何度やっても化けたことがない。化けるのはSPC700からの読み戻し
+// (port0の応答確認)だけなので、そちらだけ余裕を持たせる。
+// 2026-09-13: 両方とも15µsにしたところ、密なストリーム再生(和音が
+// 集中する曲)で処理が追いつかずテンポが遅れて聞こえたため、
+// 書き込みは元の速さに戻し、読み取りだけ延長する形にした。
+const uint8_t WRITE_DELAY_US = 3;
+const uint8_t READ_DELAY_US = 15;
 
 void writePort(uint8_t port, uint8_t val) {
   setDataBusOutput();
   selectAddr(port);
   busWriteData(val);
-  delayMicroseconds(BUS_DELAY_US);
+  delayMicroseconds(WRITE_DELAY_US);
   PORTC &= ~(1 << 2);
-  delayMicroseconds(BUS_DELAY_US);
+  delayMicroseconds(WRITE_DELAY_US);
   PORTC |= (1 << 2);
-  delayMicroseconds(BUS_DELAY_US);
+  delayMicroseconds(WRITE_DELAY_US);
 }
 
 uint8_t readPort(uint8_t port) {
   setDataBusInput();
   selectAddr(port);
   PORTC &= ~(1 << 3);
-  delayMicroseconds(BUS_DELAY_US);
+  delayMicroseconds(READ_DELAY_US);
   uint8_t v = busReadData();
   PORTC |= (1 << 3);
-  delayMicroseconds(BUS_DELAY_US);
+  delayMicroseconds(READ_DELAY_US);
   return v;
 }
 
@@ -168,7 +175,10 @@ bool readSerialExact(uint8_t *buf, uint8_t len, uint32_t timeoutMs) {
 // ドライバのループは十数サイクル(約5µs)なので、待ち時間はごく短い。
 // 応答が来ない = ドライバが動いていない、ということなのでタイムアウトは短くてよい。
 
-const uint32_t DRIVER_TIMEOUT_MS = 20;
+// 接触不良で読み取りが一瞬乱れても持ちこたえられるよう、本来必要な
+// 数十µsよりだいぶ余裕を持たせている(2026-09-13、長時間ストリーム再生中に
+// 断続的な接触不良でドライバ応答を誤検出したため)。
+const uint32_t DRIVER_TIMEOUT_MS = 100;
 
 bool dspWrite(uint8_t reg, uint8_t val) {
   writePort(1, reg);
@@ -300,17 +310,27 @@ void handleStream() {
 
 // ==================== 従来の .spc 転送コマンド ====================
 
-void handleReset() {
-  digitalWrite(PIN_RESET, LOW);
-  delay(10);
-  digitalWrite(PIN_RESET, HIGH);
+// リセットパルス幅・ready待ち・再試行回数。
+// 長時間再生の後はリセットからの立ち上がりを取りこぼすことがあるため、
+// パルスを長めに取り、ファーム内で数回やり直す。
+// 合計(3 × (100ms + 2500ms) ≒ 7.8秒)はホスト側のシリアルタイムアウト(10秒)未満に収めること。
+const uint16_t RESET_PULSE_MS = 100;
+const uint16_t RESET_READY_TIMEOUT_MS = 2500;
+const uint8_t RESET_ATTEMPTS = 3;
 
-  uint32_t start = millis();
+void handleReset() {
   bool ready = false;
-  while (millis() - start < 2000) {
-    if (readPort(0) == 0xAA && readPort(1) == 0xBB) {
-      ready = true;
-      break;
+  for (uint8_t attempt = 0; attempt < RESET_ATTEMPTS && !ready; attempt++) {
+    digitalWrite(PIN_RESET, LOW);
+    delay(RESET_PULSE_MS);
+    digitalWrite(PIN_RESET, HIGH);
+
+    uint32_t start = millis();
+    while (millis() - start < RESET_READY_TIMEOUT_MS) {
+      if (readPort(0) == 0xAA && readPort(1) == 0xBB) {
+        ready = true;
+        break;
+      }
     }
   }
 

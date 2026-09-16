@@ -1,0 +1,5 @@
+(version 1)
+# GNDは配線でもつながっているので、ベタへのサーマルスポークは1本でよい
+(rule "gnd_zone_spokes"
+  (condition "A.Type == 'Zone'")
+  (constraint min_resolved_spokes (min 1)))

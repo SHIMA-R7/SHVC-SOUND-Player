@@ -1,0 +1,7 @@
+(footprint "NPTH_Hole_2.98mm" (version 20241229) (generator "pcbnew") (generator_version "10.0") (layer "F.Cu")
+(descr "Non-plated hole 2.98mm (SHVC-SOUND module fixing hole)")
+(property "Reference" "H**" (at 0 -3 0) (layer "F.SilkS") (hide yes) (uuid "e8ad8cb8-d336-43b5-ac7c-3015de808448") (effects (font (size 1 1) (thickness 0.15))))
+(property "Value" "hole 2.98mm" (at 0 3 0) (layer "F.Fab") (hide yes) (uuid "01ba76df-9c15-4cb2-8eb3-e75a48d9c170") (effects (font (size 1 1) (thickness 0.15))))
+(attr exclude_from_pos_files exclude_from_bom)
+(pad "" np_thru_hole circle (at 0 0) (size 2.98 2.98) (drill 2.98) (layers "*.Cu" "*.Mask") (clearance 0.8) (uuid "3eef23ad-841b-4a75-bdf4-59546c16e5a0"))
+)

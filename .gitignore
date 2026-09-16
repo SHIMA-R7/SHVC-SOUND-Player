@@ -28,3 +28,9 @@ SHVC-SOUND_python/tools/voicevox_engine/
 .venv-transcribe/
 *.brr
 *_stems/
+
+# SHVC-SOUND-ESP32-KiCad: 自動配線・チェックの中間ファイル(build_pcb.py / route.py で作り直せる)
+SHVC-SOUND-ESP32-KiCad/*.dsn
+SHVC-SOUND-ESP32-KiCad/*.ses
+SHVC-SOUND-ESP32-KiCad/*.rpt
+SHVC-SOUND-ESP32-KiCad/gerber/

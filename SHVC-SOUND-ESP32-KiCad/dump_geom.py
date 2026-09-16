@@ -12,7 +12,7 @@ for d in b.GetDrawings():
 for fp in b.GetFootprints():
     p = fp.GetPosition()
     bb = fp.GetBoundingBox(False)
-    out["fps"].append({"ref": fp.GetReference(), "side": "B" if fp.IsFlipped() else "F",
+    out["fps"].append({"ref": fp.GetReference(), "value": fp.GetValue(), "side": "B" if fp.IsFlipped() else "F",
         "x": T(p.x)-OX, "y": T(p.y)-OY,
         "bb": [T(bb.GetX())-OX, T(bb.GetY())-OY, T(bb.GetWidth()), T(bb.GetHeight())]})
     for pad in fp.Pads():

@@ -30,10 +30,15 @@ sys.path.insert(0, PY_DIR)
 from midi2spc import brr, hardware  # noqa: E402
 
 DRIVER_ADDR = 0x0200
-DIR_ADDR = 0x0300
+# サンプルディレクトリはリングの直後($F700)に置く。DIRレジスタはページ単位でしか指定できず、
+# ドライバが大きくなって$0300に収まらなくなったため、$0200-$03FFはドライバ専用にしている。
+DIR_ADDR = 0xF700
 RING_START = 0x0400
-RING_BLOCKS = (0xFF00 - RING_START) // brr.BLOCK_BYTES
+# 終端をページ境界にそろえる(一括受信モードは下位バイトが0に戻ったときだけ終端を調べるため)。
+# $0400から243ページ = 62208バイト = 9バイト×6912ブロックでちょうど割り切れる。
+RING_BLOCKS = (0xF700 - RING_START) // brr.BLOCK_BYTES
 RING_END = RING_START + RING_BLOCKS * brr.BLOCK_BYTES      # この番地は含まない
+assert RING_END == 0xF700
 
 def assemble(org, program):
     """
@@ -83,7 +88,12 @@ PCM_DRIVER, DRIVER_LABELS = assemble(DRIVER_ADDR, [
     _(None, 0xF0, to="setptr", kind="rel"),
     _(None, 0x68, 0x06),                    # cmp a,#6
     _(None, 0xF0, to="peek", kind="rel"),
-    _(None, 0x2F, to="ack", kind="rel"),    # 知らないコマンドは何もせずACK
+    _(None, 0x68, 0x07),                    # cmp a,#7
+    _(None, 0xD0, to="d8", kind="rel"),
+    _(None, 0x5F, to="bulk", kind="abs"),   # jmp !bulk
+    _("d8", 0x68, 0x08),                    # cmp a,#8
+    _(None, 0xD0, to="ack", kind="rel"),    # bne ack(知らないコマンドは何もせずACK)
+    _(None, 0x5F, to="ringsel", kind="abs"),  # jmp !ringsel
     # 6: [$02-$03]の1バイトをホストから見た$F5に返し、ポインタを1進める(折り返さない。読み返し検査用)
     _("peek", 0x8D, 0x00),                  # mov y,#0
     _(None, 0xF7, 0x02),                    # mov a,[$02]+y
@@ -122,13 +132,71 @@ PCM_DRIVER, DRIVER_LABELS = assemble(DRIVER_ADDR, [
     _(None, 0xBA, 0x04),                    # movw ya,$04
     _(None, 0xDA, 0x02),                    # movw $02,ya
     _("ret", 0x6F),                         # ret
+    # 7: 一括受信モード。以後 $F4 が変わるたびに $F5/$F6/$F7 の3バイトをそのまま書く。
+    #    $F4=0 で抜ける。ポインタの下位はYレジスタで持ち、$02は0にしておく
+    #    (1バイトあたり mov [$02]+y,a / inc y / bne の3命令で済ませるため)。
+    #    終端はページ境界にそろっている前提(Yが0に戻ったときだけ $03 と $07 を比べる)。
+    _("bulk", 0xE4, 0x02),                  # mov a,$02
+    _(None, 0xFD),                          # mov y,a
+    _(None, 0x8F, 0x00, 0x02),              # mov $02,#0
+    _(None, 0xD8, 0xF4),                    # mov $F4,x       ; 開始のACK
+    _("bloop", 0x3E, 0xF4),                 # cmp x,$F4
+    _(None, 0xF0, to="bloop", kind="rel"),  # beq bloop
+    _(None, 0xF8, 0xF4),                    # mov x,$F4
+    _(None, 0xF0, to="bexit", kind="rel"),  # beq bexit       ; 0なら抜ける
+    _(None, 0xE4, 0xF5), _(None, 0xD7, 0x02), _(None, 0xFC),
+    _(None, 0xD0, to="b1", kind="rel"), _(None, 0x3F, to="bpage", kind="abs"),
+    _("b1", 0xE4, 0xF6), _(None, 0xD7, 0x02), _(None, 0xFC),
+    _(None, 0xD0, to="b2", kind="rel"), _(None, 0x3F, to="bpage", kind="abs"),
+    _("b2", 0xE4, 0xF7), _(None, 0xD7, 0x02), _(None, 0xFC),
+    _(None, 0xD0, to="b3", kind="rel"), _(None, 0x3F, to="bpage", kind="abs"),
+    _("b3", 0xD8, 0xF4),                    # mov $F4,x       ; ACK
+    _(None, 0x2F, to="bloop", kind="rel"),
+    _("bpage", 0xAB, 0x03),                 # inc $03         ; 次のページ
+    _(None, 0xE4, 0x03),                    # mov a,$03
+    _(None, 0x64, 0x07),                    # cmp a,$07       ; 終端のページ?
+    _(None, 0xD0, to="bpret", kind="rel"),
+    _(None, 0xE4, 0x05),                    # mov a,$05
+    _(None, 0xC4, 0x03),                    # mov $03,a       ; 先頭のページへ
+    _("bpret", 0x6F),                       # ret
+    _("bexit", 0xDD),                       # mov a,y
+    _(None, 0xC4, 0x02),                    # mov $02,a       ; ポインタの下位を戻す
+    _(None, 0xD8, 0xF4),                    # mov $F4,x       ; 終了のACK(0)
+    _(None, 0x5F, to="loop", kind="abs"),   # jmp !loop
+    # 8: 書き込み先のリングを切り替える ($F5=0 or 1)。ステレオ(ミッド/サイド)用に2本のリングを持つ。
+    #    使用中のリングの状態 [ポインタ下位,上位, 先頭ページ, 終端ページ] を $02,$03,$05,$07 に置き、
+    #    リング0の控えを $10-$13、リング1の控えを $14-$17 に持つ。$08 は使用中のリング番号。
+    _("ringsel", 0xE4, 0x08),               # mov a,$08
+    _(None, 0xD0, to="sv1", kind="rel"),
+    *[_(None, *op) for op in ((0xE4, 0x02), (0xC4, 0x10), (0xE4, 0x03), (0xC4, 0x11),
+                               (0xE4, 0x05), (0xC4, 0x12), (0xE4, 0x07), (0xC4, 0x13))],
+    _(None, 0x2F, to="rload", kind="rel"),
+    _("sv1", 0xE4, 0x02),
+    *[_(None, *op) for op in ((0xC4, 0x14), (0xE4, 0x03), (0xC4, 0x15),
+                               (0xE4, 0x05), (0xC4, 0x16), (0xE4, 0x07), (0xC4, 0x17))],
+    _("rload", 0xE4, 0xF5),                 # mov a,$F5
+    _(None, 0xC4, 0x08),                    # mov $08,a
+    _(None, 0xD0, to="ld1", kind="rel"),
+    *[_(None, *op) for op in ((0xE4, 0x10), (0xC4, 0x02), (0xE4, 0x11), (0xC4, 0x03),
+                               (0xE4, 0x12), (0xC4, 0x05), (0xE4, 0x13), (0xC4, 0x07))],
+    _(None, 0x5F, to="ack", kind="abs"),
+    _("ld1", 0xE4, 0x14),
+    *[_(None, *op) for op in ((0xC4, 0x02), (0xE4, 0x15), (0xC4, 0x03),
+                               (0xE4, 0x16), (0xC4, 0x05), (0xE4, 0x17), (0xC4, 0x07))],
+    _(None, 0x5F, to="ack", kind="abs"),
 ])
-assert DRIVER_ADDR + len(PCM_DRIVER) <= DIR_ADDR
+assert DRIVER_ADDR + len(PCM_DRIVER) <= RING_START
+assert DIR_ADDR >= RING_END and DIR_ADDR & 0xFF == 0
 
 CMD_DSPWRITE, ACK_DSPWRITE = 0x07, 0x07
 CMD_PCMCHUNK, ACK_PCMCHUNK = 0x0C, 0x0C
 CMD_DRVQUERY = 0x0D
 CMD_DRVPEEK = 0x0E
+CMD_PCMBULK = 0x0F
+CMD_BULKTIMING = 0x10
+CMD_SETBAUD = 0x11
+CMD_BULKSTATS = 0x12
+BAUD_CODES = {500000: 0, 1000000: 1, 2000000: 2}
 ERR_DRIVER_TIMEOUT = 0xE7
 
 
@@ -212,6 +280,20 @@ class Sim:
             self.sp += 1; lo = self.ram[0x100 + self.sp]
             self.sp += 1; hi = self.ram[0x100 + self.sp]
             self.pc = lo | hi << 8
+        elif op == 0xFD:                    # mov y,a
+            self.y = self.a; self.nz(self.y)
+        elif op == 0xDD:                    # mov a,y
+            self.a = self.y; self.nz(self.a)
+        elif op == 0xFC:                    # inc y
+            self.y = (self.y + 1) & 0xFF; self.nz(self.y)
+        elif op == 0xAB:                    # inc dp
+            d = self.f(); v = (self.rd(d) + 1) & 0xFF; self.wr(d, v); self.nz(v)
+        elif op == 0x8F:                    # mov dp,#imm
+            v = self.f(); d = self.f(); self.wr(d, v)
+        elif op == 0x64:                    # cmp a,dp
+            v = self.rd(self.f()); self.nz((self.a - v) & 0xFF)
+        elif op == 0x5F:                    # jmp !abs
+            lo, hi = self.f(), self.f(); self.pc = lo | hi << 8
         elif op == 0xF7:
             d = self.f()
             ptr = self.ram[d] | self.ram[(d + 1) & 0xFF] << 8
@@ -239,13 +321,13 @@ class Sim:
         else:
             raise AssertionError(f"未対応命令 {op:02X} at {self.pc - 1:04X}")
 
-    def host_command(self, cmd, b1=0, b2=0, max_steps=200):
+    def host_command(self, cmd, b1=0, b2=0, max_steps=200, idle="loop"):
         seq = (self.host_in[0] + 1) & 0xFF
         self.host_in[1], self.host_in[2], self.host_in[3] = b1, b2, cmd
         self.host_in[0] = seq
         for _ in range(max_steps):
             self.step()
-            if self.out[0] == seq and self.pc == DRIVER_LABELS["loop"]:
+            if self.out[0] == seq and self.pc == DRIVER_LABELS[idle]:
                 return True
         return False
 
@@ -291,6 +373,52 @@ def selftest():
         assert s2.host_command(6)
         got.append(s2.out[1])
     assert got == [0xA1, 0xB2, 0xC3] and (s2.ram[2] | s2.ram[3] << 8) == 0x0403, f"読み返しが違う: {got}"
+
+    # 7: 一括受信。$0400-$05FF(2ページ)のリングで、終端をまたいで折り返すこと
+    s3 = Sim()
+    s3.ram[2:8] = bytes([0xFA, 0x05, 0x00, 0x04, 0x00, 0x06])   # ポインタ$05FA, 先頭$0400, 終端$0600
+    for _ in range(3):
+        s3.step()
+    assert s3.host_command(7, idle="bloop"), "一括受信モードに入れない"
+    payload = list(range(0x10, 0x10 + 12))                  # 12バイト = 3バイト×4回
+    seq = s3.host_in[0]
+    for i in range(0, 12, 3):
+        seq = (seq + 1) & 0xFF or 1
+        s3.host_in[1:4] = payload[i:i + 3]
+        s3.host_in[0] = seq
+        for _ in range(200):
+            s3.step()
+            if s3.out[0] == seq and s3.pc == DRIVER_LABELS["bloop"]:
+                break
+        else:
+            raise AssertionError("一括受信でACKが来ない")
+    s3.host_in[0] = 0                                       # 抜ける
+    for _ in range(200):
+        s3.step()
+        if s3.out[0] == 0 and s3.pc == DRIVER_LABELS["loop"]:
+            break
+    else:
+        raise AssertionError("一括受信モードから抜けられない")
+    assert list(s3.ram[0x05FA:0x0600]) == payload[:6], "終端手前の書き込みが違う"
+    assert list(s3.ram[0x0400:0x0406]) == payload[6:], "先頭へ折り返した書き込みが違う"
+    assert (s3.ram[2] | s3.ram[3] << 8) == 0x0406, f"一括受信後のポインタが違う: {s3.ram[3]:02X}{s3.ram[2]:02X}"
+    assert s3.sp == 0xEF, "一括受信でスタックがずれている"
+
+    # 8: リング切り替え。リング0=$0400-$05FF, リング1=$0600-$06FF
+    s4 = Sim()
+    s4.ram[2:9] = bytes([0x00, 0x04, 0x00, 0x04, 0x00, 0x06, 0x00])     # 使用中=リング0
+    s4.ram[0x10:0x18] = bytes([0x00, 0x04, 0x04, 0x06, 0x00, 0x06, 0x06, 0x07])
+    for _ in range(3):
+        s4.step()
+    assert s4.host_command(2, 0xA0, 0xA1)                                # リング0へ2バイト
+    assert s4.host_command(8, 1)                                         # リング1へ
+    assert s4.host_command(2, 0xB0, 0xB1) and s4.host_command(1, 0xB2)   # リング1へ3バイト
+    assert s4.host_command(8, 0)                                         # リング0へ戻る
+    assert s4.host_command(1, 0xA2)
+    assert list(s4.ram[0x0400:0x0403]) == [0xA0, 0xA1, 0xA2], "リング0の中身が違う"
+    assert list(s4.ram[0x0600:0x0603]) == [0xB0, 0xB1, 0xB2], "リング1の中身が違う"
+    assert (s4.ram[2] | s4.ram[3] << 8) == 0x0403 and s4.ram[5] == 0x04 and s4.ram[7] == 0x06
+    assert (s4.ram[0x14] | s4.ram[0x15] << 8) == 0x0603, "リング1の控えのポインタが違う"
     print(f"自己テストOK (ドライバ{len(PCM_DRIVER)}バイト / リング{RING_BLOCKS}ブロック "
           f"${RING_START:04X}-${RING_END - 1:04X})")
 
@@ -381,7 +509,17 @@ def main():
     ap.add_argument("--volume", type=int, default=110, help="ボイス0の音量 VOLL/VOLR (0-127)")
     ap.add_argument("--master", type=int, default=0x7F, help="マスター音量 MVOLL/MVOLR (0-127)")
     ap.add_argument("--lead", type=float, default=4.0, help="再生位置より何秒先まで書いておくか")
-    ap.add_argument("--chunk", type=int, default=254, help="1回にArduinoへ送るバイト数(偶数)")
+    ap.add_argument("--chunk", type=int, default=255, help="1回にArduinoへ送るバイト数(一括送信では3の倍数)")
+    ap.add_argument("--no-bulk", action="store_true",
+                    help="一括受信モード(3バイトずつ)を使わず、従来の2バイトずつで送る")
+    ap.add_argument("--pipeline", type=int, default=1,
+                    help="応答を待たずに先送りするチャンク数。2以上はArduinoを受信バッファ拡大版でビルドしたときだけ")
+    ap.add_argument("--baud", type=int, default=500000, choices=sorted(BAUD_CODES),
+                    help="Arduinoとの通信速度(接続後に切り替える。Arduinoはリセットで500kに戻る)")
+    ap.add_argument("--bulk-timing", default="3,3,3", metavar="SETUP,STROBE,HOLD",
+                    help="一括送信のバス待ち時間(µs)。短いほど速いが、配線によっては化ける")
+    ap.add_argument("--benchmark", type=float, default=None, metavar="秒",
+                    help="診断用: 再生せずに、この秒数だけ全力で転送して速度を測る")
     ap.add_argument("--ring-seconds", type=float, default=None,
                     help="リングバッファを何秒ぶんに縮めるか(折り返しの不具合を切り分ける診断用)")
     ap.add_argument("--filter0", action="store_true",
@@ -443,14 +581,35 @@ def main():
     from spc_play import SpcController
     ctl = SpcController(args.port, log=print)
     ser = ctl.ser
+    if args.baud != 500000:
+        ser.write(bytes([CMD_SETBAUD, BAUD_CODES[args.baud]]))
+        if ser.read(1) != bytes([CMD_SETBAUD]):
+            raise RuntimeError("通信速度を切り替えられません(ファームが古い可能性)")
+        time.sleep(0.05)
+        ser.baudrate = args.baud
+        time.sleep(0.05)
+        ser.reset_input_buffer()
+
+    # 先送りしたチャンクの応答待ち(期待する応答バイトの列)。
+    # 問い合わせやDSP書き込みの前には必ず全部受け取っておく(応答が混ざらないように)。
+    pending = []
+
+    def drain(block=True):
+        while pending and (block or ser.in_waiting):
+            r = ser.read(1)
+            if r != pending[0]:
+                raise RuntimeError(f"PCM転送失敗 (応答={r!r}, 期待={pending[0]!r})")
+            pending.pop(0)
 
     def dsp(reg, val):
+        drain()
         ser.write(bytes([CMD_DSPWRITE, reg & 0xFF, val & 0xFF]))
         r = ser.read(1)
         if r != bytes([ACK_DSPWRITE]):
             raise RuntimeError(f"DSP書き込み失敗 reg=${reg:02X} 応答={r!r}")
 
     def query(cmd, arg=0, arg2=0):
+        drain()
         ser.write(bytes([CMD_DRVQUERY, cmd, arg, arg2]))
         r = ser.read(3)
         if len(r) != 3 or r[0] != CMD_DRVQUERY:
@@ -474,13 +633,30 @@ def main():
 
     sent = 0
 
+    # 一括受信モードは、リングの終端がページ境界にそろっているときだけ使える
+    use_bulk = not args.no_bulk and (RING_END & 0xFF) == 0
+
     def send_chunk(n):
         nonlocal sent
         chunk = data[sent:sent + n]
-        ser.write(bytes([CMD_PCMCHUNK, len(chunk)]) + chunk)
-        r = ser.read(1)
-        if r != bytes([ACK_PCMCHUNK]):
-            raise RuntimeError(f"PCM転送失敗 (送信済み{sent}バイト) 応答={r!r}")
+        if use_bulk and len(chunk) >= 3:
+            chunk = chunk[:len(chunk) - len(chunk) % 3]
+            packet, ok = bytes([CMD_PCMBULK, len(chunk)]) + chunk, bytes([CMD_PCMBULK])
+        else:
+            chunk = chunk[:254]
+            packet, ok = bytes([CMD_PCMCHUNK, len(chunk)]) + chunk, bytes([ACK_PCMCHUNK])
+        # Arduinoが前のチャンクをSPC700へ渡している間に、次のチャンクを受信バッファへ先に送っておく。
+        # 受信バッファ(SERIAL_RX_BUFFER_SIZE)に収まる数までに抑える。
+        drain(block=False)
+        while len(pending) >= max(1, args.pipeline):
+            drain_one = ser.read(1)
+            if drain_one != pending[0]:
+                raise RuntimeError(f"PCM転送失敗 (送信済み{sent}バイト) 応答={drain_one!r}")
+            pending.pop(0)
+        ser.write(packet)
+        pending.append(ok)
+        if args.pipeline <= 1:
+            drain()
         sent += len(chunk)
 
     with hardware._keep_awake():
@@ -503,11 +679,70 @@ def main():
             ctl.jump_to(DRIVER_ADDR)
             time.sleep(0.05)
             sent = pre
+            if use_bulk:
+                timing = [int(v) for v in args.bulk_timing.split(",")]
+                ser.write(bytes([CMD_BULKTIMING] + timing))
+                if ser.read(1) != bytes([CMD_BULKTIMING]):
+                    raise RuntimeError("一括送信の待ち時間を設定できません(ファームが古い可能性)")
             # 起動直後の誤認書き込みでずれたポインタを、正しい位置に合わせ直す
             query(5, ptr & 0xFF, ptr >> 8)
             lo, hi = query(3)
             if (lo | hi << 8) != ptr:
                 raise RuntimeError(f"書き込みポインタを合わせられません ${lo | hi << 8:04X} != ${ptr:04X}")
+
+            if args.benchmark:
+                zero = bytes(max(args.chunk, 3) * 64)
+                data = zero                      # 再生しないので中身は何でもよい
+                total = len(data)
+
+                def bulk_stats():
+                    drain()
+                    ser.write(bytes([CMD_BULKSTATS]))
+                    r = ser.read(13)
+                    if len(r) != 13 or r[0] != CMD_BULKSTATS:
+                        return None
+                    return [int.from_bytes(r[1 + 4 * i:5 + 4 * i], "little") for i in range(3)]
+
+                if use_bulk:
+                    bulk_stats()
+                done, t = 0, time.time()
+                while time.time() - t < args.benchmark:
+                    sent = 0
+                    send_chunk(args.chunk)
+                    done += sent
+                wall = time.time() - t
+                rate_bps = done / wall
+                if use_bulk:
+                    st = bulk_stats()
+                    if st:
+                        recv_us, bus_us, polls = st
+                        triples = done / 3
+                        print(f"内訳: 全体{wall * 1000:.0f}ms のうち Arduinoのシリアル受信{recv_us / 1000:.0f}ms / "
+                              f"SPC700との受け渡し{bus_us / 1000:.0f}ms / その他(USB往復など){wall * 1000 - (recv_us + bus_us) / 1000:.0f}ms"
+                              f" | 受け渡し1回 {bus_us / max(triples, 1):.0f}µs, 待ちの読み取り{polls / max(triples, 1):.1f}回")
+                lo, hi = query(3)
+                expect = RING_START + (pre + done) % ring_bytes
+                print(f"転送速度 {rate_bps / 1024:.1f}KB/秒 ({'一括3バイト' if use_bulk else '2バイトずつ'}, "
+                      f"チャンク{args.chunk}) → BRRで約{rate_bps * 16 / 9:.0f}Hz相当 / "
+                      f"ポインタ${lo | hi << 8:04X}(期待${expect:04X})")
+
+                # 同じ送り方でリング1周ぶんの乱数を書き、読み返して化けていないか確かめる
+                rnd = np.random.default_rng(1).integers(0, 256, ring_bytes, dtype=np.uint8).tobytes()
+                query(5, RING_START & 0xFF, RING_START >> 8)
+                data, total, sent = rnd, ring_bytes, 0
+                while sent < total:
+                    send_chunk(min(args.chunk, total - sent))
+                query(5, RING_START & 0xFF, RING_START >> 8)
+                back = bytearray()
+                while len(back) < ring_bytes:
+                    k = min(255, ring_bytes - len(back))
+                    ser.write(bytes([CMD_DRVPEEK, k]))
+                    if ser.read(1) != bytes([CMD_DRVPEEK]):
+                        raise RuntimeError("読み返し失敗")
+                    back += ser.read(k)
+                bad = sum(1 for a, b in zip(back, rnd) if a != b)
+                print(f"書き込み検査: リング{ring_bytes}バイト中 化けたバイト {bad}")
+                return 0
 
             if args.verify:
                 def dump(n):

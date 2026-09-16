@@ -54,6 +54,10 @@ const uint8_t CMD_WRITEPORT = 0x0B;   // 2バイト引数(ポート番号, 値)�
 const uint8_t CMD_PCMCHUNK = 0x0C;    // 1バイト長さN + Nバイト。PCMストリーミング用ドライバのリングバッファへ書く
 const uint8_t CMD_DRVQUERY = 0x0D;    // 3バイト(ドライバのコマンド, 引数1, 引数2)。応答は [0x0D, $F5, $F6]
 const uint8_t CMD_DRVPEEK = 0x0E;     // 1バイト長さN。ドライバの読み返し(6)をN回行い、[0x0E, Nバイト]を返す
+const uint8_t CMD_PCMBULK = 0x0F;     // 1バイト長さN(3の倍数) + Nバイト。ドライバの一括受信モード(7)で3バイトずつ書く
+const uint8_t CMD_BULKTIMING = 0x10;  // 3バイト(セットアップµs, ストローブµs, ホールドµs)。一括送信の待ち時間を変える
+const uint8_t CMD_SETBAUD = 0x11;     // 1バイト(0=500k, 1=1M, 2=2M)。旧速度で応答してから切り替える。リセットで500kに戻る
+const uint8_t CMD_BULKSTATS = 0x12;   // 応答 [0x12, 受信µs(LE32), バスµs(LE32), 待ちポーリング回数(LE32)] を返してゼロに戻す
 
 // PING応答。PC側はこれでファームの種類とバージョンを確認する。
 // 旧 spc_uploader.ino は未知のコマンドを黙って捨てるため、
@@ -526,6 +530,146 @@ void handleDrvPeek() {
   Serial.write(pcmBuf, (uint8_t)n);
 }
 
+// 一括受信の確認待ち専用の読み取り。読み取り側の待ち時間を書き込みと同じ短さにする。
+// 読み違えても一致するまで読み直すだけなので、速さを優先してよい。
+bool waitForPortFast(uint8_t port, uint8_t expected, uint32_t timeoutMs) {
+  setDataBusInput();
+  selectAddr(port);
+  uint32_t start = millis();
+  while (millis() - start < timeoutMs) {
+    PORTC &= ~(1 << 3);
+    delayMicroseconds(WRITE_DELAY_US);
+    uint8_t v = busReadData();
+    PORTC |= (1 << 3);
+    if (v == expected) return true;
+  }
+  return false;
+}
+
+// 一括送信専用の最小限のバス操作。通常の writePort/readPort は安定のため3〜15µs待つが、
+// SPC700のポートは本来ns単位で応答するので、ストローブと読み取りの前だけ約1µsにする。
+// 配線の状態で必要な待ちが変わるので、CMD_BULKTIMING で実行中に変えられるようにしてある。
+uint8_t bulkSetupUs = 3;    // アドレス・データを置いてからストローブまで
+uint8_t bulkStrobeUs = 3;   // /WR・/RD を下げている時間
+uint8_t bulkHoldUs = 3;     // /WR を上げてから次の操作まで
+
+inline void bulkWrite(uint8_t port, uint8_t val) {
+  selectAddr(port);
+  busWriteData(val);
+  if (bulkSetupUs) delayMicroseconds(bulkSetupUs);
+  PORTC &= ~(1 << 2);
+  if (bulkStrobeUs) delayMicroseconds(bulkStrobeUs);
+  PORTC |= (1 << 2);
+  if (bulkHoldUs) delayMicroseconds(bulkHoldUs);
+}
+
+inline uint8_t bulkReadPort0() {
+  PORTC &= ~(1 << 3);
+  if (bulkStrobeUs) delayMicroseconds(bulkStrobeUs);
+  uint8_t v = busReadData();
+  PORTC |= (1 << 3);
+  return v;
+}
+
+// 3バイト(またはシーケンス値だけ)を置いて、SPC700がシーケンス値を返すのを待つ。
+// 読み違いで先に進むとデータが化けるので、2回続けて一致したら受理とみなす。
+uint32_t statRecvUs = 0, statBusUs = 0, statPolls = 0;
+
+bool bulkHandshake(uint8_t seq, const uint8_t *data) {
+  setDataBusOutput();
+  if (data) {
+    bulkWrite(1, data[0]);
+    bulkWrite(2, data[1]);
+    bulkWrite(3, data[2]);
+  }
+  bulkWrite(0, seq);
+  setDataBusInput();
+  selectAddr(0);
+  uint32_t start = millis();
+  uint8_t hits = 0;
+  while (true) {
+    statPolls++;
+    if (bulkReadPort0() == seq) {
+      if (++hits >= 2) return true;
+    } else {
+      hits = 0;
+      if (millis() - start >= DRIVER_TIMEOUT_MS) return false;
+    }
+  }
+}
+
+bool drvHandshakeFast(uint8_t seq) {
+  return bulkHandshake(seq, NULL);
+}
+
+// PCM一括送信: ドライバを一括受信モード(7)に入れ、3バイトずつ$F5-$F7に置いて渡し、最後に$F4=0で抜ける。
+void handlePcmBulk() {
+  uint32_t t0 = micros();
+  int16_t n = serialReadByteBlocking(3000);
+  if (n < 0) return;
+  if (!readSerialExact(pcmBuf, (uint8_t)n, 3000)) return;
+  uint32_t t1 = micros();
+  statRecvUs += t1 - t0;
+  if ((uint8_t)n % 3 != 0) {
+    Serial.write(ERR_DRIVER_TIMEOUT);
+    return;
+  }
+  writePort(3, 7);
+  driverSeq++;
+  if (driverSeq == 0) driverSeq = 1;
+  if (!drvHandshakeFast(driverSeq)) {
+    Serial.write(ERR_DRIVER_TIMEOUT);
+    return;
+  }
+  for (uint8_t i = 0; i < (uint8_t)n; i += 3) {
+    driverSeq++;
+    if (driverSeq == 0) driverSeq = 1;
+    if (!bulkHandshake(driverSeq, pcmBuf + i)) {
+      Serial.write(ERR_DRIVER_TIMEOUT);
+      return;
+    }
+  }
+  if (!drvHandshakeFast(0)) {
+    Serial.write(ERR_DRIVER_TIMEOUT);
+    return;
+  }
+  driverSeq = 0;
+  writePort(3, 0);
+  statBusUs += micros() - t1;
+  Serial.write(CMD_PCMBULK);
+}
+
+void writeLE32(uint32_t v) {
+  for (uint8_t i = 0; i < 4; i++) Serial.write((uint8_t)(v >> (8 * i)));
+}
+
+void handleBulkStats() {
+  Serial.write(CMD_BULKSTATS);
+  writeLE32(statRecvUs);
+  writeLE32(statBusUs);
+  writeLE32(statPolls);
+  statRecvUs = statBusUs = statPolls = 0;
+}
+
+void handleSetBaud() {
+  int16_t code = serialReadByteBlocking(3000);
+  if (code < 0 || code > 2) return;
+  static const uint32_t rates[] = {500000UL, 1000000UL, 2000000UL};
+  Serial.write(CMD_SETBAUD);
+  Serial.flush();
+  Serial.end();
+  Serial.begin(rates[code]);
+}
+
+void handleBulkTiming() {
+  uint8_t buf[3];
+  if (!readSerialExact(buf, 3, 3000)) return;
+  bulkSetupUs = buf[0];
+  bulkStrobeUs = buf[1];
+  bulkHoldUs = buf[2];
+  Serial.write(CMD_BULKTIMING);
+}
+
 void handleWritePort() {
   uint8_t buf[2];
   if (!readSerialExact(buf, 2, 3000)) return;
@@ -576,6 +720,10 @@ void loop() {
     case CMD_PCMCHUNK:  handlePcmChunk();  break;
     case CMD_DRVQUERY:  handleDrvQuery();  break;
     case CMD_DRVPEEK:   handleDrvPeek();   break;
+    case CMD_PCMBULK:   handlePcmBulk();   break;
+    case CMD_BULKTIMING: handleBulkTiming(); break;
+    case CMD_SETBAUD:   handleSetBaud();   break;
+    case CMD_BULKSTATS: handleBulkStats(); break;
     default: break;
   }
 }

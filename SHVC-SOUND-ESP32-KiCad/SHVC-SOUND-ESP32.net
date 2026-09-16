@@ -1,0 +1,4162 @@
+(export
+	(version "E")
+	(design
+		(source "C:\\Users\\yugo\\OneDrive\\ドキュメント\\Claude\\SHVC-SOUND\\SHVC-SOUND-Player\\SHVC-SOUND-ESP32-KiCad\\SHVC-SOUND-ESP32.kicad_sch")
+		(date "2026-09-17T01:26:57")
+		(tool "Eeschema 10.0.6")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title "SHVC-SOUND Player ESP32")
+				(company)
+				(rev "0.1")
+				(date)
+				(source "SHVC-SOUND-ESP32.kicad_sch")
+				(comment
+					(number "1")
+					(value "")
+				)
+				(comment
+					(number "2")
+					(value "")
+				)
+				(comment
+					(number "3")
+					(value "")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components
+		(comp
+			(ref "C1")
+			(value "100u")
+			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "03b4230f-5e13-4c5e-a472-63af0e3e02bd")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C2")
+			(value "100u")
+			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d7a192a6-0323-4717-bae1-53effef66a49")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C3")
+			(value "100n")
+			(footprint "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "c911dcac-00f7-4d3c-bdce-7fe6d5f89fcb")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C4")
+			(value "220u")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "757e22e4-27fd-49a0-84e9-fe398dfd5884")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C5")
+			(value "10u")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "75e27aa3-082e-4ed1-a5b1-9f18d82b645c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C6")
+			(value "470n")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "182a8787-9530-4d95-b6b5-5ae721b8ee77")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C7")
+			(value "470n")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "b4849e46-409b-4ccc-b577-df144212acd2")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C8")
+			(value "100n")
+			(footprint "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "45199c13-f5f2-4c34-80ff-48c9f7eebcc4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C9")
+			(value "100n")
+			(footprint "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "403ab4bd-913a-4a8a-9c1b-077ea14ac523")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C10")
+			(value "100n")
+			(footprint "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "66458cd7-f991-420c-aeee-d74adbcc6676")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C11")
+			(value "470u")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "2dc9a49e-f55f-4259-9160-45a2a746e88c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C12")
+			(value "100u")
+			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "673a8acd-0a4e-4ecc-8c3a-904d776599d8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C13")
+			(value "10u")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "407853a0-3740-4c1c-b7d2-0188edfd4f03")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D1")
+			(value "1N5819")
+			(footprint "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "D_Schottky")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d41b6ae4-c4ad-413e-88ab-3c6addb65d13")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J1")
+			(value "PJ-324M")
+			(footprint "SHVC-ESP32:PJ-324M")
+			(fields
+				(field
+					(name "Footprint") "SHVC-ESP32:PJ-324M")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "PJ-324M")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "a027725f-d12c-4f16-83cc-6b2ae3cdf242")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J3")
+			(value "12V in (USB-PD)")
+			(footprint "SHVC-ESP32:PD_INPUT_MODULE_2P")
+			(fields
+				(field
+					(name "Footprint") "SHVC-ESP32:PD_INPUT_MODULE_2P")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "PowerIn_2")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "406347cc-4c1b-444f-a1bc-34f11fb23466")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J4")
+			(value "SHVC-SOUND module")
+			(footprint "SHVC-ESP32:SHVC-SOUND-MB")
+			(fields
+				(field
+					(name "Footprint") "SHVC-ESP32:SHVC-SOUND-MB")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "SHVC-SOUND")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "1cc8fd2b-a6d0-43ec-b084-2660ee58c646")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "21")
+						)
+						(pin
+							(num "22")
+						)
+						(pin
+							(num "23")
+						)
+						(pin
+							(num "24")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R1")
+			(value "330")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "163aaca1-99f7-4c42-9d64-ede3aef696b8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R2")
+			(value "330")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "025ffecc-9a59-4dea-8a0d-f08acab9d246")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R5")
+			(value "5.6k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "afc9ab9f-38a5-4b4c-8cf8-d3ea4601ad89")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R6")
+			(value "10k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "e135393a-f5d2-460b-b194-72c7867fcc50")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R7")
+			(value "10k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "1b1dd4c3-43ec-4b9c-a264-6195f81be7ea")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R8")
+			(value "10k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "99b74e5c-bdf1-4f41-8baa-600f635a3909")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R9")
+			(value "10k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d908f2ae-9d3b-41f3-9df7-f73079127956")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R10")
+			(value "10")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "75d93f4f-a904-4b4a-97e9-d2132a2f1ca3")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U1")
+			(value "ESP32 DevKit V1 (30pin)")
+			(footprint "SHVC-ESP32:ESP32-DevKit-30_Socket")
+			(fields
+				(field
+					(name "Footprint") "SHVC-ESP32:ESP32-DevKit-30_Socket")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "ESP32_DevKit_30")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "7176cef6-031a-41b2-878d-e371d95d4852")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "21")
+						)
+						(pin
+							(num "22")
+						)
+						(pin
+							(num "23")
+						)
+						(pin
+							(num "24")
+						)
+						(pin
+							(num "25")
+						)
+						(pin
+							(num "26")
+						)
+						(pin
+							(num "27")
+						)
+						(pin
+							(num "28")
+						)
+						(pin
+							(num "29")
+						)
+						(pin
+							(num "30")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U2")
+			(value "74HCT541N (data write)")
+			(footprint "Package_DIP:DIP-20_W7.62mm")
+			(fields
+				(field
+					(name "Footprint") "Package_DIP:DIP-20_W7.62mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "74HCT541")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0c5422bf-33f2-4107-a81b-12b994dd72bf")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "11")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U3")
+			(value "74HCT541N (control)")
+			(footprint "Package_DIP:DIP-20_W7.62mm")
+			(fields
+				(field
+					(name "Footprint") "Package_DIP:DIP-20_W7.62mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "74HCT541")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "f55332cf-2c3a-43f4-b026-a83239ed38b8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "11")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U4")
+			(value "74LVC245N (data read, DIR=B->A)")
+			(footprint "Package_DIP:DIP-20_W7.62mm")
+			(fields
+				(field
+					(name "Footprint") "Package_DIP:DIP-20_W7.62mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "74LVC245")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "925025a7-3c9a-4cdc-9f87-430803cc9eaf")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "11")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U6")
+			(value "TDA7053A")
+			(footprint "Package_DIP:DIP-16_W7.62mm")
+			(fields
+				(field
+					(name "Footprint") "Package_DIP:DIP-16_W7.62mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "TDA7053A")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "5624ab90-3ae8-4ea5-bbf3-350c800c510c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "9")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U7")
+			(value "M78AR05-0.5")
+			(footprint "SHVC-ESP32:DCDC_SIP3_7805")
+			(fields
+				(field
+					(name "Footprint") "SHVC-ESP32:DCDC_SIP3_7805")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "SHVC-ESP32")
+				(part "M78AR05-0.5")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "SHVC-SOUND-ESP32")
+			)
+			(property
+				(name "Sheetfile")
+				(value "SHVC-SOUND-ESP32.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "ac895def-d1a0-4d55-9622-350d75888347")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+	)
+	(groups)
+	(variants)
+	(libparts
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "74HCT541")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "74HCT541")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "~{OE1}")
+					(type "input")
+				)
+				(pin
+					(num "2")
+					(name "A1")
+					(type "input")
+				)
+				(pin
+					(num "3")
+					(name "A2")
+					(type "input")
+				)
+				(pin
+					(num "4")
+					(name "A3")
+					(type "input")
+				)
+				(pin
+					(num "5")
+					(name "A4")
+					(type "input")
+				)
+				(pin
+					(num "6")
+					(name "A5")
+					(type "input")
+				)
+				(pin
+					(num "7")
+					(name "A6")
+					(type "input")
+				)
+				(pin
+					(num "8")
+					(name "A7")
+					(type "input")
+				)
+				(pin
+					(num "9")
+					(name "A8")
+					(type "input")
+				)
+				(pin
+					(num "10")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "11")
+					(name "Y8")
+					(type "tri_state")
+				)
+				(pin
+					(num "12")
+					(name "Y7")
+					(type "tri_state")
+				)
+				(pin
+					(num "13")
+					(name "Y6")
+					(type "tri_state")
+				)
+				(pin
+					(num "14")
+					(name "Y5")
+					(type "tri_state")
+				)
+				(pin
+					(num "15")
+					(name "Y4")
+					(type "tri_state")
+				)
+				(pin
+					(num "16")
+					(name "Y3")
+					(type "tri_state")
+				)
+				(pin
+					(num "17")
+					(name "Y2")
+					(type "tri_state")
+				)
+				(pin
+					(num "18")
+					(name "Y1")
+					(type "tri_state")
+				)
+				(pin
+					(num "19")
+					(name "~{OE2}")
+					(type "input")
+				)
+				(pin
+					(num "20")
+					(name "VCC")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "74LVC245")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "74LVC245")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "DIR")
+					(type "input")
+				)
+				(pin
+					(num "2")
+					(name "A1")
+					(type "bidirectional")
+				)
+				(pin
+					(num "3")
+					(name "A2")
+					(type "bidirectional")
+				)
+				(pin
+					(num "4")
+					(name "A3")
+					(type "bidirectional")
+				)
+				(pin
+					(num "5")
+					(name "A4")
+					(type "bidirectional")
+				)
+				(pin
+					(num "6")
+					(name "A5")
+					(type "bidirectional")
+				)
+				(pin
+					(num "7")
+					(name "A6")
+					(type "bidirectional")
+				)
+				(pin
+					(num "8")
+					(name "A7")
+					(type "bidirectional")
+				)
+				(pin
+					(num "9")
+					(name "A8")
+					(type "bidirectional")
+				)
+				(pin
+					(num "10")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "11")
+					(name "B8")
+					(type "bidirectional")
+				)
+				(pin
+					(num "12")
+					(name "B7")
+					(type "bidirectional")
+				)
+				(pin
+					(num "13")
+					(name "B6")
+					(type "bidirectional")
+				)
+				(pin
+					(num "14")
+					(name "B5")
+					(type "bidirectional")
+				)
+				(pin
+					(num "15")
+					(name "B4")
+					(type "bidirectional")
+				)
+				(pin
+					(num "16")
+					(name "B3")
+					(type "bidirectional")
+				)
+				(pin
+					(num "17")
+					(name "B2")
+					(type "bidirectional")
+				)
+				(pin
+					(num "18")
+					(name "B1")
+					(type "bidirectional")
+				)
+				(pin
+					(num "19")
+					(name "~{OE}")
+					(type "input")
+				)
+				(pin
+					(num "20")
+					(name "VCC")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "C")
+			(fields
+				(field
+					(name "Reference") "C")
+				(field
+					(name "Value") "C")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "D_Schottky")
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "D_Schottky")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "power_out")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "ESP32_DevKit_30")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "ESP32_DevKit_30")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "EN")
+					(type "input")
+				)
+				(pin
+					(num "2")
+					(name "IO36")
+					(type "input")
+				)
+				(pin
+					(num "3")
+					(name "IO39")
+					(type "input")
+				)
+				(pin
+					(num "4")
+					(name "IO34")
+					(type "input")
+				)
+				(pin
+					(num "5")
+					(name "IO35")
+					(type "input")
+				)
+				(pin
+					(num "6")
+					(name "IO32")
+					(type "bidirectional")
+				)
+				(pin
+					(num "7")
+					(name "IO33")
+					(type "bidirectional")
+				)
+				(pin
+					(num "8")
+					(name "IO25")
+					(type "bidirectional")
+				)
+				(pin
+					(num "9")
+					(name "IO26")
+					(type "bidirectional")
+				)
+				(pin
+					(num "10")
+					(name "IO27")
+					(type "bidirectional")
+				)
+				(pin
+					(num "11")
+					(name "IO14")
+					(type "bidirectional")
+				)
+				(pin
+					(num "12")
+					(name "IO12")
+					(type "bidirectional")
+				)
+				(pin
+					(num "13")
+					(name "IO13")
+					(type "bidirectional")
+				)
+				(pin
+					(num "14")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "15")
+					(name "VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "16")
+					(name "IO23")
+					(type "bidirectional")
+				)
+				(pin
+					(num "17")
+					(name "IO22")
+					(type "bidirectional")
+				)
+				(pin
+					(num "18")
+					(name "TX0/IO1")
+					(type "bidirectional")
+				)
+				(pin
+					(num "19")
+					(name "RX0/IO3")
+					(type "bidirectional")
+				)
+				(pin
+					(num "20")
+					(name "IO21")
+					(type "bidirectional")
+				)
+				(pin
+					(num "21")
+					(name "IO19")
+					(type "bidirectional")
+				)
+				(pin
+					(num "22")
+					(name "IO18")
+					(type "bidirectional")
+				)
+				(pin
+					(num "23")
+					(name "IO5")
+					(type "bidirectional")
+				)
+				(pin
+					(num "24")
+					(name "TX2/IO17")
+					(type "bidirectional")
+				)
+				(pin
+					(num "25")
+					(name "RX2/IO16")
+					(type "bidirectional")
+				)
+				(pin
+					(num "26")
+					(name "IO4")
+					(type "bidirectional")
+				)
+				(pin
+					(num "27")
+					(name "IO2")
+					(type "bidirectional")
+				)
+				(pin
+					(num "28")
+					(name "IO15")
+					(type "bidirectional")
+				)
+				(pin
+					(num "29")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "30")
+					(name "3V3")
+					(type "power_out")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "M78AR05-0.5")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "M78AR05-0.5")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "+VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "VOUT")
+					(type "power_out")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "PJ-324M")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "PJ-324M")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "SLEEVE")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "RING")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "RING_SW")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "TIP")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "TIP_SW")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "PowerIn_2")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "PowerIn_2")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "V+")
+					(type "power_out")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_out")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "R")
+			(fields
+				(field
+					(name "Reference") "R")
+				(field
+					(name "Value") "R")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "SHVC-SOUND")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "SHVC-SOUND")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "VCC")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "A0")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "A1")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "~{WR}")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "~{RD}")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "D0")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "D1")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "D2")
+					(type "passive")
+				)
+				(pin
+					(num "10")
+					(name "D3")
+					(type "passive")
+				)
+				(pin
+					(num "11")
+					(name "D4")
+					(type "passive")
+				)
+				(pin
+					(num "12")
+					(name "D5")
+					(type "passive")
+				)
+				(pin
+					(num "13")
+					(name "D6")
+					(type "passive")
+				)
+				(pin
+					(num "14")
+					(name "D7")
+					(type "passive")
+				)
+				(pin
+					(num "15")
+					(name "~{RESET}")
+					(type "passive")
+				)
+				(pin
+					(num "16")
+					(name "NC")
+					(type "passive")
+				)
+				(pin
+					(num "17")
+					(name "NC")
+					(type "passive")
+				)
+				(pin
+					(num "18")
+					(name "VCC")
+					(type "passive")
+				)
+				(pin
+					(num "19")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "20")
+					(name "~{MUTE}")
+					(type "passive")
+				)
+				(pin
+					(num "21")
+					(name "AUDIO_L")
+					(type "passive")
+				)
+				(pin
+					(num "22")
+					(name "AUDIO_R")
+					(type "passive")
+				)
+				(pin
+					(num "23")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "24")
+					(name "VCC")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "SHVC-ESP32")
+			(part "TDA7053A")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "TDA7053A")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "P1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "VC_A")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "P3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "IN_A")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "VP")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "IN_B")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "8")
+					(name "VC_B")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "OUT_A")
+					(type "passive")
+				)
+				(pin
+					(num "10")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "11")
+					(name "P11")
+					(type "passive")
+				)
+				(pin
+					(num "12")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "13")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "14")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "15")
+					(name "P15")
+					(type "passive")
+				)
+				(pin
+					(num "16")
+					(name "OUT_B")
+					(type "passive")
+				)
+			)
+		)
+	)
+	(libraries
+		(library
+			(logical "SHVC-ESP32")
+			(uri "${KIPRJMOD}/SHVC-ESP32.kicad_sym")
+		)
+	)
+	(nets
+		(net
+			(code "1")
+			(name "/+3V3")
+			(class "Default")
+			(node
+				(ref "C10")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R7")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R8")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R9")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "30")
+				(pinfunction "3V3_30")
+				(pintype "power_out")
+			)
+			(node
+				(ref "U4")
+				(pin "20")
+				(pinfunction "VCC_20")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "2")
+			(name "/+5V")
+			(class "Default")
+			(node
+				(ref "C11")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C12")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C8")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C9")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "D1")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "power_out")
+			)
+			(node
+				(ref "J4")
+				(pin "18")
+				(pinfunction "VCC_18")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "2")
+				(pinfunction "VCC_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "20")
+				(pinfunction "~{MUTE}_20")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "24")
+				(pinfunction "VCC_24")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "15")
+				(pinfunction "VIN_15")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "20")
+				(pinfunction "VCC_20")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "20")
+				(pinfunction "VCC_20")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "3")
+			(name "/+12V")
+			(class "Default")
+			(node
+				(ref "C13")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J3")
+				(pin "1")
+				(pinfunction "V+_1")
+				(pintype "power_out")
+			)
+			(node
+				(ref "R10")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U7")
+				(pin "1")
+				(pinfunction "+VIN_1")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "4")
+			(name "/A0_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "9")
+				(pinfunction "IO26_9")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U3")
+				(pin "2")
+				(pinfunction "A1_2")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "5")
+			(name "/A1_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "10")
+				(pinfunction "IO27_10")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U3")
+				(pin "3")
+				(pinfunction "A2_3")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "6")
+			(name "/AMP_IN_L")
+			(class "Default")
+			(node
+				(ref "C6")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U6")
+				(pin "4")
+				(pinfunction "IN_A_4")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "7")
+			(name "/AMP_IN_R")
+			(class "Default")
+			(node
+				(ref "C7")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U6")
+				(pin "6")
+				(pinfunction "IN_B_6")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "8")
+			(name "/AMP_OUT_L")
+			(class "Default")
+			(node
+				(ref "R1")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U6")
+				(pin "9")
+				(pinfunction "OUT_A_9")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "9")
+			(name "/AMP_OUT_R")
+			(class "Default")
+			(node
+				(ref "R2")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U6")
+				(pin "16")
+				(pinfunction "OUT_B_16")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "10")
+			(name "/AMP_VC")
+			(class "Default")
+			(node
+				(ref "C5")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R5")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R6")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U6")
+				(pin "2")
+				(pinfunction "VC_A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U6")
+				(pin "8")
+				(pinfunction "VC_B_8")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "11")
+			(name "/AMP_VP")
+			(class "Default")
+			(node
+				(ref "C3")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C4")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R10")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U6")
+				(pin "5")
+				(pinfunction "VP_5")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "12")
+			(name "/AUDIO_L")
+			(class "Default")
+			(node
+				(ref "C6")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "21")
+				(pinfunction "AUDIO_L_21")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "13")
+			(name "/AUDIO_R")
+			(class "Default")
+			(node
+				(ref "C7")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "22")
+				(pinfunction "AUDIO_R_22")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "14")
+			(name "/D0_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "13")
+				(pinfunction "IO13_13")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U2")
+				(pin "2")
+				(pinfunction "A1_2")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "2")
+				(pinfunction "A1_2")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "15")
+			(name "/D1_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "11")
+				(pinfunction "IO14_11")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U2")
+				(pin "3")
+				(pinfunction "A2_3")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "3")
+				(pinfunction "A2_3")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "16")
+			(name "/D2_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "25")
+				(pinfunction "RX2/IO16_25")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U2")
+				(pin "4")
+				(pinfunction "A3_4")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "4")
+				(pinfunction "A3_4")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "17")
+			(name "/D3_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "24")
+				(pinfunction "TX2/IO17_24")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U2")
+				(pin "5")
+				(pinfunction "A4_5")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "5")
+				(pinfunction "A4_5")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "18")
+			(name "/D4_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "22")
+				(pinfunction "IO18_22")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U2")
+				(pin "6")
+				(pinfunction "A5_6")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "6")
+				(pinfunction "A5_6")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "19")
+			(name "/D5_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "21")
+				(pinfunction "IO19_21")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U2")
+				(pin "7")
+				(pinfunction "A6_7")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "7")
+				(pinfunction "A6_7")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "20")
+			(name "/D6_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "20")
+				(pinfunction "IO21_20")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U2")
+				(pin "8")
+				(pinfunction "A7_8")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "8")
+				(pinfunction "A7_8")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "21")
+			(name "/D7_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "17")
+				(pinfunction "IO22_17")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U2")
+				(pin "9")
+				(pinfunction "A8_9")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "9")
+				(pinfunction "A8_9")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "22")
+			(name "/GND")
+			(class "Default")
+			(node
+				(ref "C10")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C11")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C12")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C13")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C3")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C4")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C5")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C8")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C9")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "1")
+				(pinfunction "SLEEVE_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J3")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_out")
+			)
+			(node
+				(ref "J4")
+				(pin "1")
+				(pinfunction "GND_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "19")
+				(pinfunction "GND_19")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "23")
+				(pinfunction "GND_23")
+				(pintype "passive")
+			)
+			(node
+				(ref "R5")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "14")
+				(pinfunction "GND_14")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "29")
+				(pinfunction "GND_29")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "10")
+				(pinfunction "GND_10")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "19")
+				(pinfunction "~{OE2}_19")
+				(pintype "input")
+			)
+			(node
+				(ref "U3")
+				(pin "1")
+				(pinfunction "~{OE1}_1")
+				(pintype "input")
+			)
+			(node
+				(ref "U3")
+				(pin "10")
+				(pinfunction "GND_10")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "19")
+				(pinfunction "~{OE2}_19")
+				(pintype "input")
+			)
+			(node
+				(ref "U3")
+				(pin "7")
+				(pinfunction "A6_7")
+				(pintype "input")
+			)
+			(node
+				(ref "U3")
+				(pin "8")
+				(pinfunction "A7_8")
+				(pintype "input")
+			)
+			(node
+				(ref "U3")
+				(pin "9")
+				(pinfunction "A8_9")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "1")
+				(pinfunction "DIR_1")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "10")
+				(pinfunction "GND_10")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U6")
+				(pin "10")
+				(pinfunction "GND_10")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U6")
+				(pin "12")
+				(pinfunction "GND_12")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U6")
+				(pin "13")
+				(pinfunction "GND_13")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U6")
+				(pin "14")
+				(pinfunction "GND_14")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U6")
+				(pin "7")
+				(pinfunction "GND_7")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U7")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "23")
+			(name "/JACK_L")
+			(class "Default")
+			(node
+				(ref "C1")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "4")
+				(pinfunction "TIP_4")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "24")
+			(name "/JACK_R")
+			(class "Default")
+			(node
+				(ref "C2")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "2")
+				(pinfunction "RING_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "25")
+			(name "/OE_R")
+			(class "Default")
+			(node
+				(ref "R8")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "23")
+				(pinfunction "IO5_23")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U4")
+				(pin "19")
+				(pinfunction "~{OE}_19")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "26")
+			(name "/OE_W")
+			(class "Default")
+			(node
+				(ref "R7")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "26")
+				(pinfunction "IO4_26")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U2")
+				(pin "1")
+				(pinfunction "~{OE1}_1")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "27")
+			(name "/OUT_L_RC")
+			(class "Default")
+			(node
+				(ref "C1")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R1")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "28")
+			(name "/OUT_R_RC")
+			(class "Default")
+			(node
+				(ref "C2")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R2")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "29")
+			(name "/RD_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "8")
+				(pinfunction "IO25_8")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U3")
+				(pin "5")
+				(pinfunction "A4_5")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "30")
+			(name "/REG_5V")
+			(class "Default")
+			(node
+				(ref "D1")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U7")
+				(pin "3")
+				(pinfunction "VOUT_3")
+				(pintype "power_out")
+			)
+		)
+		(net
+			(code "31")
+			(name "/RESET_3V3")
+			(class "Default")
+			(node
+				(ref "R9")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "6")
+				(pinfunction "IO32_6")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U3")
+				(pin "6")
+				(pinfunction "A5_6")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "32")
+			(name "/SHVC_A0")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "3")
+				(pinfunction "A0_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "18")
+				(pinfunction "Y1_18")
+				(pintype "tri_state")
+			)
+		)
+		(net
+			(code "33")
+			(name "/SHVC_A1")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "4")
+				(pinfunction "A1_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "17")
+				(pinfunction "Y2_17")
+				(pintype "tri_state")
+			)
+		)
+		(net
+			(code "34")
+			(name "/SHVC_D0")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "7")
+				(pinfunction "D0_7")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "18")
+				(pinfunction "Y1_18")
+				(pintype "tri_state")
+			)
+			(node
+				(ref "U4")
+				(pin "18")
+				(pinfunction "B1_18")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "35")
+			(name "/SHVC_D1")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "8")
+				(pinfunction "D1_8")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "17")
+				(pinfunction "Y2_17")
+				(pintype "tri_state")
+			)
+			(node
+				(ref "U4")
+				(pin "17")
+				(pinfunction "B2_17")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "36")
+			(name "/SHVC_D2")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "9")
+				(pinfunction "D2_9")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "16")
+				(pinfunction "Y3_16")
+				(pintype "tri_state")
+			)
+			(node
+				(ref "U4")
+				(pin "16")
+				(pinfunction "B3_16")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "37")
+			(name "/SHVC_D3")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "10")
+				(pinfunction "D3_10")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "15")
+				(pinfunction "Y4_15")
+				(pintype "tri_state")
+			)
+			(node
+				(ref "U4")
+				(pin "15")
+				(pinfunction "B4_15")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "38")
+			(name "/SHVC_D4")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "11")
+				(pinfunction "D4_11")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "14")
+				(pinfunction "Y5_14")
+				(pintype "tri_state")
+			)
+			(node
+				(ref "U4")
+				(pin "14")
+				(pinfunction "B5_14")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "39")
+			(name "/SHVC_D5")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "12")
+				(pinfunction "D5_12")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "13")
+				(pinfunction "Y6_13")
+				(pintype "tri_state")
+			)
+			(node
+				(ref "U4")
+				(pin "13")
+				(pinfunction "B6_13")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "40")
+			(name "/SHVC_D6")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "13")
+				(pinfunction "D6_13")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "12")
+				(pinfunction "Y7_12")
+				(pintype "tri_state")
+			)
+			(node
+				(ref "U4")
+				(pin "12")
+				(pinfunction "B7_12")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "41")
+			(name "/SHVC_D7")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "14")
+				(pinfunction "D7_14")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "11")
+				(pinfunction "Y8_11")
+				(pintype "tri_state")
+			)
+			(node
+				(ref "U4")
+				(pin "11")
+				(pinfunction "B8_11")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "42")
+			(name "/SHVC_RD")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "6")
+				(pinfunction "~{RD}_6")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "15")
+				(pinfunction "Y4_15")
+				(pintype "tri_state")
+			)
+		)
+		(net
+			(code "43")
+			(name "/SHVC_RESET")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "15")
+				(pinfunction "~{RESET}_15")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "14")
+				(pinfunction "Y5_14")
+				(pintype "tri_state")
+			)
+		)
+		(net
+			(code "44")
+			(name "/SHVC_WR")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "5")
+				(pinfunction "~{WR}_5")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "16")
+				(pinfunction "Y3_16")
+				(pintype "tri_state")
+			)
+		)
+		(net
+			(code "45")
+			(name "/VOL_PWM")
+			(class "Default")
+			(node
+				(ref "R6")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "7")
+				(pinfunction "IO33_7")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "46")
+			(name "/WR_3V3")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "16")
+				(pinfunction "IO23_16")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U3")
+				(pin "4")
+				(pinfunction "A3_4")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "47")
+			(name "unconnected-(J1-RING_SW-Pad3)")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "3")
+				(pinfunction "RING_SW_3")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "48")
+			(name "unconnected-(J1-TIP_SW-Pad5)")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "5")
+				(pinfunction "TIP_SW_5")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "49")
+			(name "unconnected-(J4-NC-Pad16)")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "16")
+				(pinfunction "NC_16")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "50")
+			(name "unconnected-(J4-NC-Pad17)")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "17")
+				(pinfunction "NC_17")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "51")
+			(name "unconnected-(U1-EN-Pad1)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "1")
+				(pinfunction "EN_1")
+				(pintype "input+no_connect")
+			)
+		)
+		(net
+			(code "52")
+			(name "unconnected-(U1-IO2-Pad27)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "27")
+				(pinfunction "IO2_27")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "53")
+			(name "unconnected-(U1-IO12-Pad12)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "12")
+				(pinfunction "IO12_12")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "54")
+			(name "unconnected-(U1-IO15-Pad28)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "28")
+				(pinfunction "IO15_28")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "55")
+			(name "unconnected-(U1-IO34-Pad4)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "4")
+				(pinfunction "IO34_4")
+				(pintype "input+no_connect")
+			)
+		)
+		(net
+			(code "56")
+			(name "unconnected-(U1-IO35-Pad5)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "5")
+				(pinfunction "IO35_5")
+				(pintype "input+no_connect")
+			)
+		)
+		(net
+			(code "57")
+			(name "unconnected-(U1-IO36-Pad2)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "2")
+				(pinfunction "IO36_2")
+				(pintype "input+no_connect")
+			)
+		)
+		(net
+			(code "58")
+			(name "unconnected-(U1-IO39-Pad3)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "3")
+				(pinfunction "IO39_3")
+				(pintype "input+no_connect")
+			)
+		)
+		(net
+			(code "59")
+			(name "unconnected-(U1-RX0{slash}IO3-Pad19)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "19")
+				(pinfunction "RX0/IO3_19")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "60")
+			(name "unconnected-(U1-TX0{slash}IO1-Pad18)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "18")
+				(pinfunction "TX0/IO1_18")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "61")
+			(name "unconnected-(U3-Y6-Pad13)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "13")
+				(pinfunction "Y6_13")
+				(pintype "tri_state+no_connect")
+			)
+		)
+		(net
+			(code "62")
+			(name "unconnected-(U3-Y7-Pad12)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "12")
+				(pinfunction "Y7_12")
+				(pintype "tri_state+no_connect")
+			)
+		)
+		(net
+			(code "63")
+			(name "unconnected-(U3-Y8-Pad11)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "11")
+				(pinfunction "Y8_11")
+				(pintype "tri_state+no_connect")
+			)
+		)
+		(net
+			(code "64")
+			(name "unconnected-(U6-P1-Pad1)")
+			(class "Default")
+			(node
+				(ref "U6")
+				(pin "1")
+				(pinfunction "P1_1")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "65")
+			(name "unconnected-(U6-P3-Pad3)")
+			(class "Default")
+			(node
+				(ref "U6")
+				(pin "3")
+				(pinfunction "P3_3")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "66")
+			(name "unconnected-(U6-P11-Pad11)")
+			(class "Default")
+			(node
+				(ref "U6")
+				(pin "11")
+				(pinfunction "P11_11")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "67")
+			(name "unconnected-(U6-P15-Pad15)")
+			(class "Default")
+			(node
+				(ref "U6")
+				(pin "15")
+				(pinfunction "P15_15")
+				(pintype "passive+no_connect")
+			)
+		)
+	)
+)

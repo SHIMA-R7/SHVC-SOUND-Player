@@ -48,6 +48,22 @@ VOICEVOXエンジンはリポジトリに含めない。`tools/voicevox_engine/`
 楽器演奏の録音ならそこそこ使えるが、歌入りのポップスや合唱は崩れやすい。
 必要なもの: basic-pitch(ONNX), librosa, pretty_midi, demucs + torch(CPU), soundfile。
 
+## ESP32版(BLE MIDIで演奏)
+
+ファームは `../esp32_ble_midi/`(ESP32 DevKit V1 + SHVC-SOUND-ESP32 r0.4 基板)。
+
+| ツール | 内容 |
+|---|---|
+| `export_esp32_bank.py` | midi2spc の音色(BRR・ADSR・GM割り当て)と常駐ドライバを `esp32_ble_midi/bank_data.h` に書き出す。音色を変えたら実行してからファームをビルド |
+| `serial_midi.py` | USBシリアルでESP32に生のMIDIを流す。`demo`(音階・和音・ベンド・ドラム)/ `file 曲.mid` / `log`(表示を見るだけ)。SHVC-SOUNDが無いときのドライラン表示もここで見える |
+
+ビルドと書き込み:
+
+```
+arduino-cli compile --fqbn esp32:esp32:esp32doit-devkit-v1 esp32_ble_midi
+arduino-cli upload  --fqbn esp32:esp32:esp32doit-devkit-v1 -p COM5 esp32_ble_midi
+```
+
 ## 診断
 
 | ツール | 内容 |

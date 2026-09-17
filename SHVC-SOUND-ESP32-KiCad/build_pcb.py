@@ -59,14 +59,24 @@ PLACEMENT = [
     ("C1", "B", 0, "1", 49.75, 60.50),
     ("C2", "B", 0, "1", 56.75, 60.50),
     ("J1", "B", 0, None, 66.70, 59.10),        # 差し込み口が右辺から外に向く,
+    # ライン出力(端子台 J5)。左下の空き。電線の差し込み口は下辺側
+    ("J5", "B", 0, "1", 25.00, 62.00),         # 1=L(右端) 2=GND 3=R
+    ("R13", "B", 0, "1", 25.93, 43.00),         # 47k(L) 立て付け
+    ("R14", "B", 0, "1", 25.93, 46.20),         # 47k(R)
+    ("R11", "B", 0, "1", 33.26, 43.00),         # 100Ω(L)
+    ("R12", "B", 0, "1", 33.26, 46.20),         # 100Ω(R)
+    ("C14", "B", 0, "1", 33.20, 50.90),         # 10µF 無極性(L)
+    ("C15", "B", 0, "1", 33.20, 55.60),         # 10µF 無極性(R)
+    ("R15", "B", 0, "1", 25.93, 22.00),         # MUTE 引き下げ 10k(ESP32の下、U3の横)
     ("J3", "B", 0, None, 24.00, 53.00),        # 12V入力(PDモジュール)。実物合わせで上へ8mm
 ]
 # モジュール側の穴(TCMK-77XR の Edge.Cuts の円)を裏返した位置 (x, y, 直径)
 HOLES = [(5.36, 62.06, 3.96), (10.84, 62.06, 2.98)]
 
-# +12V はアンプの消費(数十mA)だけなので細線でよい(遠い左下のJ3から引き回すため)
-POWER_NETS = ["GND", "+5V", "+3V3", "AMP_VP", "AMP_OUT_L", "AMP_OUT_R", "OUT_L_RC", "OUT_R_RC",
-              "JACK_L", "JACK_R"]
+# 電源は太く(抵抗とインダクタンスを下げ、電源・GNDの揺れを減らす)。音声は少し太めで十分
+# 電源・GNDは太く(抵抗とインダクタンスを下げて電源・GNDの揺れを減らす)。0.8mm と 0.6mm の2段
+POWER_NETS = ["+5V", "REG_5V"]
+POWER6_NETS = ["GND", "+12V", "+3V3", "AMP_VP", "AMP_OUT_L", "AMP_OUT_R", "OUT_L_RC", "OUT_R_RC", "JACK_L", "JACK_R"]
 
 
 def write_project():
@@ -81,7 +91,7 @@ def write_project():
         "classes": [dict(base, name="Default"),
                     dict(base, name="Power", track_width=0.6, via_diameter=0.9, via_drill=0.45, priority=0)],
         "meta": {"version": 4},
-        "netclass_patterns": [{"netclass": "Power", "pattern": n} for n in POWER_NETS],
+        "netclass_patterns": [{"netclass": "Power", "pattern": n} for n in POWER_NETS + POWER6_NETS],
     }
     json.dump(pro, open(path, "w", encoding="utf-8"), indent=2)
 
@@ -231,7 +241,7 @@ def place():
         f = fp.Reference()
         f.SetTextSize(pcbnew.VECTOR2I(MM(0.8), MM(0.8)))
         f.SetTextThickness(MM(0.12))
-    for text, x, y, layer, size in (("SHVC-SOUND ESP32 r0.3", 37.0, 65.0, pcbnew.B_SilkS, 0.9),):
+    for text, x, y, layer, size in (("SHVC-SOUND ESP32 r0.4", 45.0, 65.0, pcbnew.B_SilkS, 0.9),):
         t = pcbnew.PCB_TEXT(board)
         t.SetText(text)
         t.SetPosition(pcbnew.VECTOR2I(MM(OX + x), MM(OY + y)))
@@ -240,6 +250,8 @@ def place():
         t.SetTextThickness(MM(0.15))
         t.SetMirrored(True)
         board.Add(t)
+
+    add_front_art(board)
 
     ds = board.GetDesignSettings()
     ds.m_TrackMinWidth = MM(0.2)
@@ -253,6 +265,82 @@ def place():
         for n in ("1", "15", "16", "30") if ref == "U1" else ("1", "2", "23", "24"):
             p = pad_pos(fp, n)
             print(f"  {ref}.{n} ({pcbnew.ToMM(p.x) - OX:.2f}, {pcbnew.ToMM(p.y) - OY:.2f}) {padnets.get((ref, n), '')}")
+
+
+
+# ---- 表面(モジュール面)のシルク: ロゴ・Made by・スペック表 --------------------------------
+LOGO_GRID = os.path.join(HERE, "art", "logo_grid.txt")   # art/make_logo_grid.ps1 で logo.png から作る
+LOGO_POS = (2.0, 10.0)                                       # ロゴ左上(表から見た基板座標 mm)
+SPEC_LINES = [                                               # 右上の空き(パッドの無い所)に入れる
+    ((58.0, 12.3), ["ESP32 DevKit V1", "74HCT541 x2", "74LVC245", "TDA7053A AMP"]),
+    ((58.0, 21.0), ["USB-PD 12V IN", "PHONE+LINE OUT", "rev0.4 2026"]),
+]
+MADE_BY = ("Made by SHIMA", (23.75, 62.1), 1.8)
+
+
+def logo_rects():
+    """グリッドの黒マスを、横の連続→縦に同じ幅が続く所をまとめた長方形にする。"""
+    raw = [l.strip() for l in open(LOGO_GRID, encoding="utf-8") if not l.startswith("#")]
+    cell = 0.1
+    # 3x3の多数決で、縮小時のにじみ(0.1mm幅の点や筋)を消す。シルクの最小線幅は0.15mm
+    h, w = len(raw), len(raw[0])
+    lines = []
+    for y in range(h):
+        row = []
+        for x in range(w):
+            n = sum(raw[yy][xx] == "1" for yy in range(max(0, y - 1), min(h, y + 2))
+                    for xx in range(max(0, x - 1), min(w, x + 2)))
+            row.append("1" if n >= 5 else "0")
+        lines.append("".join(row))
+    open_runs = {}     # (x0, x1) -> 開始行
+    rects = []
+    for y, row in enumerate(lines + ["0" * len(lines[0])]):
+        runs = set()
+        x = 0
+        while x < len(row):
+            if row[x] == "1":
+                x0 = x
+                while x < len(row) and row[x] == "1":
+                    x += 1
+                runs.add((x0, x))
+            else:
+                x += 1
+        for r in list(open_runs):
+            if r not in runs:
+                rects.append((r[0] * cell, open_runs.pop(r) * cell, r[1] * cell, y * cell))
+        for r in runs:
+            open_runs.setdefault(r, y)
+    return rects
+
+
+def add_front_art(board):
+    lx, ly = LOGO_POS
+    for x0, y0, x1, y1 in logo_rects():
+        r = pcbnew.PCB_SHAPE(board)
+        r.SetShape(pcbnew.SHAPE_T_RECTANGLE)
+        r.SetStart(pcbnew.VECTOR2I(MM(OX + lx + x0), MM(OY + ly + y0)))
+        r.SetEnd(pcbnew.VECTOR2I(MM(OX + lx + x1), MM(OY + ly + y1)))
+        r.SetLayer(pcbnew.F_SilkS)
+        r.SetWidth(0)
+        r.SetFilled(True)
+        board.Add(r)
+
+    def text(s, x, y, size, thick, just_left=False):
+        t = pcbnew.PCB_TEXT(board)
+        t.SetText(s)
+        t.SetPosition(pcbnew.VECTOR2I(MM(OX + x), MM(OY + y)))
+        t.SetLayer(pcbnew.F_SilkS)
+        t.SetTextSize(pcbnew.VECTOR2I(MM(size), MM(size)))
+        t.SetTextThickness(MM(thick))
+        if just_left:
+            t.SetHorizJustify(pcbnew.GR_TEXT_H_ALIGN_LEFT)
+        board.Add(t)
+
+    for (x, y), rows in SPEC_LINES:
+        for i, s in enumerate(rows):
+            text(s, x, y + i * 1.4, 1.0, 0.15, just_left=True)
+    s, (x, y), size = MADE_BY
+    text(s, x, y, size, 0.3)
 
 
 def add_zone(board, layer, net):
@@ -275,6 +363,40 @@ def add_zone(board, layer, net):
     return z
 
 
+
+def add_stitching_vias(board, zones, pitch=2.0, via_d=0.6, drill=0.3):
+    """表裏どちらのGNDベタにも十分入っている所に、格子状にGNDビアを打つ。
+    ベタが配線で分断されて島になるのを防ぎ、表裏のGNDを低インピーダンスでつなぐ。"""
+    gnd = board.FindNet("GND")
+    polys = [z.GetFilledPolysList(z.GetFirstLayer()) for z in zones]
+    margin = via_d / 2 + 0.3
+    keep = [(x, y, d / 2 + 1.2) for x, y, d in HOLES]
+    count = 0
+    y = 1.5
+    while y < H - 1.0:
+        x = 1.5
+        while x < W - 1.0:
+            if all((x - hx) ** 2 + (y - hy) ** 2 > r * r for hx, hy, r in keep):
+                ok = True
+                for k in range(8):
+                    a = math.pi * k / 4
+                    p = pcbnew.VECTOR2I(MM(OX + x + margin * math.cos(a)), MM(OY + y + margin * math.sin(a)))
+                    if not all(poly.Contains(p) for poly in polys):
+                        ok = False
+                        break
+                if ok and all(poly.Contains(pcbnew.VECTOR2I(MM(OX + x), MM(OY + y))) for poly in polys):
+                    v = pcbnew.PCB_VIA(board)
+                    v.SetPosition(pcbnew.VECTOR2I(MM(OX + x), MM(OY + y)))
+                    v.SetWidth(MM(via_d))
+                    v.SetDrill(MM(drill))
+                    v.SetNet(gnd)
+                    board.Add(v)
+                    count += 1
+            x += pitch
+        y += pitch
+    return count
+
+
 def import_ses():
     board = pcbnew.LoadBoard(PCB)
     ses = os.path.join(HERE, NAME + ".ses")
@@ -287,6 +409,9 @@ def import_ses():
             board.Remove(z)
     zones = [add_zone(board, pcbnew.F_Cu, "GND"), add_zone(board, pcbnew.B_Cu, "GND")]
     pcbnew.ZONE_FILLER(board).Fill(board.Zones())
+    n = add_stitching_vias(board, zones)
+    pcbnew.ZONE_FILLER(board).Fill(board.Zones())
+    print(f"GNDスティッチングビア {n} 個")
     pcbnew.SaveBoard(PCB, board)
     print("配線を取り込み、GNDベタを貼って保存:", len(board.GetTracks()), "本")
 

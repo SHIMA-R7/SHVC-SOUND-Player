@@ -1,0 +1,38 @@
+[
+  {
+    "trial": 1,
+    "completed_bytes": 66278,
+    "write_us": 15,
+    "current_address": 64648,
+    "success": true,
+    "final_ipl": [
+      170,
+      187
+    ],
+    "elapsed_seconds": 49.7
+  },
+  {
+    "trial": 2,
+    "completed_bytes": 66278,
+    "write_us": 15,
+    "current_address": 64648,
+    "success": true,
+    "final_ipl": [
+      170,
+      187
+    ],
+    "elapsed_seconds": 49.66
+  },
+  {
+    "trial": 3,
+    "completed_bytes": 66278,
+    "write_us": 15,
+    "current_address": 64648,
+    "success": true,
+    "final_ipl": [
+      170,
+      187
+    ],
+    "elapsed_seconds": 49.7
+  }
+]

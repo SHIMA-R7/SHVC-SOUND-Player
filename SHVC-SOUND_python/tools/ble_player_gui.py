@@ -122,8 +122,10 @@ class App:
         path=self.path.get(); volume=self.spc_volume.get()
         if not path: self.select(); return
         async def task():
+            self.events.put(('status','曲データを準備中'))
             data=await asyncio.to_thread(prepare_song,Path(path),volume)
             await self.player.upload(data,lambda d,t:self.events.put(('progress',d*100/t)))
+            self.events.put(('status','保存完了。SHVC-SOUNDへ転送中（SPCは約50秒）'))
             return await self.player.command(2)
         self.submit(task())
 
@@ -162,6 +164,7 @@ class App:
             except queue.Empty: break
             if kind=='connected': self.connected=value
             elif kind=='progress': self.progress['value']=value
+            elif kind=='status': self.status.set(value)
             else:
                 self.busy=False
                 if isinstance(value,dict):

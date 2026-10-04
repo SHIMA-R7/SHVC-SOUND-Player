@@ -10,6 +10,8 @@ PCからSPCファイルを再生するESP32用ファームは
 WAV一括再生は`SHVC-SOUND_python/tools/wav_clip_esp32.py`を使用する。
 [実機確認結果・WAVの使い方・アンプのバイパス](docs/esp32-playback-results.md)も参照。
 PCを使わず電源投入から再生する場合は、[単体再生ファーム](docs/esp32-standalone.md)を使用する。
+Bluetoothで曲を保存・再生し、MIDI演奏や音量・パン・音色を操作する場合は、
+[Bluetooth PlayerとWindows操作画面](docs/esp32-bluetooth.md)を使用する。
 既存の`esp32_ble_midi/`はBLE／USB MIDI演奏用の別ファーム。
 以下のArduino配線と自己診断スケッチはUno／Nano用。
 

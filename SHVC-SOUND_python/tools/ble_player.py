@@ -103,7 +103,7 @@ async def run(args):
         device=await player.connect(args.address)
         print('Connected:',device)
         if args.action=='upload':
-            data=prepare_song(args.file,args.volume)
+            data=prepare_song(args.file,args.volume,args.seconds,args.rate,args.brr_cache)
             last=[-1]
             def progress(done,total):
                 percent=done*100//total
@@ -141,6 +141,9 @@ def main():
     for name in ('mute','master','loop','boot'):
         q=sub.add_parser(name); q.add_argument('value',type=int,choices=range(128) if name=='master' else (0,1))
     q=sub.add_parser('upload'); q.add_argument('file',type=Path); q.add_argument('--volume',type=float,default=1); q.add_argument('--play',action='store_true')
+    q.add_argument('--seconds',type=float,default=10,help='WAV: take the first N seconds')
+    q.add_argument('--rate',type=int,default=8000,help='WAV: mono playback rate')
+    q.add_argument('--brr-cache',type=Path,help='Optional already encoded WAV at --rate')
     q=sub.add_parser('note'); q.add_argument('--note',type=int,choices=range(128),default=60)
     q=sub.add_parser('midi-input'); q.add_argument('--input',required=True,help='mido input port name (requires python-rtmidi)')
     asyncio.run(run(p.parse_args()))

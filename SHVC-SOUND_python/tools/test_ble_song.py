@@ -4,6 +4,7 @@ import struct
 import tempfile
 import unittest
 import zlib
+import wave
 import mido
 from ble_song import prepare_song, chunks, begin_payload, parse_reply, REPLY
 
@@ -45,5 +46,31 @@ class SongTests(unittest.TestCase):
         self.assertEqual(s['mode'],'MIDI live'); self.assertTrue(s['muted'] and s['loop'] and s['boot'])
         self.assertEqual(s['dropped'],5)
         with self.assertRaises(ValueError): parse_reply(b'bad')
+
+    def test_wav_bundle_layout_and_one_shot(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'clip.wav'
+            with wave.open(str(path),'wb') as w:
+                w.setnchannels(2); w.setsampwidth(2); w.setframerate(8000)
+                w.writeframes(struct.pack('<hh',1000,-1000)*32)
+            data=prepare_song(path,wav_seconds=.004)
+            magic,addr,length,signal,ports=struct.unpack('<4sHHB4s3x',data[:16])
+            self.assertEqual((magic,signal,ports),(b'HSP1',0x5A,b'\0'*4))
+            self.assertEqual(addr+length,0xFFC0)
+            self.assertEqual(len(data),16+65536+length)
+            self.assertEqual(data[16+0x300:16+0x304],struct.pack('<HH',0x400,0x400))
+            self.assertEqual(data[16+0x400]&1,0)
+            self.assertEqual(data[16+0x409]&3,1)
+            self.assertIn(bytes([0x78,0x5A,0xF4]),data[16+65536:])
+
+    def test_wav_rejects_non16bit_and_overflow(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'bad.wav'
+            with wave.open(str(path),'wb') as w:
+                w.setnchannels(1); w.setsampwidth(1); w.setframerate(8000); w.writeframes(b'\x80'*100)
+            with self.assertRaisesRegex(ValueError,'16-bit'): prepare_song(path)
+            with wave.open(str(path),'wb') as w:
+                w.setnchannels(1); w.setsampwidth(2); w.setframerate(8000); w.writeframes(b'\0\0'*120000)
+            with self.assertRaisesRegex(ValueError,'too long'): prepare_song(path,wav_seconds=15)
 
 if __name__=='__main__': unittest.main()

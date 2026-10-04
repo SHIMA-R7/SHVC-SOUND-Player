@@ -1,13 +1,13 @@
 # ESP32 Bluetooth Player
 
-WindowsからBLEでSPCの保存・再生、MIDIファイルの保存・再生、リアルタイムMIDI演奏とパラメータ操作を行う。
+WindowsからBLEでSPC・短いWAV・MIDIファイルの保存・再生、リアルタイムMIDI演奏とパラメータ操作を行う。
 SPCとMIDIシンセは同じSPC700を使うため、同時再生ではなくモードを切り替える。
 SPC再生には動作確認済みのESP32用バス制御を共用する。
 
 ## Windows操作
 
 ```powershell
-python -m pip install bleak mido pyserial
+python -m pip install bleak mido pyserial numpy
 python SHVC-SOUND_python/tools/ble_player_gui.py
 ```
 
@@ -18,7 +18,7 @@ ESP32へ下記のファームを書き込んでから、WindowsのBluetoothを�
 接続名は`SHVC-SOUND Player`。操作画面がBLEサービスから自動検出する。
 通常のBluetooth設定画面でCOMポートを作る方式ではない。
 
-「SPC / MIDIを選ぶ」→「送信して再生」で曲をESP32内へ保存して再生する。
+「SPC / MIDI / WAVを選ぶ」→「送信して再生」で曲をESP32内へ保存して再生する。
 SPCは保存完了後、SHVC-SOUNDへの64 KB転送に約50秒かかる。その間は消音し、完了後に曲が鳴る。
 最後に正常保存した曲は、給電を続ければPC切断後も動作し、電源を入れ直したときも再生する。
 「電源投入時に再生」を解除すると自動再生を停止する。
@@ -35,6 +35,13 @@ SPCは保存完了後、SHVC-SOUNDへの64 KB転送に約50秒かかる。その
 SPC音量倍率は初期DSP値だけを変更する。曲が音量レジスタを書き直すと効果が変わるため、
 汎用的なリアルタイム音量・テンポ操作ではない。倍率変更は再送信が必要。
 MIDIの設定もファイル内のCC・音色イベントで上書きされる場合がある。
+
+WAVは非圧縮16-bit PCMをモノラル8 kHzへ変換し、BRRとしてRAMへ一括転送して1回再生する。
+操作画面の既定は先頭10秒。8 kHzでは約14秒まで、32 kHzでは約3.5秒までがRAM上限。
+BRRへの変換には時間がかかる場合がある。線形補間での変換で、元WAVと同じ品質ではない。
+長い音声のストリーミングや、WAVのシーク・一時停止・自動ループはこの版には含まれない。
+保存・再起動時の再生はSPCと同じ仕組みを使う。内部の状態表示はSPCになる。
+音量倍率は再送信時に適用。再生終了後も状態はSPCのままで、もう一度「保存曲を再生」で鳴らせる。
 
 「MIDIモードに切替」で標準BLE MIDIサービスからの演奏を受け付ける。
 8ボイス、既存のGM音色マッピング・ドラムバンクを使用する。
@@ -77,6 +84,7 @@ python SHVC-SOUND_python/tools/ble_player.py scan
 python SHVC-SOUND_python/tools/ble_player.py status
 python SHVC-SOUND_python/tools/ble_player.py upload path/to/song.spc --play
 python SHVC-SOUND_python/tools/ble_player.py upload path/to/song.mid --play
+python SHVC-SOUND_python/tools/ble_player.py upload path/to/clip.wav --seconds 10 --rate 8000 --play
 python SHVC-SOUND_python/tools/ble_player.py mute 1
 python SHVC-SOUND_python/tools/ble_player.py mute 0
 python SHVC-SOUND_python/tools/ble_player.py midi
@@ -87,6 +95,9 @@ python SHVC-SOUND_python/tools/ble_player.py note
 `--address`で対象ESP32のアドレスを指定できる。複数台がある場合は指定して使う。
 SPCはWindowsで復元スタブを作り、RAMスナップショットとまとめて送る。
 MIDIファイルはWindowsでテンポマップを適用して時刻付きイベントへ変換し、ESP32の時計で演奏する。
+WAVはWindowsでBRRと小さなSPC700再生プログラムへ変換し、HSP1形式で送る。
+CLIの`--brr-cache`は同じWAVを指定レートで事前にエンコードしたBRRを使う場合の省略手段。
+この場合はキャッシュ全体を使い、`--seconds`による切出しは行わない。
 タイプ0/1対応、タイプ2非対応。最大30000イベント・24時間、SysEx・クロック・圧力イベントは対象外。
 密集したイベントはバス処理時間による遅延があり、厳密なサンプル単位のタイミングではない。
 
@@ -139,7 +150,8 @@ SPC復元スタブがRAM上部を上書きする既存の制約は残る。
 - 標準BLE MIDI経由のノート送信、時刻付きMIDIファイルの保存・演奏・末尾停止を確認。ユーザーがド・ミ・ソを可聴確認。
 - 不正offset、CRC不一致、受信途中で切断した場合に前の保存曲が残ることを確認。
 - SPCを66376バイトBluetooth転送して保存・再生。ESP32のリセット後に保存曲の自動再生とBluetooth再接続を確認。ユーザーがMegalopolisを可聴確認。
-- MIDIテンポマップ、タイプ2拒否、MTU23分割とCRC、状態flagsのオフラインテスト4件が成功。GUIの初期化・終了も確認。
+- 短いWAV由来のBRRを含む66417バイトの曲データをBluetooth保存し、復元・再生開始の成功応答を確認。WAV自体の今回の可聴確認は未取得。
+- MIDIテンポマップ、タイプ2拒否、MTU23分割とCRC、状態flags、WAVレイアウト・ワンショットフラグ・入力形式・RAM上限のオフラインテスト6件が成功。GUIの初期化・終了も確認。
 
 ハードウェア回帰テストは`tools/ble_smoketest.py`。保存曲を書き換えるため明示的に実行する。
 パラメータを長時間変更し続ける負荷試験や、他OS・BLE MIDI専用アプリ・複数クライアントは未検証。

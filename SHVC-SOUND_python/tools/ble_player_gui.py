@@ -12,7 +12,7 @@ class App:
     def __init__(self, root):
         self.root=root
         root.title('SHVC-SOUND Bluetooth Player')
-        root.geometry('670x620')
+        root.geometry('670x670')
         self.events=queue.Queue()
         self.loop=asyncio.new_event_loop()
         self.worker=threading.Thread(target=self.loop.run_forever,daemon=True)
@@ -34,13 +34,18 @@ class App:
         self.path=tk.StringVar()
         ttk.Entry(songs,textvariable=self.path).pack(fill='x')
         row=ttk.Frame(songs); row.pack(fill='x',pady=6)
-        ttk.Button(row,text='SPC / MIDIを選ぶ',command=self.select).pack(side='left')
+        ttk.Button(row,text='SPC / MIDI / WAVを選ぶ',command=self.select).pack(side='left')
         self.button(row,'送信して再生',self.upload)
         self.button(row,'保存曲を再生',lambda:self.command(2))
         self.button(row,'停止',lambda:self.command(3))
         self.spc_volume=tk.DoubleVar(value=1.0)
-        ttk.Label(songs,text='SPC音量倍率（送信時に適用）').pack(anchor='w')
+        ttk.Label(songs,text='SPC / WAV音量倍率（送信時に適用）').pack(anchor='w')
         ttk.Scale(songs,from_=0,to=1,variable=self.spc_volume).pack(fill='x')
+        row=ttk.Frame(songs); row.pack(fill='x',pady=4)
+        self.wav_seconds=tk.DoubleVar(value=10)
+        ttk.Label(row,text='WAVの先頭').pack(side='left')
+        ttk.Spinbox(row,from_=.1,to=60,increment=.1,width=5,textvariable=self.wav_seconds).pack(side='left',padx=4)
+        ttk.Label(row,text='秒を再生（8 kHz・モノラル、RAM上限約14秒）').pack(side='left')
         self.progress=ttk.Progressbar(songs,maximum=100); self.progress.pack(fill='x',pady=4)
         row=ttk.Frame(songs); row.pack(fill='x')
         self.muted=tk.BooleanVar()
@@ -115,15 +120,16 @@ class App:
         self.submit(self.player.command(op,payload))
 
     def select(self):
-        p=filedialog.askopenfilename(filetypes=[('SPC / MIDI','*.spc *.mid *.midi'),('All','*.*')])
+        p=filedialog.askopenfilename(filetypes=[('SPC / MIDI / WAV','*.spc *.mid *.midi *.wav'),('All','*.*')])
         if p: self.path.set(p)
 
     def upload(self):
         path=self.path.get(); volume=self.spc_volume.get()
+        wav_seconds=self.wav_seconds.get()
         if not path: self.select(); return
         async def task():
             self.events.put(('status','曲データを準備中'))
-            data=await asyncio.to_thread(prepare_song,Path(path),volume)
+            data=await asyncio.to_thread(prepare_song,Path(path),volume,wav_seconds)
             await self.player.upload(data,lambda d,t:self.events.put(('progress',d*100/t)))
             self.events.put(('status','保存完了。SHVC-SOUNDへ転送中（SPCは約50秒）'))
             return await self.player.command(2)

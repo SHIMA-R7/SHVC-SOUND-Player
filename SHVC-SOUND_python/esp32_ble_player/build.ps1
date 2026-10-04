@@ -17,6 +17,9 @@ $sketchDir = Join-Path $buildRoot 'esp32_ble_player'
 $outputDir = Join-Path $buildRoot 'output'
 New-Item -ItemType Directory -Path $sketchDir -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'esp32_ble_player.ino') -Destination $sketchDir -Force
+foreach ($name in @('spc_volume.h','amp_control.h','pcm_stream.h','pcm_stream_driver.h')) {
+    Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination $sketchDir -Force
+}
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot '..\esp32_spc_uploader\spc_bus.h') -Destination $sketchDir -Force
 foreach ($name in @('bank_data.h','synth.h','midi_parser.h')) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "..\esp32_ble_midi\$name") -Destination $sketchDir -Force

@@ -18,6 +18,19 @@ ESP32へ下記のファームを書き込んでから、WindowsのBluetoothを�
 接続名は`SHVC-SOUND Player`。操作画面がBLEサービスから自動検出する。
 通常のBluetooth設定画面でCOMポートを作る方式ではない。
 
+ESP32 DevKit V1上の青LED（D2、ボード定義の`LED_BUILTIN`=GPIO2）は動作状態を表示する。
+
+|状態|LED|
+|---|---|
+|PCからESP32へ曲を受信中|ゆっくり点滅（0.5秒ON / 0.5秒OFF）|
+|ESP32からSHVC-SOUNDへ転送中|高速点滅（約75 ms ON / 75 ms OFF）|
+|SPC・MIDI再生モード|点灯|
+|停止・エラー|消灯|
+
+SHVC転送の高速点滅は受信表示より優先する。受信中止・完了・切断・タイムアウト後は現在の再生状態の表示へ戻る。
+LEDは独立タスクで制御するため、約50秒のSHVC転送処理中も点滅を継続する。
+再生中のミュートでも点灯する。WAVのワンショット終了後やMIDIライブ待機中も、再生モードの間は点灯する。
+
 「SPC / MIDI / WAVを選ぶ」→「送信して再生」で曲をESP32内へ保存して再生する。
 SPCは保存完了後、SHVC-SOUNDへの64 KB転送に約50秒かかる。その間は消音し、完了後に曲が鳴る。
 最後に正常保存した曲は、給電を続ければPC切断後も動作し、電源を入れ直したときも再生する。
@@ -27,13 +40,22 @@ SPCは保存完了後、SHVC-SOUNDへの64 KB転送に約50秒かかる。その
 |操作|SPC|MIDI|
 |---|---|---|
 |再生・停止・ミュート|対応|対応|
-|音量|送信前のSPC音量倍率でDSP初期値を変更|全体音量、チャンネル音量(CC7)、expression(CC11)|
+|音量|保存曲のDSP初期値を0〜4倍で変更し再読み込み。0倍は即時消音|全体音量、チャンネル音量(CC7)、expression(CC11)|
 |パン・サステイン|曲プログラムに従う|CC10、CC64|
 |音色・ピッチベンド|曲プログラムに従う|Program Change、Pitch Bend|
 |ループ|元の曲のループ|ファイル末尾から再開。設定を保存|
 
-SPC音量倍率は初期DSP値だけを変更する。曲が音量レジスタを書き直すと効果が変わるため、
-汎用的なリアルタイム音量・テンポ操作ではない。倍率変更は再送信が必要。
+「SPC / WAV再生音量」で0〜4倍を指定して「音量を反映・曲頭から再生」を押す。
+変更時はESP32に保存済みの曲を読み直すため、PCからの再送信は不要。ただし曲頭に戻り約50秒かかる。
+0倍は即時に出力を消音し、曲側の音量更新があっても無音を維持する。倍率はNVSに保存し、再起動後も適用する。
+1倍は保存された元の値。左右のマスター音量とエコー音量を同じ倍率で変更し、
+符号（位相）を保持して-128〜127で飽和させる。ボイスごとの音量・パンは変更しない。
+したがって4倍でも音が4倍になるとは限らず、元の音量が最大ならそれ以上は増えない。
+設定は原本から毎回計算するので、倍率を何度変更しても累積しない。
+初期DSP値だけの変更で、曲が音量レジスタを書き直すと効果が変わるため、
+汎用的なリアルタイム音量・テンポ操作ではない。再生中の曲プログラムは改変しない。
+送信前の音量倍率は別設定。通常は1倍にして保存し、再生音量を使う。
+初期DSPを書き込む標準の復元スタブを持たない独自HSP1は、1倍以外の音量変更を拒否する。
 MIDIの設定もファイル内のCC・音色イベントで上書きされる場合がある。
 
 WAVは非圧縮16-bit PCMをモノラル8 kHzへ変換し、BRRとしてRAMへ一括転送して1回再生する。
@@ -89,6 +111,9 @@ python SHVC-SOUND_python/tools/ble_player.py mute 1
 python SHVC-SOUND_python/tools/ble_player.py mute 0
 python SHVC-SOUND_python/tools/ble_player.py midi
 python SHVC-SOUND_python/tools/ble_player.py master 80
+python SHVC-SOUND_python/tools/ble_player.py spc-gain 2
+python SHVC-SOUND_python/tools/ble_player.py spc-gain 0
+python SHVC-SOUND_python/tools/ble_player.py spc-gain 1
 python SHVC-SOUND_python/tools/ble_player.py note
 ```
 
@@ -113,8 +138,10 @@ READ/NOTIFY状態: `89e30002-3c3b-4df7-a74a-25fdd879b40c`
 WRITE応答だけを完了と扱わず、同じsequence/opcodeのNOTIFYを待って次の指示を送る。
 最大244バイト。MTU23でも転送可能で、MTU交渉後はチャンクを拡大する。
 状態は20バイトの`<HBBIIBBHI`:
-sequence、opcode、結果、受信済バイト数、総バイト数、モード、flags、MIDI音量、欠落数。
-flags: bit0 mute、bit1 MIDI loop、bit2 boot autoplay。
+sequence、opcode、結果、受信済バイト数、総バイト数、モード、flags、音量、欠落数。
+flags: bit0 mute、bit1 MIDI loop、bit2 boot autoplay、bit3 SPC音量機能対応。
+bit3がある場合、SPCモードまたはopcode11への応答の音量欄はSPC倍率のQ8値（256=1倍）。
+それ以外は従来どおりMIDI master（0〜127）。旧ファームのSPC状態をQ8として解釈しない。
 結果: 0成功、1不正指示/モード、2位置/CRC/曲形式不一致、3保存失敗、4ハードウェア失敗。
 
 |Opcode|Payload|機能|
@@ -127,6 +154,7 @@ flags: bit0 mute、bit1 MIDI loop、bit2 boot autoplay。
 |7|channel 0..15, CC, value|MIDI CC|
 |8 / 9|bool 1byte|MIDI loop / boot autoplay|
 |10|channel, program|MIDI音色|
+|11|gain uint16（0〜1024、256=1倍）|SPC/WAV初期音量。SPC再生中は再読み込み、停止中は次回再生用に保存。MIDI再生中は拒否|
 |16|size uint32, CRC32 uint32|受信開始|
 |17|offset uint32, bytes|順序付きデータ|
 |18 / 19|なし|CRC・形式検証して保存 / 中止|
@@ -142,6 +170,7 @@ SPC復元スタブがRAM上部を上書きする既存の制約は残る。
 
 ライブラリAPIは[Espressif BLE](https://docs.espressif.com/projects/arduino-esp32/en/latest/api/ble.html)と
 [Bleak Client](https://bleak.readthedocs.io/en/latest/api/client.html)に準拠する。
+音量処理は[S-DSPレジスタの仕様](https://snes.nesdev.org/wiki/S-DSP_registers)の符号付きマスター・エコー音量に従う。
 
 ## 2026-10-04の検証
 
@@ -154,4 +183,68 @@ SPC復元スタブがRAM上部を上書きする既存の制約は残る。
 - MIDIテンポマップ、タイプ2拒否、MTU23分割とCRC、状態flags、WAVレイアウト・ワンショットフラグ・入力形式・RAM上限のオフラインテスト6件が成功。GUIの初期化・終了も確認。
 
 ハードウェア回帰テストは`tools/ble_smoketest.py`。保存曲を書き換えるため明示的に実行する。
+SPC音量の専用テストは`tools/ble_spc_gain_smoketest.py --final-gain 1`。
+保存曲は変更せず、不正指示、0倍の即時消音、0.5倍と最終倍率の再読み込み、同一倍率の再読み込み省略、再接続を確認する。
+`--final-gain 4`を指定すると試験後は最大倍率で再生する。
+純粋な音量パッチ処理は`tools/test_spc_volume.cpp`をESP32のC++コンパイラで
+`-std=gnu++17 -fsyntax-only`指定してコンパイル時に検証できる。
+
+### SPC音量の追加検証（2026-10-04）
+
+- 追加ファームをビルドしてCOM16へ書込み。保存曲の復元と起動時の1倍設定をUSBログで確認。
+- Pythonの7件のオフラインテストとC++のコンパイル時テストが成功。
+- 書込み後はBLE広告が見えてもGATTサービス取得がタイムアウトした。ESP再起動、キャッシュを使わない接続、USBを外した状態でも復旧せず、WindowsのBluetoothをOFF→ONにした後に復旧した。
+- 不正な長さ・上限超過の倍率指示を拒否し、設定値が変わらないことを確認。
+- 0倍の消音指示は0.03秒、0.5倍の再読み込みは45.78秒、同じ0.5倍の再指定は0.09秒、4倍の再読み込みは45.78秒で成功。
+- BLE再接続後も4倍設定・SPC再生状態・欠落数0を確認。保存曲は試験中に変更していない。曲名はプロトコルから取得しておらず、その後ユーザーがSuper Mario Worldのタイトル曲と可聴確認した。Megalopolisを再生中という当初の報告は誤り。
+- ユーザーは最大設定でも音量が変わらないと確認。手元のSuper Mario WorldタイトルSPC（`song.spc`）は左右マスター音量が元から127、エコー音量0。4倍指定でも上限127で止まり、このマスター音量方式では増幅の余地がない。イヤホンを駆動するアナログ出力の能力も増えない。
+- 通常の自動検出接続とCLIのSPC倍率操作で、追加した分岐の配置が誤っていた不具合を修正。アドレスを指定した専用実機テストではこの不具合を検出できなかった。自動検出接続とCLI指示の回帰テストを追加。
+- NVS保存の成功応答は確認したが、追加版の電源再投入後の倍率保持試験は未実施。
+
+### LED表示の追加検証（2026-10-04）
+
+- ユーザーが対象LEDをESP32 DevKit上の青LEDと確認。DevKit V1のボード定義はGPIO2、rev0.4のPCBではU1のIO2は他の回路に未接続と確認。
+- 状態表示を別タスクで追加してビルド・COM16書込みを実施。既存のPython回帰テスト9件が成功。
+- Super Mario WorldのタイトルSPCを66376バイト送信して保存・SHVC転送・再生開始が成功。欠落数0、SPC倍率4倍を確認。
+- USBログで受信時の`LED state=1 pin=2`と再生開始後の`LED state=3 pin=2`を確認。高速点滅はSHVC転送中のLOADING状態で別タスクが生成する。実物LEDの目視確認はユーザー側で行う。
+- ファーム再書込みに伴うESPリセット後も保存曲と4倍設定が維持された。
+
 パラメータを長時間変更し続ける負荷試験や、他OS・BLE MIDI専用アプリ・複数クライアントは未検証。
+
+
+## Android WAV streaming extension (2026-10-04)
+
+Windows GUIの上記ワンショットWAVとは別に、Android 0.2.0は全曲のBRRストリーミングに対応する。
+既存の20バイト応答を使い、mode 6がPCMストリーミング。flags bit5はウィンドウ転送、bit6はWAVストリーミング、bit7はパケットCRC付きファイル転送を示す。
+
+|Opcode|Payload|用途|
+|---|---|---|
+|20|offset u32, bytes|従来の応答省略ファイルデータ|
+|21|offset u32, chunk CRC32 u32, bytes|CRC付きファイルデータ。INFOでウィンドウを確認|
+|22|offset u32|検証済み受信位置でファイル再送を開始|
+|32|rate u16, BRR byte total u32, optional channels u8|WAV開始。rate 8000/16000/32000、channels省略時1、指定時1/2|
+|33|offset u32, BRR bytes|応答付きWAVデータ|
+|34|なし|プリフィル後、DSP再生を開始|
+|36|offset u32, chunk CRC32 u32, BRR bytes|応答省略WAVデータ。INFOで受信位置を確認|
+|37|offset u32|検証済み受信位置でWAV再送を開始|
+
+ステレオのデータはBRR 9バイトを左・右の順に交互に並べる。各パケットは18バイトの整数倍。受信位置と総量は両チャンネルの合計。DSP voice0は左、voice1は右へ出し、同一pitchとKON=3で開始する。
+ステレオARAMは左$0400-$78FF、右$7900-$EDFF、DIRは$F700。各リング末尾のBRRヘッダーにEND/LOOPを付け、次は各リング先頭へ戻る。残りのメモリーと$0200-$0357の常駐コードを上書きしない。
+SPC700ドライバcommand9はページ内だけの3バイト転送。ページ末尾の1〜2バイトは既存command1/2で処理する。`tools/test_pcm_page_bulk.py`は全256オフセットとリング折返しを検証する。
+プリフィルの最初のパケットはチャンネル別にARAMから読み戻して照合する。再生中の供給不足はmode5/code6で停止。切断も停止し、保存SPCは変更しない。
+
+
+## Optional amplifier control (2026-10-05)
+
+The default remains external/jack output. The rev0.4 KiCad netlist verifies GPIO33/VOL_PWM -> R6 10k -> AMP_VC, with R5 5.6k and C5 10u to GND, then U6 pins 2 and 8. NXP TDA7053A documentation defines those pins as DC volume controls. A fixed-gain TDA7053 is a separate output profile and does not enable that PWM control. See [NXP TDA7053A datasheet](https://www.nxp.com/docs/en/data-sheet/TDA7053A.pdf) and [Philips TDA7053 datasheet](https://dtsheet.com/doc/260133/philips-tda7053).
+
+| Opcode | Payload | Behavior |
+|---|---|---|
+| 12 AMP_PROFILE | uint8 0/1/2 | External/DC TDA7053A/fixed-gain TDA7053. Persisted in NVS. |
+| 13 AMP_LEVEL | uint8 0..255 | PWM level; only profile 1. Persisted. Does not restart SPC. |
+| 14 AMP_FADE | uint32 LE 1..60000 ms | SPC-only fade to zero; profile 1. Acknowledges start immediately. |
+| 15 AMP_STATE | empty | Read profile, target level and envelope state. Legacy firmware rejects with code 1. |
+
+Replies keep the 20-byte format. For opcodes 12..15, the master field holds target level in bits 0..7, profile in 8..9, active fade in bit 10 and completed fade in bit 11. received holds the currently written PWM duty, total holds remaining fade milliseconds. All other replies retain previous meanings. STOP/new PLAY resets the envelope; loading/mute/error drives zero; only profile 1 can emit nonzero GPIO33 PWM. Default target level is 160/255. The waveform remains 20 kHz, 8-bit, as in the pre-existing firmware.
+
+Android 0.2.2 starts amplifier fade within each track's timer (ID666 fade duration or final two seconds). Current external output has no controlled attenuation: do not interpret firmware duty tests as audible fading. The compile-time envelope check covers disabled/muted profiles and unsigned millis rollover. Initial DSP gain still requires a reload and is never used as a live fade.

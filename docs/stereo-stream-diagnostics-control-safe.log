@@ -1,0 +1,360 @@
+ACK seq=1 op=1 code=0 mode=1 received=0
+ACK seq=2 op=1 code=0 mode=1 received=0
+LED state=0 pin=2
+LED state=2 pin=2
+ACK seq=0 op=0 code=0 mode=4 received=0
+BUS block=F700 bytes=8 elapsed_ms=0 write_pair_us=12 read_ack_us=20
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+BUS block=0400 bytes=62208 elapsed_ms=1943 write_pair_us=12 read_ack_us=20
+BUS block=0002 bytes=6 elapsed_ms=0 write_pair_us=12 read_ack_us=21
+BUS block=0008 bytes=1 elapsed_ms=0 write_pair_us=14 read_ack_us=21
+BUS block=0010 bytes=8 elapsed_ms=0 write_pair_us=12 read_ack_us=22
+ACK seq=0 op=0 code=0 mode=4 received=0
+ACK seq=0 op=0 code=0 mode=4 received=0
+BUS block=0200 bytes=344 elapsed_ms=11 write_pair_us=12 read_ack_us=19
+LED state=3 pin=2
+ACK seq=3 op=32 code=0 mode=6 received=0
+ACK seq=20 op=1 code=0 mode=6 received=7488
+ACK seq=37 op=1 code=0 mode=6 received=14976
+PCM bus bytes=16848 us=468018 rate=35998 B/s channels=2
+ACK seq=54 op=1 code=0 mode=6 received=22464
+ACK seq=71 op=1 code=0 mode=6 received=29952
+PCM bus bytes=16848 us=420424 rate=40073 B/s channels=2
+ACK seq=88 op=1 code=0 mode=6 received=37440
+ACK seq=105 op=1 code=0 mode=6 received=44928
+PCM bus bytes=16848 us=419853 rate=40128 B/s channels=2
+ACK seq=122 op=1 code=0 mode=6 received=52416
+ACK seq=123 op=34 code=0 mode=6 received=52416
+PCM bus bytes=16848 us=419764 rate=40136 B/s channels=2
+ACK seq=156 op=1 code=0 mode=6 received=67392
+ACK seq=189 op=1 code=0 mode=6 received=82368
+PCM bus bytes=16848 us=419783 rate=40135 B/s channels=2
+ACK seq=222 op=1 code=0 mode=6 received=97344
+PCM bus bytes=16848 us=420130 rate=40101 B/s channels=2
+ACK seq=255 op=1 code=0 mode=6 received=112320
+PCM bus bytes=16848 us=419921 rate=40121 B/s channels=2
+ACK seq=288 op=1 code=0 mode=6 received=127296
+PCM bus bytes=16848 us=419653 rate=40147 B/s channels=2
+ACK seq=321 op=1 code=0 mode=6 received=142272
+PCM bus bytes=16848 us=419953 rate=40118 B/s channels=2
+ACK seq=354 op=1 code=0 mode=6 received=157248
+PCM bus bytes=16848 us=419978 rate=40116 B/s channels=2
+ACK seq=387 op=1 code=0 mode=6 received=172224
+PCM bus bytes=16848 us=419024 rate=40207 B/s channels=2
+ACK seq=420 op=1 code=0 mode=6 received=187200
+PCM bus bytes=16848 us=419938 rate=40120 B/s channels=2
+ACK seq=453 op=1 code=0 mode=6 received=202176
+ACK seq=486 op=1 code=0 mode=6 received=217152
+PCM bus bytes=16848 us=419969 rate=40117 B/s channels=2
+ACK seq=519 op=1 code=0 mode=6 received=232128
+PCM bus bytes=16848 us=419822 rate=40131 B/s channels=2
+ACK seq=552 op=1 code=0 mode=6 received=247104
+PCM bus bytes=16848 us=419869 rate=40126 B/s channels=2
+ACK seq=585 op=1 code=0 mode=6 received=262080
+PCM bus bytes=16848 us=419671 rate=40145 B/s channels=2
+ACK seq=618 op=1 code=0 mode=6 received=277056
+PCM bus bytes=16848 us=419838 rate=40129 B/s channels=2
+ACK seq=651 op=1 code=0 mode=6 received=292032
+PCM bus bytes=16848 us=420002 rate=40114 B/s channels=2
+ACK seq=684 op=1 code=0 mode=6 received=307008
+PCM bus bytes=16848 us=419834 rate=40130 B/s channels=2
+ACK seq=717 op=1 code=0 mode=6 received=321984
+PCM bus bytes=16848 us=419940 rate=40120 B/s channels=2
+ACK seq=750 op=1 code=0 mode=6 received=336960
+ACK seq=783 op=1 code=0 mode=6 received=351936
+PCM bus bytes=16848 us=419843 rate=40129 B/s channels=2
+ACK seq=816 op=1 code=0 mode=6 received=366912
+PCM bus bytes=16848 us=419245 rate=40186 B/s channels=2
+ACK seq=849 op=1 code=0 mode=6 received=381888
+PCM bus bytes=16848 us=419875 rate=40126 B/s channels=2
+ACK seq=882 op=1 code=0 mode=6 received=396864
+PCM bus bytes=16848 us=420054 rate=40109 B/s channels=2
+ACK seq=915 op=1 code=0 mode=6 received=411840
+PCM bus bytes=16848 us=419721 rate=40140 B/s channels=2
+ACK seq=948 op=1 code=0 mode=6 received=426816
+PCM bus bytes=16848 us=419870 rate=40126 B/s channels=2
+ACK seq=981 op=1 code=0 mode=6 received=441792
+PCM bus bytes=16848 us=420211 rate=40094 B/s channels=2
+ACK seq=1014 op=1 code=0 mode=6 received=456768
+PCM bus bytes=16848 us=419807 rate=40132 B/s channels=2
+ACK seq=1047 op=1 code=0 mode=6 received=471744
+ACK seq=1080 op=1 code=0 mode=6 received=486720
+PCM bus bytes=16848 us=419841 rate=40129 B/s channels=2
+ACK seq=1113 op=1 code=0 mode=6 received=501696
+PCM bus bytes=16848 us=419934 rate=40120 B/s channels=2
+ACK seq=1146 op=1 code=0 mode=6 received=516672
+PCM bus bytes=16848 us=420165 rate=40098 B/s channels=2
+ACK seq=1179 op=1 code=0 mode=6 received=531648
+PCM bus bytes=16848 us=419684 rate=40144 B/s channels=2
+ACK seq=1212 op=1 code=0 mode=6 received=546624
+PCM bus bytes=16848 us=419323 rate=40179 B/s channels=2
+ACK seq=1245 op=1 code=0 mode=6 received=561600
+PCM bus bytes=16848 us=420051 rate=40109 B/s channels=2
+ACK seq=1278 op=1 code=0 mode=6 received=576576
+PCM bus bytes=16848 us=419768 rate=40136 B/s channels=2
+ACK seq=1311 op=1 code=0 mode=6 received=591552
+PCM bus bytes=16848 us=419776 rate=40135 B/s channels=2
+ACK seq=1344 op=1 code=0 mode=6 received=606528
+ACK seq=1377 op=1 code=0 mode=6 received=621504
+PCM bus bytes=16848 us=419794 rate=40133 B/s channels=2
+ACK seq=1410 op=1 code=0 mode=6 received=636480
+PCM bus bytes=16848 us=419987 rate=40115 B/s channels=2
+ACK seq=1443 op=1 code=0 mode=6 received=651456
+PCM bus bytes=16848 us=420060 rate=40108 B/s channels=2
+ACK seq=1476 op=1 code=0 mode=6 received=666432
+PCM bus bytes=16848 us=419902 rate=40123 B/s channels=2
+ACK seq=1509 op=1 code=0 mode=6 received=681408
+PCM bus bytes=16848 us=419780 rate=40135 B/s channels=2
+ACK seq=1542 op=1 code=0 mode=6 received=696384
+PCM bus bytes=16848 us=420059 rate=40108 B/s channels=2
+ACK seq=1575 op=1 code=0 mode=6 received=711360
+PCM bus bytes=16848 us=419313 rate=40180 B/s channels=2
+ACK seq=1608 op=1 code=0 mode=6 received=726336
+PCM bus bytes=16848 us=419810 rate=40132 B/s channels=2
+ACK seq=1641 op=1 code=0 mode=6 received=741312
+ACK seq=1674 op=1 code=0 mode=6 received=756288
+PCM bus bytes=16848 us=420241 rate=40091 B/s channels=2
+ACK seq=1707 op=1 code=0 mode=6 received=771264
+PCM bus bytes=16848 us=420045 rate=40109 B/s channels=2
+ACK seq=1740 op=1 code=0 mode=6 received=786240
+PCM bus bytes=16848 us=419810 rate=40132 B/s channels=2
+ACK seq=1773 op=1 code=0 mode=6 received=801216
+PCM bus bytes=16848 us=419895 rate=40124 B/s channels=2
+ACK seq=1806 op=1 code=0 mode=6 received=816192
+PCM bus bytes=16848 us=419961 rate=40118 B/s channels=2
+ACK seq=1839 op=1 code=0 mode=6 received=831168
+PCM bus bytes=16848 us=419780 rate=40135 B/s channels=2
+ACK seq=1872 op=1 code=0 mode=6 received=846144
+PCM bus bytes=16848 us=419842 rate=40129 B/s channels=2
+ACK seq=1905 op=1 code=0 mode=6 received=861120
+PCM bus bytes=16848 us=420180 rate=40097 B/s channels=2
+ACK seq=1938 op=1 code=0 mode=6 received=876096
+ACK seq=1971 op=1 code=0 mode=6 received=891072
+PCM bus bytes=16848 us=420017 rate=40112 B/s channels=2
+ACK seq=2004 op=1 code=0 mode=6 received=906048
+PCM bus bytes=16848 us=419117 rate=40198 B/s channels=2
+ACK seq=2037 op=1 code=0 mode=6 received=921024
+PCM bus bytes=16848 us=419909 rate=40122 B/s channels=2
+ACK seq=2070 op=1 code=0 mode=6 received=936000
+PCM bus bytes=16848 us=420088 rate=40105 B/s channels=2
+ACK seq=2103 op=1 code=0 mode=6 received=950976
+PCM bus bytes=16848 us=420002 rate=40114 B/s channels=2
+ACK seq=2136 op=1 code=0 mode=6 received=965952
+PCM bus bytes=16848 us=419847 rate=40128 B/s channels=2
+ACK seq=2169 op=1 code=0 mode=6 received=980928
+PCM bus bytes=16848 us=420055 rate=40109 B/s channels=2
+ACK seq=2202 op=1 code=0 mode=6 received=995904
+PCM bus bytes=16848 us=419772 rate=40136 B/s channels=2
+ACK seq=2235 op=1 code=0 mode=6 received=1010880
+ACK seq=2268 op=1 code=0 mode=6 received=1025856
+PCM bus bytes=16848 us=419933 rate=40120 B/s channels=2
+ACK seq=2301 op=1 code=0 mode=6 received=1040832
+PCM bus bytes=16848 us=420018 rate=40112 B/s channels=2
+ACK seq=2334 op=1 code=0 mode=6 received=1055808
+PCM bus bytes=16848 us=419932 rate=40120 B/s channels=2
+ACK seq=2367 op=1 code=0 mode=6 received=1070784
+PCM bus bytes=16848 us=419181 rate=40192 B/s channels=2
+ACK seq=2400 op=1 code=0 mode=6 received=1085760
+PCM bus bytes=16848 us=419401 rate=40171 B/s channels=2
+ACK seq=2433 op=1 code=0 mode=6 received=1100736
+PCM bus bytes=16848 us=420186 rate=40096 B/s channels=2
+ACK seq=2466 op=1 code=0 mode=6 received=1115712
+PCM bus bytes=16848 us=419895 rate=40124 B/s channels=2
+ACK seq=2499 op=1 code=0 mode=6 received=1130688
+PCM bus bytes=16848 us=420062 rate=40108 B/s channels=2
+ACK seq=2532 op=1 code=0 mode=6 received=1145664
+ACK seq=2565 op=1 code=0 mode=6 received=1160640
+PCM bus bytes=16848 us=419940 rate=40120 B/s channels=2
+ACK seq=2598 op=1 code=0 mode=6 received=1175616
+PCM bus bytes=16848 us=419982 rate=40116 B/s channels=2
+ACK seq=2631 op=1 code=0 mode=6 received=1190592
+PCM bus bytes=16848 us=419854 rate=40128 B/s channels=2
+ACK seq=2664 op=1 code=0 mode=6 received=1205568
+PCM bus bytes=16848 us=419903 rate=40123 B/s channels=2
+ACK seq=2697 op=1 code=0 mode=6 received=1220544
+PCM bus bytes=16848 us=420269 rate=40088 B/s channels=2
+ACK seq=2730 op=1 code=0 mode=6 received=1235520
+PCM bus bytes=16848 us=419914 rate=40122 B/s channels=2
+ACK seq=2763 op=1 code=0 mode=6 received=1250496
+PCM bus bytes=16848 us=419202 rate=40190 B/s channels=2
+ACK seq=2796 op=1 code=0 mode=6 received=1265472
+PCM bus bytes=16848 us=419826 rate=40130 B/s channels=2
+ACK seq=2829 op=1 code=0 mode=6 received=1280448
+ACK seq=2862 op=1 code=0 mode=6 received=1295424
+PCM bus bytes=16848 us=420052 rate=40109 B/s channels=2
+ACK seq=2895 op=1 code=0 mode=6 received=1310400
+PCM bus bytes=16848 us=419888 rate=40124 B/s channels=2
+ACK seq=2928 op=1 code=0 mode=6 received=1325376
+PCM bus bytes=16848 us=420001 rate=40114 B/s channels=2
+ACK seq=2961 op=1 code=0 mode=6 received=1340352
+PCM bus bytes=16848 us=419938 rate=40120 B/s channels=2
+ACK seq=2994 op=1 code=0 mode=6 received=1355328
+PCM bus bytes=16848 us=419904 rate=40123 B/s channels=2
+ACK seq=3027 op=1 code=0 mode=6 received=1370304
+PCM bus bytes=16848 us=419802 rate=40133 B/s channels=2
+ACK seq=3060 op=1 code=0 mode=6 received=1385280
+PCM bus bytes=16848 us=419741 rate=40139 B/s channels=2
+ACK seq=3093 op=1 code=0 mode=6 received=1400256
+PCM bus bytes=16848 us=420215 rate=40093 B/s channels=2
+ACK seq=3126 op=1 code=0 mode=6 received=1415232
+ACK seq=3159 op=1 code=0 mode=6 received=1430208
+PCM bus bytes=16848 us=419940 rate=40120 B/s channels=2
+ACK seq=3192 op=1 code=0 mode=6 received=1445184
+PCM bus bytes=16848 us=419495 rate=40162 B/s channels=2
+ACK seq=3225 op=1 code=0 mode=6 received=1460160
+PCM bus bytes=16848 us=419707 rate=40142 B/s channels=2
+ACK seq=3258 op=1 code=0 mode=6 received=1475136
+PCM bus bytes=16848 us=419865 rate=40127 B/s channels=2
+ACK seq=3291 op=1 code=0 mode=6 received=1490112
+PCM bus bytes=16848 us=419714 rate=40141 B/s channels=2
+ACK seq=3324 op=1 code=0 mode=6 received=1505088
+PCM bus bytes=16848 us=419932 rate=40120 B/s channels=2
+ACK seq=3357 op=1 code=0 mode=6 received=1520064
+PCM bus bytes=16848 us=420080 rate=40106 B/s channels=2
+ACK seq=3390 op=1 code=0 mode=6 received=1535040
+PCM bus bytes=16848 us=419931 rate=40120 B/s channels=2
+ACK seq=3423 op=1 code=0 mode=6 received=1550016
+ACK seq=3456 op=1 code=0 mode=6 received=1564992
+PCM bus bytes=16848 us=419883 rate=40125 B/s channels=2
+ACK seq=3489 op=1 code=0 mode=6 received=1579968
+PCM bus bytes=16848 us=419852 rate=40128 B/s channels=2
+ACK seq=3522 op=1 code=0 mode=6 received=1594944
+LED state=0 pin=2
+ACK seq=0 op=0 code=6 mode=5 received=1594944
+PCM underrun: stopped instead of replaying stale audio
+PCM feed error=2 offset=1594944 received=1594944 n=468
+ACK seq=3555 op=1 code=0 mode=5 received=1594944
+ACK seq=3556 op=3 code=0 mode=0 received=1594944
+SPC gain=1024 patch=OK
+LED state=2 pin=2
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+BUS block=0002 bytes=238 elapsed_ms=7 write_pair_us=12 read_ack_us=20
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+BUS block=0100 bytes=65216 elapsed_ms=2037 write_pair_us=12 read_ack_us=19
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+ACK seq=0 op=0 code=0 mode=4 received=1594944
+BUS block=FC88 bytes=824 elapsed_ms=26 write_pair_us=12 read_ack_us=20
+LED state=3 pin=2
+BUS complete bytes=66278 elapsed_ms=2195
+ACK seq=3557 op=2 code=0 mode=1 received=1594944

@@ -16,9 +16,16 @@ def parse_reply(data):
     if len(data) != REPLY.size:
         raise ValueError('Invalid BLE reply length')
     seq, op, code, received, total, mode, muted, master, dropped = REPLY.unpack(data)
+    spc_gain = master / 256 if muted&8 and (mode==1 or op==11) else None
     return dict(sequence=seq, op=op, code=code, received=received, total=total,
                 mode=MODES[mode] if mode < len(MODES) else 'unknown',
-                muted=bool(muted&1), loop=bool(muted&2), boot=bool(muted&4), master=master, dropped=dropped)
+                muted=bool(muted&1), loop=bool(muted&2), boot=bool(muted&4), master=master, dropped=dropped,
+                spc_gain=spc_gain, spc_gain_supported=bool(muted&8))
+
+def spc_gain_payload(gain):
+    if not 0 <= gain <= 4:
+        raise ValueError('SPC gain must be between 0 and 4')
+    return struct.pack('<H',round(gain*256))
 
 def prepare_wav(path, volume=1.0, seconds=10, rate=8000, brr_cache=None):
     """Build a self-contained one-shot BRR player using the existing HSP1 loader."""

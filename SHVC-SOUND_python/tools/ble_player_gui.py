@@ -6,13 +6,13 @@ import threading
 import tkinter as tk
 from tkinter import ttk, filedialog
 from ble_player import Player
-from ble_song import prepare_song
+from ble_song import prepare_song, spc_gain_payload
 
 class App:
     def __init__(self, root):
         self.root=root
         root.title('SHVC-SOUND Bluetooth Player')
-        root.geometry('670x670')
+        root.geometry('710x770')
         self.events=queue.Queue()
         self.loop=asyncio.new_event_loop()
         self.worker=threading.Thread(target=self.loop.run_forever,daemon=True)
@@ -54,6 +54,12 @@ class App:
         self.check(row,'MIDIファイルをループ',self.repeat,lambda:self.command(8,bytes([self.repeat.get()])))
         self.boot=tk.BooleanVar(value=True)
         self.check(row,'電源投入時に再生',self.boot,lambda:self.command(9,bytes([self.boot.get()])))
+        row=ttk.Frame(songs); row.pack(fill='x',pady=6)
+        self.spc_gain=tk.DoubleVar(value=1)
+        ttk.Label(row,text='SPC / WAV再生音量（0〜4倍）').pack(side='left')
+        ttk.Spinbox(row,from_=0,to=4,increment=.25,width=5,textvariable=self.spc_gain).pack(side='left',padx=4)
+        self.button(row,'音量を反映・曲頭から再生',self.apply_spc_gain)
+        ttk.Label(songs,text='音量変更は約50秒。0倍は即時消音。設定は電源を切っても保存。').pack(anchor='w')
         live=ttk.LabelFrame(frame,text='MIDI演奏・パラメータ',padding=10); live.pack(fill='x',pady=6)
         row=ttk.Frame(live); row.pack(fill='x')
         self.button(row,'MIDIモードに切替',lambda:self.command(6))
@@ -76,7 +82,7 @@ class App:
         ttk.Checkbutton(row,text='サステイン',variable=self.sustain).pack(side='left',padx=4)
         self.button(live,'MIDI設定を反映',self.parameters)
         ttk.Label(live,text='MIDIファイル再生と鍵盤入力は8ボイス。音色番号は0〜127。').pack(anchor='w',pady=3)
-        ttk.Label(frame,text='SPCは曲自身のループで再生。音量変更は再送信が必要。').pack(anchor='w')
+        ttk.Label(frame,text='SPC音量はDSP初期値を変更。曲側の音量更新で上書きされる場合あり。').pack(anchor='w')
         self.log=tk.Text(frame,height=5,state='disabled'); self.log.pack(fill='both',expand=True,pady=6)
         root.protocol('WM_DELETE_WINDOW',self.close)
         root.after(100,self.poll)
@@ -146,6 +152,16 @@ class App:
             return '試聴終了'
         self.submit(task())
 
+    def apply_spc_gain(self):
+        gain=self.spc_gain.get()
+        async def task():
+            if not self.player.last_status.get('spc_gain_supported'):
+                raise ValueError('SPC音量対応のESP32ファームへ更新してください')
+            payload=spc_gain_payload(gain)
+            self.events.put(('status','SPC音量を反映中（再生中なら曲頭へ戻り約50秒）'))
+            return await self.player.command(11,payload)
+        self.submit(task())
+
     def parameters(self):
         channel=self.channel.get()-1
         values=[self.master.get(),self.volume.get(),self.pan.get(),self.program.get()]
@@ -174,7 +190,10 @@ class App:
             else:
                 self.busy=False
                 if isinstance(value,dict):
-                    self.status.set(f"{value['mode']} / 音量 {value['master']} / MIDI欠落 {value['dropped']}")
+                    gain=value.get('spc_gain')
+                    volume=f"SPC音量 {gain:g}倍" if gain is not None else f"MIDI音量 {value['master']}"
+                    self.status.set(f"{value['mode']} / {volume} / MIDI欠落 {value['dropped']}")
+                    if gain is not None: self.spc_gain.set(gain)
                     self.muted.set(value['muted'])
                     self.repeat.set(value['loop']); self.boot.set(value['boot'])
                 self.log.configure(state='normal'); self.log.insert('end',str(value)+'\n'); self.log.see('end'); self.log.configure(state='disabled')

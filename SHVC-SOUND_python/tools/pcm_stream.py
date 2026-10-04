@@ -92,8 +92,11 @@ PCM_DRIVER, DRIVER_LABELS = assemble(DRIVER_ADDR, [
     _(None, 0xD0, to="d8", kind="rel"),
     _(None, 0x5F, to="bulk", kind="abs"),   # jmp !bulk
     _("d8", 0x68, 0x08),                    # cmp a,#8
-    _(None, 0xD0, to="ack", kind="rel"),    # bne ack(知らないコマンドは何もせずACK)
+    _(None, 0xD0, to="d9", kind="rel"),
     _(None, 0x5F, to="ringsel", kind="abs"),  # jmp !ringsel
+    _("d9", 0x68, 0x09),
+    _(None, 0xD0, to="ack", kind="rel"),
+    _(None, 0x5F, to="fastbulk", kind="abs"),
     # 6: [$02-$03]の1バイトをホストから見た$F5に返し、ポインタを1進める(折り返さない。読み返し検査用)
     _("peek", 0x8D, 0x00),                  # mov y,#0
     _(None, 0xF7, 0x02),                    # mov a,[$02]+y
@@ -184,6 +187,18 @@ PCM_DRIVER, DRIVER_LABELS = assemble(DRIVER_ADDR, [
     *[_(None, *op) for op in ((0xC4, 0x02), (0xE4, 0x15), (0xC4, 0x03),
                                (0xE4, 0x16), (0xC4, 0x05), (0xE4, 0x17), (0xC4, 0x07))],
     _(None, 0x5F, to="ack", kind="abs"),
+    # 9: Page-bounded bulk. Host handles the final 1-2 page bytes with commands
+    # 1/2; this loop never wraps Y and avoids three page checks per triplet.
+    _("fastbulk", 0xE4, 0x02), _(None, 0xFD), _(None, 0x8F, 0x00, 0x02), _(None, 0xD8, 0xF4),
+    _("fbloop", 0x3E, 0xF4), _(None, 0xF0, to="fbloop", kind="rel"),
+    _(None, 0xF8, 0xF4), _(None, 0xF0, to="fbexit", kind="rel"),
+    _(None, 0xE4, 0xF5), _(None, 0xD7, 0x02), _(None, 0xFC),
+    _(None, 0xE4, 0xF6), _(None, 0xD7, 0x02), _(None, 0xFC),
+    _(None, 0xE4, 0xF7), _(None, 0xD7, 0x02), _(None, 0xFC),
+    _(None, 0xD8, 0xF4), _(None, 0x2F, to="fbloop", kind="rel"),
+    _("fbexit", 0xDD), _(None, 0xC4, 0x02), _(None, 0xD8, 0xF4),
+    _(None, 0x5F, to="loop", kind="abs"),
+
 ])
 assert DRIVER_ADDR + len(PCM_DRIVER) <= RING_START
 assert DIR_ADDR >= RING_END and DIR_ADDR & 0xFF == 0

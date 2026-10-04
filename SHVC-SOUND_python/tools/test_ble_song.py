@@ -5,8 +5,12 @@ import tempfile
 import unittest
 import zlib
 import wave
+import argparse
+import contextlib
+import io
+from unittest.mock import AsyncMock, patch
 import mido
-from ble_song import prepare_song, chunks, begin_payload, parse_reply, REPLY
+from ble_song import prepare_song, chunks, begin_payload, parse_reply, REPLY, spc_gain_payload
 
 class SongTests(unittest.TestCase):
     def test_midi_tempo_and_running_tracks(self):
@@ -47,6 +51,15 @@ class SongTests(unittest.TestCase):
         self.assertEqual(s['dropped'],5)
         with self.assertRaises(ValueError): parse_reply(b'bad')
 
+    def test_spc_gain_capability_and_legacy_status(self):
+        self.assertIsNone(parse_reply(REPLY.pack(1,1,0,0,0,1,7,89,0))['spc_gain'])
+        s=parse_reply(REPLY.pack(1,11,0,0,0,1,15,1024,0))
+        self.assertEqual(s['spc_gain'],4); self.assertTrue(s['spc_gain_supported'])
+        self.assertIsNone(parse_reply(REPLY.pack(1,1,0,0,0,2,15,127,0))['spc_gain'])
+        self.assertEqual(spc_gain_payload(1.5),b'\x80\x01')
+        for value in [-1,4.1,float('nan'),float('inf')]:
+            with self.assertRaises(ValueError): spc_gain_payload(value)
+
     def test_wav_bundle_layout_and_one_shot(self):
         with tempfile.TemporaryDirectory() as folder:
             path=Path(folder)/'clip.wav'
@@ -72,5 +85,27 @@ class SongTests(unittest.TestCase):
             with wave.open(str(path),'wb') as w:
                 w.setnchannels(1); w.setsampwidth(2); w.setframerate(8000); w.writeframes(b'\0\0'*120000)
             with self.assertRaisesRegex(ValueError,'too long'): prepare_song(path,wav_seconds=15)
+
+class PlayerTests(unittest.IsolatedAsyncioTestCase):
+    async def test_auto_detect_connect(self):
+        from ble_player import Player
+        device=object()
+        client=type('Client',(),{})()
+        client.connect=AsyncMock(); client.start_notify=AsyncMock(); client.disconnect=AsyncMock()
+        with patch('bleak.BleakScanner.find_device_by_filter',AsyncMock(return_value=device)) as scan, \
+             patch('bleak.BleakClient',return_value=client):
+            p=Player(); p.command=AsyncMock(return_value={})
+            self.assertIs(await p.connect(),device)
+            scan.assert_awaited_once(); p.command.assert_awaited_once_with(1)
+            await p.close()
+
+    async def test_spc_gain_cli_dispatch(self):
+        import ble_player
+        p=type('Client',(),{})()
+        p.connect=AsyncMock(return_value='test device'); p.close=AsyncMock()
+        p.command=AsyncMock(); p.last_status={'spc_gain_supported':True}
+        with patch('ble_player.Player',return_value=p),contextlib.redirect_stdout(io.StringIO()):
+            await ble_player.run(argparse.Namespace(action='spc-gain',address=None,value=2))
+        p.command.assert_awaited_once_with(11,b'\x00\x02')
 
 if __name__=='__main__': unittest.main()

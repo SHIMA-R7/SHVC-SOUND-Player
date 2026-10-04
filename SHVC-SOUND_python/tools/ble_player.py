@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import struct
 import time
-from ble_song import SERVICE, COMMAND, STATUS, MIDI_CHAR, parse_reply, prepare_song, chunks, begin_payload
+from ble_song import SERVICE, COMMAND, STATUS, MIDI_CHAR, parse_reply, prepare_song, chunks, begin_payload, spc_gain_payload
 
 class Player:
     def __init__(self):
@@ -125,6 +125,10 @@ async def run(args):
             try:
                 await player.midi([0x90,args.note,100]); await asyncio.sleep(1)
             finally: await player.midi([0x80,args.note,0])
+        elif args.action=='spc-gain':
+            if not player.last_status.get('spc_gain_supported'):
+                raise RuntimeError('Update ESP32 firmware for SPC gain control')
+            await player.command(11,spc_gain_payload(args.value))
         else:
             ops={'status':1,'play':2,'stop':3,'mute':4,'master':5,'midi':6,'loop':8,'boot':9}
             payload=bytes([args.value]) if args.action in ('mute','master','loop','boot') else b''
@@ -140,6 +144,8 @@ def main():
     for name in ('scan','status','play','stop','midi'): sub.add_parser(name)
     for name in ('mute','master','loop','boot'):
         q=sub.add_parser(name); q.add_argument('value',type=int,choices=range(128) if name=='master' else (0,1))
+    q=sub.add_parser('spc-gain',help='SPC/WAV startup gain 0..4; reloads the song from the beginning')
+    q.add_argument('value',type=float)
     q=sub.add_parser('upload'); q.add_argument('file',type=Path); q.add_argument('--volume',type=float,default=1); q.add_argument('--play',action='store_true')
     q.add_argument('--seconds',type=float,default=10,help='WAV: take the first N seconds')
     q.add_argument('--rate',type=int,default=8000,help='WAV: mono playback rate')

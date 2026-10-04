@@ -19,6 +19,11 @@
 
 namespace spc {
 
+// Explicit opt-in: other sketches retain their diagnostic GPIO implementation.
+#ifndef SHVC_FAST_GPIO
+#define SHVC_FAST_GPIO 0
+#endif
+
 const uint8_t DATA_PINS[8] = {13, 14, 16, 17, 18, 19, 21, 22};
 const uint8_t PIN_A0 = 26;
 const uint8_t PIN_A1 = 27;
@@ -30,13 +35,28 @@ const uint8_t PIN_OE_R = 5;
 const uint8_t PIN_MUTE = 15;
 
 // 待ち時間(µs)。Uno版(書き3µs/読み15µs)を基準に、バッファ1段ぶんの余裕を足した値
+#if SHVC_FAST_GPIO
+const uint32_t WRITE_SETUP_US = 1;
+const uint32_t WRITE_PULSE_US = 1;
+const uint32_t WRITE_HOLD_US = 1;
+const uint32_t READ_US = 1;
+const uint32_t OE_SETTLE_US = 1;
+#else
 const uint32_t WRITE_SETUP_US = 15;
 const uint32_t WRITE_PULSE_US = 15;
 const uint32_t WRITE_HOLD_US = 15;
 const uint32_t READ_US = 30;
 const uint32_t OE_SETTLE_US = 15;
+#endif
 const uint32_t DRIVER_TIMEOUT_MS = 100;
 static uint16_t diagnosticWriteUs = WRITE_PULSE_US;
+// PCM bulk experiments only; zero retains the established microsecond timing.
+static uint32_t pcmWriteCycles=0;
+inline void writeDelay() {
+    if(!pcmWriteCycles) { esp_rom_delay_us(diagnosticWriteUs); return; }
+    uint32_t start=ESP.getCycleCount();
+    while(uint32_t(ESP.getCycleCount()-start)<pcmWriteCycles) {}
+}
 
 // GPIO0-31 はレジスタ1本で一括操作できる(digitalWrite より桁違いに速い)
 static uint32_t dataMask = 0;
@@ -45,6 +65,20 @@ static const uint32_t ADDR_MASK = (1UL << PIN_A0) | (1UL << PIN_A1);
 
 inline void pinHigh(uint8_t p) { REG_WRITE(GPIO_OUT_W1TS_REG, 1UL << p); }
 inline void pinLow(uint8_t p) { REG_WRITE(GPIO_OUT_W1TC_REG, 1UL << p); }
+inline void busHigh(uint8_t p) {
+#if SHVC_FAST_GPIO
+    pinHigh(p);
+#else
+    digitalWrite(p,HIGH);
+#endif
+}
+inline void busLow(uint8_t p) {
+#if SHVC_FAST_GPIO
+    pinLow(p);
+#else
+    digitalWrite(p,LOW);
+#endif
+}
 
 enum class BusMode : uint8_t { Idle, Write, Read };
 static BusMode mode = BusMode::Idle;
@@ -94,6 +128,15 @@ inline void begin() {
 inline void setMute(bool muted) { digitalWrite(PIN_MUTE, muted ? LOW : HIGH); }
 
 inline void enterWrite() {
+#if SHVC_FAST_GPIO
+    if(mode==BusMode::Write) return;
+    busHigh(PIN_WR); busHigh(PIN_RD);
+    busHigh(PIN_OE_W); busHigh(PIN_OE_R);
+    esp_rom_delay_us(OE_SETTLE_US);
+    // begin() enabled input sensing and selected GPIO function once. Only the
+    // output-enable bits change; both external buffers remain disabled here.
+    if(mode!=BusMode::Write) REG_WRITE(GPIO_ENABLE_W1TS_REG,dataMask);
+#else
     digitalWrite(PIN_WR, HIGH);
     digitalWrite(PIN_RD, HIGH);
     digitalWrite(PIN_OE_W, HIGH);
@@ -101,11 +144,20 @@ inline void enterWrite() {
     esp_rom_delay_us(OE_SETTLE_US);
     for (uint8_t p : DATA_PINS) pinMode(p, OUTPUT);
     if (traceWrites) for (uint8_t p : DATA_PINS) gpio_input_enable((gpio_num_t)p);
+#endif
     // Keep U2 disabled until address and data are valid in writePort().
     mode = BusMode::Write;
 }
 
 inline void enterRead() {
+#if SHVC_FAST_GPIO
+    if(mode==BusMode::Read) return;
+    busHigh(PIN_WR); busHigh(PIN_RD);
+    busHigh(PIN_OE_W); busHigh(PIN_OE_R);
+    esp_rom_delay_us(OE_SETTLE_US);
+    if(mode!=BusMode::Read) REG_WRITE(GPIO_ENABLE_W1TC_REG,dataMask);
+    esp_rom_delay_us(OE_SETTLE_US);
+#else
     digitalWrite(PIN_WR, HIGH);
     digitalWrite(PIN_RD, HIGH);
     digitalWrite(PIN_OE_W, HIGH);
@@ -114,48 +166,65 @@ inline void enterRead() {
     for (uint8_t p : DATA_PINS) pinMode(p, INPUT);
     esp_rom_delay_us(OE_SETTLE_US);
     mode = BusMode::Read;
+#endif
+    mode = BusMode::Read;
 }
 
 inline void selectPort(uint8_t port) {
+#if SHVC_FAST_GPIO
+    REG_WRITE(GPIO_OUT_W1TC_REG,ADDR_MASK);
+    REG_WRITE(GPIO_OUT_W1TS_REG,((port&1)?(1UL<<PIN_A0):0)|((port&2)?(1UL<<PIN_A1):0));
+#else
     digitalWrite(PIN_A0, (port & 1) ? HIGH : LOW);
     digitalWrite(PIN_A1, (port & 2) ? HIGH : LOW);
+#endif
 }
 
 inline void writePort(uint8_t port, uint8_t val) {
     enterWrite();
     selectPort(port);
+#if SHVC_FAST_GPIO
+    REG_WRITE(GPIO_OUT_W1TC_REG,dataMask);
+    REG_WRITE(GPIO_OUT_W1TS_REG,outMask[val]);
+#else
     for (uint8_t i = 0; i < 8; i++)
         digitalWrite(DATA_PINS[i], (val & (1 << i)) ? HIGH : LOW);
-    esp_rom_delay_us(diagnosticWriteUs);
-    digitalWrite(PIN_OE_W, LOW);
-    esp_rom_delay_us(diagnosticWriteUs);
+#endif
+    writeDelay();
+    busLow(PIN_OE_W);
+    writeDelay();
     captureWrite(0);
-    digitalWrite(PIN_WR, LOW);
-    esp_rom_delay_us(diagnosticWriteUs);
+    busLow(PIN_WR);
+    writeDelay();
     captureWrite(1);
-    digitalWrite(PIN_WR, HIGH);
-    esp_rom_delay_us(diagnosticWriteUs);
+    busHigh(PIN_WR);
+    writeDelay();
     captureWrite(2);
-    digitalWrite(PIN_OE_W, HIGH);
+    busHigh(PIN_OE_W);
     if (traceWrites) esp_rom_delay_us(OE_SETTLE_US);
     captureWrite(3);
     if (traceWrites && traceCount < 4) traceCount++;
 }
 
-inline uint8_t readPort(uint8_t port) {
+inline uint8_t readPort(uint8_t port,uint32_t settleUs=READ_US) {
     enterRead();
     selectPort(port);
-    esp_rom_delay_us(READ_US);
-    digitalWrite(PIN_OE_R, LOW);
+    esp_rom_delay_us(settleUs);
+    busLow(PIN_OE_R);
     esp_rom_delay_us(OE_SETTLE_US);
-    digitalWrite(PIN_RD, LOW);
-    esp_rom_delay_us(READ_US);
+    busLow(PIN_RD);
+    esp_rom_delay_us(settleUs);
     uint8_t v = 0;
+#if SHVC_FAST_GPIO
+    const uint32_t inputs=REG_READ(GPIO_IN_REG);
+    for(uint8_t i=0;i<8;i++) if(inputs&(1UL<<DATA_PINS[i])) v|=1<<i;
+#else
     for (uint8_t i = 0; i < 8; i++)
         if (digitalRead(DATA_PINS[i])) v |= 1 << i;
-    digitalWrite(PIN_RD, HIGH);
-    esp_rom_delay_us(READ_US);
-    digitalWrite(PIN_OE_R, HIGH);
+#endif
+    busHigh(PIN_RD);
+    esp_rom_delay_us(settleUs);
+    busHigh(PIN_OE_R);
     return v;
 }
 

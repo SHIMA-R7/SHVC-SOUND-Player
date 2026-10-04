@@ -1,0 +1,212 @@
+[
+  {
+    "opening": 1,
+    "retry": 1,
+    "start": true,
+    "ports": [
+      204,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 1,
+    "retry": 2,
+    "start": true,
+    "ports": [
+      204,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 1,
+    "retry": 3,
+    "start": true,
+    "ports": [
+      204,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 1,
+    "retry": 4,
+    "start": true,
+    "ports": [
+      204,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 1,
+    "retry": 5,
+    "start": true,
+    "ports": [
+      204,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 1,
+    "retry": 6,
+    "start": true,
+    "ports": [
+      204,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 2,
+    "retry": 1,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 2,
+    "retry": 2,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 2,
+    "retry": 3,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 2,
+    "retry": 4,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 2,
+    "retry": 5,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 2,
+    "retry": 6,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 3,
+    "retry": 1,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 3,
+    "retry": 2,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 3,
+    "retry": 3,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 3,
+    "retry": 4,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 3,
+    "retry": 5,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  },
+  {
+    "opening": 3,
+    "retry": 6,
+    "start": false,
+    "error": "SETADDR\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8: addr=$1000",
+    "ports": [
+      170,
+      187,
+      0,
+      0
+    ]
+  }
+]

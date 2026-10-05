@@ -1,0 +1,2486 @@
+{
+  "port": "COM15",
+  "elapsed_seconds": 7.7,
+  "trials": [
+    {
+      "trial": 1,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 2,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 3,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 4,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 5,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 6,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 7,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 8,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 9,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 10,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 11,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 12,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 13,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 14,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 15,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 16,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 17,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 18,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 19,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 20,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 21,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 22,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 23,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 24,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 25,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 26,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 27,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 28,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 29,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 30,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 31,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 32,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 33,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 34,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 35,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 36,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 37,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 38,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 39,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 40,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 41,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 42,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 43,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 44,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 45,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 46,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 47,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 48,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 49,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 50,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 51,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 52,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 53,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 54,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 55,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 56,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 57,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 58,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 59,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 60,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 61,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 62,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 63,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 64,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 65,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 66,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 67,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 68,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 69,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 70,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 71,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 72,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 73,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 74,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 75,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 76,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 77,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 78,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 79,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 80,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 81,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 82,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 83,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 84,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 85,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 86,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 87,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 88,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 89,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 90,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 91,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 92,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 93,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 94,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 95,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 96,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 97,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 98,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.01,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 99,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0.1,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 100,
+      "mode": "normal",
+      "pause_after_reset_seconds": 0,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ]
+    },
+    {
+      "trial": 101,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.01,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 102,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.1,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 103,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 104,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.01,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 105,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.1,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 106,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 107,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.01,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 108,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.1,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 109,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 110,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.01,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 111,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.1,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 112,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 113,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.01,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 114,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.1,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 115,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 116,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.01,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 117,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.1,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 118,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 119,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.01,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    },
+    {
+      "trial": 120,
+      "mode": "trace",
+      "pause_after_reset_seconds": 0.1,
+      "ready": true,
+      "start_ack": true,
+      "ports": [
+        204,
+        187,
+        0,
+        0
+      ],
+      "raw_trace": [
+        176160800,
+        176163499,
+        250605488,
+        167772192,
+        167774891,
+        250605488,
+        176160800,
+        176163499,
+        250605488,
+        176160816,
+        176163515,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        235143200,
+        235145899,
+        250605488,
+        243531808,
+        243534507,
+        250605488,
+        243531824,
+        243534523,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        100671520,
+        100674219,
+        250605488,
+        109060128,
+        109062827,
+        250605488,
+        109060144,
+        109062843,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        40042528,
+        40045227,
+        250605488,
+        48431136,
+        48433835,
+        250605488,
+        48431152,
+        48433851,
+        250605488
+      ],
+      "gpio_mismatches": []
+    }
+  ]
+}

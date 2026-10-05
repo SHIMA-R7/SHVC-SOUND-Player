@@ -1,0 +1,15 @@
+.gradle/
+local.properties
+build/
+app/build/
+artifacts/*.apk
+
+# Private song staging and source manifest
+artifacts/xiaomi-spc/
+artifacts/xiaomi-spc-manifest.json
+
+# Private WAV fixtures
+artifacts/*.wav
+
+# Private device screenshots
+artifacts/*.png

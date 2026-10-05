@@ -94,6 +94,8 @@ SYMBOLS = {
     "PJ-324M": ("J", ic([("1", "SLEEVE", "passive"), ("4", "TIP", "passive"), ("5", "TIP_SW", "passive"),
                          ("2", "RING", "passive"), ("3", "RING_SW", "passive")], [], 6)),
     "Conn_2": ("J", ic([("1", "1", "passive"), ("2", "2", "passive")], [], 4)),
+    # ライン出力の端子台(3.5mmピッチ 3極): 1=L 2=GND 3=R
+    "TermBlock_3": ("J", ic([("1", "L", "passive"), ("2", "GND", "passive"), ("3", "R", "passive")], [], 4)),
     # 電源入力コネクタ(ERCで「電源の供給元」として扱わせるため power_out)
     "PowerIn_2": ("J", ic([("1", "V+", "power_out"), ("2", "GND", "power_out")], [], 4)),
     "PowerIn_2B": ("J", ic([("1", "V+", "power_out"), ("2", "GND", "passive")], [], 4)),
@@ -171,6 +173,7 @@ items, labels, texts, noconn = [], [], [], []
 
 # 基板で使うフットプリント(SHVC-ESP32: はこのフォルダの SHVC-ESP32.pretty)
 FP_R = "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+FP_RV = "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"   # 立てて付ける(省スペース)
 FP_C100N = "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm"
 FOOTPRINTS = {
     "U1": "SHVC-ESP32:ESP32-DevKit-30_Socket", "U2": "Package_DIP:DIP-20_W7.62mm",
@@ -178,6 +181,9 @@ FOOTPRINTS = {
     "J4": "SHVC-ESP32:SHVC-SOUND-MB", "J1": "SHVC-ESP32:PJ-324M",
     "U7": "SHVC-ESP32:DCDC_SIP3_7805", "D1": "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal",
     "C13": "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm",
+    "J5": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-3-3.5-H_1x03_P3.50mm_Horizontal",
+    "C14": "Capacitor_THT:CP_Radial_D4.0mm_P1.50mm", "C15": "Capacitor_THT:CP_Radial_D4.0mm_P1.50mm",
+    "R11": FP_RV, "R12": FP_RV, "R13": FP_RV, "R14": FP_RV, "R15": FP_RV,
     "J3": "SHVC-ESP32:PD_INPUT_MODULE_2P", "R10": FP_R,
     "R1": FP_R, "R2": FP_R, "R5": FP_R, "R6": FP_R, "R7": FP_R, "R8": FP_R, "R9": FP_R,
     "C3": FP_C100N, "C8": FP_C100N, "C9": FP_C100N, "C10": FP_C100N,
@@ -238,7 +244,8 @@ ESP_DATA_GPIO = ["IO13", "IO14", "IO16", "IO17", "IO18", "IO19", "IO21", "IO22"]
 
 # U1 ESP32
 esp = {"3V3": "+3V3", "VIN": "+5V", "IO32": "RESET_3V3", "IO33": "VOL_PWM", "IO25": "RD_3V3", "IO26": "A0_3V3",
-       "IO27": "A1_3V3", "IO23": "WR_3V3", "IO4": "OE_W", "IO5": "OE_R"}
+       "IO27": "A1_3V3", "IO23": "WR_3V3", "IO4": "OE_W", "IO5": "OE_R",
+       "IO15": "MUTE_3V3"}   # SHVC-SOUND の MUTE(H=音が出る)
 esp.update(zip(ESP_DATA_GPIO, D3))
 esp = {esp_pin(k): v for k, v in esp.items()}
 esp.update({"14": "GND", "29": "GND"})
@@ -260,13 +267,13 @@ place("74LVC245", "U4", "74LVC245N (data read, DIR=B->A)", 147.32, 119.38, u4)
 
 # U3 74HCT541 制御線
 u3 = {"1": "GND", "19": "GND", "20": "+5V", "10": "GND",
-      "2": "A0_3V3", "3": "A1_3V3", "4": "WR_3V3", "5": "RD_3V3", "6": "RESET_3V3", "7": "GND", "8": "GND", "9": "GND",
-      "18": "SHVC_A0", "17": "SHVC_A1", "16": "SHVC_WR", "15": "SHVC_RD", "14": "SHVC_RESET"}
+      "2": "A0_3V3", "3": "A1_3V3", "4": "WR_3V3", "5": "RD_3V3", "6": "RESET_3V3", "7": "MUTE_3V3", "8": "GND", "9": "GND",
+      "18": "SHVC_A0", "17": "SHVC_A1", "16": "SHVC_WR", "15": "SHVC_RD", "14": "SHVC_RESET", "13": "SHVC_MUTE"}
 place("74HCT541", "U3", "74HCT541N (control)", 147.32, 177.8, u3)
 
 # J4 SHVC-SOUND
 shvc = {"1": "GND", "2": "+5V", "3": "SHVC_A0", "4": "SHVC_A1", "5": "SHVC_WR", "6": "SHVC_RD",
-        "15": "SHVC_RESET", "18": "+5V", "19": "GND", "20": "+5V", "21": "AUDIO_L", "22": "AUDIO_R",
+        "15": "SHVC_RESET", "18": "+5V", "19": "GND", "20": "SHVC_MUTE", "21": "AUDIO_L", "22": "AUDIO_R",
         "23": "GND", "24": "+5V"}
 for k in range(8):
     shvc[str(7 + k)] = D5[k]
@@ -297,6 +304,17 @@ place("R", "R2", "330", 365.76, 127.0, {"1": "AMP_OUT_R", "2": "OUT_R_RC"})
 place("C", "C2", "100u", 375.92, 127.0, {"1": "OUT_R_RC", "2": "JACK_R"})
 place("PJ-324M", "J1", "PJ-324M", 391.16, 101.6, {"1": "GND", "4": "JACK_L", "2": "JACK_R"})
 
+# ライン出力(アンプを通さない): AUDIO_L/R → 10µF(無極性)で直流カット → 47kで0V基準に固定(抜き差し時のポップ防止)
+#            → 100Ω(ケーブルの容量やショートからの保護) → 端子台 J5(L / GND / R)
+for ch, ref_c, ref_rs, ref_rp, src, y in (("L", "C14", "R11", "R13", "AUDIO_L", 215.9), ("R", "C15", "R12", "R14", "AUDIO_R", 241.3)):
+    place("C", ref_c, "10u NP", 281.94, y, {"1": src, "2": f"LOUT_{ch}"})
+    place("R", ref_rp, "47k", 297.18, y, {"1": f"LOUT_{ch}", "2": "GND"})
+    place("R", ref_rs, "100", 312.42, y, {"1": f"LOUT_{ch}", "2": f"LINE_{ch}"})
+place("TermBlock_3", "J5", "LINE OUT", 350.52, 228.6, {"1": "LINE_L", "2": "GND", "3": "LINE_R"})
+# MUTE: GPIO15 → U3(74HCT541)の空きチャンネルで5Vにして SHVC-SOUND 20番へ。
+# 10kで引き下げ、ESP32の起動中・書き込み中は消音(ファームが H にすると音が出る)
+place("R", "R15", "10k", 124.46, 30.48, {"1": "MUTE_3V3", "2": "GND"})
+
 # 電源入力
 # PD入力(12V)ひとつで全体が動く: 12V → M78AR05(5V) → 1N5819 → +5V(ESP32 VIN・SHVC-SOUND・74HCT541)
 # USBをつないだままでも、ダイオードでDC-DC側へは逆流しない(ESP32ボード側にもUSB→VINのダイオードがある前提)
@@ -309,7 +327,7 @@ place("R", "R10", "10", 297.18, 172.72, {"1": "+12V", "2": "AMP_VP"})
 place("C", "C3", "100n", 322.58, 172.72, {"1": "AMP_VP", "2": "GND"})
 place("C", "C4", "220u", 337.82, 172.72, {"1": "AMP_VP", "2": "GND"})
 
-text("SHVC-SOUND player - ESP32 version (74HCT541N x2 + 74LVC245N + TDA7053A)", 20.32, 20.32, 2.5)
+text("SHVC-SOUND player - ESP32 version (74HCT541N x2 + 74LVC245N + TDA7053A + line out)", 20.32, 20.32, 2.5)
 notes = [
     "Data bus: U2(HCT541, write 3.3V->5V) and U4(LVC245 DIR=GND, read 5V->3.3V) are in parallel.",
     "Firmware must never assert OE_W and OE_R (both active low) at the same time.",
@@ -317,6 +335,8 @@ notes = [
     "ESP32 DevKit V1 30pin (DOIT type). GPIO16/17 are PSRAM on WROVER boards - use WROOM-32.",
     "Amp circuit copied from SHVC-SOUND-KiCad (Arduino version). R5 3.3k -> 5.6k for 3.3V PWM, ferrite bead FB1 -> R10 10 ohm.",
     "TDA7053A pin names are inferred from the existing schematic; check the datasheet.",
+    "MUTE: GPIO15 -> U3 A6/Y6 -> SHVC pin 20. R15 10k pulls it low = muted until firmware drives GPIO15 high.",
+    "Line out J5: AUDIO -> 10uF non-polar -> 47k to GND -> 100 ohm -> terminal block (L / GND / R). No amp in path.",
     "12V (USB-PD) -> U7 M78AR05-0.5 -> D1 1N5819 -> +5V. USB on ESP32 can stay connected (board has VIN diode - check yours).",
     "Tie all grounds together at one point. Use electrolytics with correct polarity for C1/C2/C4/C5/C11/C12.",
 ]

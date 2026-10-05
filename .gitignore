@@ -34,3 +34,7 @@ SHVC-SOUND-ESP32-KiCad/*.dsn
 SHVC-SOUND-ESP32-KiCad/*.ses
 SHVC-SOUND-ESP32-KiCad/*.rpt
 SHVC-SOUND-ESP32-KiCad/gerber/
+
+# Locally generated copyrighted SPC payload for standalone playback
+SHVC-SOUND_python/esp32_spc_standalone/spc_data.h
+docs/tmp/

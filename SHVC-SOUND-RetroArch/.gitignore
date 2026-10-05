@@ -1,0 +1,7 @@
+artifacts/
+*.sfc
+*.smc
+*.spc
+*.trace
+
+__pycache__/

@@ -1,0 +1,505 @@
+// BLE control, persistent songs, and standard BLE MIDI. All SPC bus work runs in loop().
+#include <Arduino.h>
+#include <atomic>
+#include <BLEDevice.h>
+#include <BLE2902.h>
+#include <LittleFS.h>
+#include <Preferences.h>
+#define SHVC_FAST_GPIO 1
+#include "spc_bus.h"
+#include "apu_wifi_bridge.h"
+static std::atomic<bool> apuWifiBusy{false};
+RTC_DATA_ATTR bool returnFromApuWifi=false;
+#include "spc_volume.h"
+#include "amp_control.h"
+#include "bank_data.h"
+#include "synth.h"
+#include "midi_parser.h"
+#if __has_include("spc_data.h")
+#include "spc_data.h"
+#define HAVE_BOOT_SONG 1
+#endif
+
+const char *SERVICE = "89e30000-3c3b-4df7-a74a-25fdd879b40c";
+const char *COMMAND = "89e30001-3c3b-4df7-a74a-25fdd879b40c";
+const char *STATUS_UUID = "89e30002-3c3b-4df7-a74a-25fdd879b40c";
+const char *MIDI_SERVICE = "03b80e5a-ede8-4b33-a751-6ce34ec4c700";
+const char *MIDI_CHAR = "7772e5db-3868-4112-a1a9-f2669d106bf3";
+enum Mode : uint8_t { STOPPED, SPC, MIDI_LIVE, MIDI_FILE, LOADING, ERROR_MODE, PCM_STREAM };
+enum Op : uint8_t { INFO=1, PLAY=2, STOP=3, MUTE=4, MASTER=5, MIDI_MODE=6,
+  CHANNEL=7, LOOP=8, BOOT=9, PROGRAM=10, SPC_GAIN=11, AMP_PROFILE=12, AMP_LEVEL=13, AMP_FADE=14, AMP_STATE=15, BEGIN_FILE=16, DATA=17, COMMIT=18, ABORT=19, FAST_DATA=20, CHECKED_DATA=21, RESUME_FILE=22, PCM_BEGIN=32, PCM_DATA=33, PCM_START=34, PCM_FAST_DATA=36, PCM_RESUME=37 };
+struct Packet { uint16_t length; uint8_t bytes[512]; };
+struct MidiMsg { uint8_t status,d1,d2; };
+struct __attribute__((packed)) Reply {
+  uint16_t sequence; uint8_t op, code; uint32_t received,total;
+  uint8_t mode,muted; uint16_t master; uint32_t dropped;
+};
+static_assert(sizeof(Reply)==20,"wire reply size");
+QueueHandle_t commands,midi;
+BLECharacteristic *statusChar;
+Preferences prefs;
+File incoming,sequenceFile;
+Mode mode=STOPPED;
+bool muted=false,repeatMidi=true,bootPlay=true,fsReady=false,uploading=false;
+volatile bool disconnected=false,connected=false;
+volatile uint32_t dropped=0;
+volatile bool midiOverflow=false;
+uint8_t activeSlot=0,uploadSlot=1,master=89;
+uint16_t spcGain=256; // Q8: 256 = original level, 1024 = 4x (signed saturation).
+uint32_t received=0,total=0,expectedCrc=0,runningCrc=0xFFFFFFFF,lastData=0;
+uint32_t midiCount=0,eventIndex=0,midiDuration=0,midiStart=0;
+uint8_t nextEvent[8]; bool haveEvent=false;
+Reply reply{};
+AmpControl amp;
+uint8_t ampDuty=0;
+void updateAmp() {
+  bool audible=!muted && !(mode==SPC && spcGain==0) &&
+    (mode==SPC || mode==MIDI_LIVE || mode==MIDI_FILE || mode==PCM_STREAM);
+  uint8_t duty=amp.duty(millis(),audible);
+  if(duty!=ampDuty) { ampDuty=duty; ledcWrite(33,duty); }
+}
+
+enum LedState : uint8_t { LED_OFF, LED_RECEIVING, LED_LOADING, LED_PLAYING };
+std::atomic<LedState> activityState{LED_OFF};
+void refreshActivity() {
+  LedState state=mode==LOADING?LED_LOADING:uploading?LED_RECEIVING:
+    (mode==SPC || mode==MIDI_LIVE || mode==MIDI_FILE || mode==PCM_STREAM)?LED_PLAYING:LED_OFF;
+  if(activityState.exchange(state,std::memory_order_relaxed)!=state)
+    Serial.printf("LED state=%u pin=%u\n",unsigned(state),unsigned(LED_BUILTIN));
+}
+void activityTask(void*) {
+  LedState previous=LED_OFF; uint32_t started=millis();
+  for(;;) {
+    LedState state=apuWifiBusy.load()? (unified_apu::audible.load()?LED_PLAYING:LED_OFF):activityState.load(std::memory_order_relaxed);
+    uint32_t now=millis();
+    if(state!=previous) { previous=state; started=now; }
+    uint32_t interval=state==LED_RECEIVING?500:75;
+    bool on=state==LED_PLAYING ||
+      ((state==LED_RECEIVING || state==LED_LOADING) && ((uint32_t(now-started)/interval)&1)==0);
+    digitalWrite(LED_BUILTIN,on?HIGH:LOW);
+    vTaskDelay(pdMS_TO_TICKS(20));
+  }
+}
+
+uint16_t get16(const uint8_t *p) { return p[0]|uint16_t(p[1])<<8; }
+uint32_t get32(const uint8_t *p) { return p[0]|uint32_t(p[1])<<8|uint32_t(p[2])<<16|uint32_t(p[3])<<24; }
+uint32_t crcUpdate(uint32_t crc,const uint8_t *p,size_t n) {
+  while(n--) { crc^=*p++; for(int i=0;i<8;i++) crc=(crc>>1)^(0xEDB88320u & (0u-(crc&1))); }
+  return crc;
+}
+String slotPath(uint8_t slot) { return String("/song")+slot+".dat"; }
+uint32_t shvcReceived=0,shvcTotal=0,shvcPublished=0;
+uint32_t shvcStartedUs=0;
+uint8_t fastUploadError=0;
+uint8_t *uploadRam=nullptr;
+esp_bd_addr_t remoteAddress{};
+void publish(uint16_t seq,uint8_t op,uint8_t code) {
+  uint8_t flags=uint8_t(muted)|(uint8_t(repeatMidi)<<1)|(uint8_t(bootPlay)<<2)|8|16|64|((!uploading || uploadRam)?(32|128):0); // Gain, load-progress, and windowed-upload capabilities
+  uint16_t volume=mode==SPC?spcGain:master;
+  if(op==SPC_GAIN) volume=spcGain;
+  reply={seq,op,code,mode==LOADING?shvcReceived:received,mode==LOADING?shvcTotal:total,uint8_t(mode),flags,volume,dropped};
+  if(op>=AMP_PROFILE && op<=AMP_STATE) {
+    updateAmp(); reply.master=amp.state(); reply.received=ampDuty; reply.total=amp.remaining(millis());
+  }
+  statusChar->setValue(reinterpret_cast<uint8_t*>(&reply),sizeof(reply));
+  if(connected) statusChar->notify();
+  Serial.printf("ACK seq=%u op=%u code=%u mode=%u received=%lu\n",seq,op,code,mode,(unsigned long)received);
+}
+void beginShvcTransfer(uint32_t bytes) {
+  shvcReceived=0; shvcTotal=bytes; shvcPublished=0;
+  shvcStartedUs=micros();
+  mode=LOADING; applyMute();
+  publish(0,0,0); // Unsolicited progress never completes an outstanding command.
+}
+void applyMute() {
+  spc::setMute(muted || (mode==SPC && spcGain==0) || mode==STOPPED || mode==LOADING || mode==ERROR_MODE);
+  updateAmp(); refreshActivity();
+}
+void abortUpload() {
+  if(uploadRam) { free(uploadRam); uploadRam=nullptr; }
+  if(incoming) incoming.close();
+  if(uploading) LittleFS.remove(slotPath(uploadSlot));
+  uploading=false;
+  refreshActivity();
+}
+void stopPcmStream();
+void stopPlayback() {
+  amp.reset();
+  stopPcmStream();
+  if(sequenceFile) sequenceFile.close();
+  if(mode==MIDI_LIVE || mode==MIDI_FILE) synth::allNotesOff(-1);
+  mode=STOPPED; haveEvent=false; xQueueReset(midi); synth::driverError=false; applyMute();
+}
+bool uploadBlock(uint16_t addr,const uint8_t *p,size_t n,bool first) {
+  uint32_t blockStarted=micros(),sampleWriteUs=0,sampleReadUs=0;
+  size_t samples=min(n,size_t(64));
+  spc::writePort(2,addr&255); spc::writePort(3,addr>>8); spc::writePort(1,1);
+  uint8_t kick=first?0xCC:uint8_t(spc::readPort(0)+2); if(!first && !kick) kick=1;
+  spc::writePort(0,kick); if(!spc::waitForPort(0,kick,1000)) return false;
+  for(size_t i=0;i<n;i++) {
+    uint32_t sampleStarted=i<samples?micros():0;
+    spc::writePort(1,p[i]); spc::writePort(0,uint8_t(i));
+    if(i<samples) { sampleWriteUs+=micros()-sampleStarted; sampleStarted=micros(); }
+    if(!spc::waitForPort(0,uint8_t(i),200)) return false;
+    if(i<samples) sampleReadUs+=micros()-sampleStarted;
+    shvcReceived++;
+    if(shvcReceived-shvcPublished>=1024 || shvcReceived==shvcTotal) {
+      shvcPublished=shvcReceived; publish(0,0,0);
+    }
+    if((i&1023)==1023) delay(1);
+  }
+  Serial.printf("BUS block=%04X bytes=%u elapsed_ms=%lu write_pair_us=%lu read_ack_us=%lu\n",
+    addr,unsigned(n),(unsigned long)((micros()-blockStarted)/1000),
+    (unsigned long)(samples?sampleWriteUs/samples:0),(unsigned long)(samples?sampleReadUs/samples:0));
+  return true;
+}
+bool finishSpc(uint16_t addr,uint8_t signal,const uint8_t *ports) {
+  spc::jumpTo(addr);
+  uint8_t marker=spc::readPort(0); if(marker!=0x99 && marker!=0x98) return false;
+  for(int p=1;p<4;p++) spc::writePort(p,ports[p]);
+  spc::writePort(0,signal); if(!spc::waitForPort(0,0x98,2000)) return false;
+  spc::writePort(0,ports[0]); mode=SPC; applyMute();
+  Serial.printf("BUS complete bytes=%lu elapsed_ms=%lu\n",(unsigned long)shvcReceived,
+    (unsigned long)((micros()-shvcStartedUs)/1000));
+  return true;
+}
+bool startMidi() {
+  stopPlayback(); beginShvcTransfer(sizeof(SPC_DIR)+sizeof(SPC_BRR)+sizeof(SPC_DRIVER));
+  synth::driverError=false; spc::dryRun=false;
+  if(!spc::reset() || !uploadBlock(SPC_DIR_ADDR,SPC_DIR,sizeof(SPC_DIR),true) ||
+     !uploadBlock(SPC_SAMPLE_ADDR,SPC_BRR,sizeof(SPC_BRR),false) ||
+     !uploadBlock(SPC_DRIVER_ADDR,SPC_DRIVER,sizeof(SPC_DRIVER),false)) return false;
+  spc::jumpTo(SPC_DRIVER_ADDR); synth::masterVolume=master/127.0f; synth::initDsp();
+  if(synth::driverError) return false;
+  mode=MIDI_LIVE; xQueueReset(midi); applyMute(); return true;
+}
+bool validSong(File &f) {
+  uint8_t h[16]; if(f.size()<16 || f.read(h,16)!=16) return false;
+  if(!memcmp(h,"HSP1",4)) {
+    uint16_t addr=get16(h+4),len=get16(h+6);
+    return len>0 && len<=4096 && uint32_t(addr)+len==0xFFC0 && f.size()==16+65536u+len;
+  }
+  if(memcmp(h,"HTM1",4)) return false;
+  uint32_t count=get32(h+4),duration=get32(h+8),prev=0;
+  if(!count || count>30000 || duration>86400000 || f.size()!=16+8u*count) return false;
+  uint8_t e[8];
+  for(uint32_t i=0;i<count;i++) {
+    if(f.read(e,8)!=8) return false;
+    uint32_t t=get32(e); uint8_t type=e[4]&0xF0;
+    if(t<prev || t>duration || e[5]>127 || e[6]>127 ||
+       !(type==0x80 || type==0x90 || type==0xB0 || type==0xC0 || type==0xE0)) return false;
+    prev=t; if((i&255)==255) delay(1);
+  }
+  return true;
+}
+bool nextMidiEvent() {
+  haveEvent=eventIndex<midiCount && sequenceFile.read(nextEvent,8)==8;
+  if(haveEvent) eventIndex++;
+  return haveEvent;
+}
+bool playSaved() {
+  stopPlayback();
+  File f=fsReady?LittleFS.open(slotPath(activeSlot),"r"):File();
+  if(f) {
+    if(!validSong(f)) { f.close(); return false; }
+    f.seek(0); uint8_t h[16]; f.read(h,16);
+    if(!memcmp(h,"HTM1",4)) {
+      f.close(); if(!startMidi()) return false;
+      sequenceFile=LittleFS.open(slotPath(activeSlot),"r"); sequenceFile.seek(16);
+      midiCount=get32(h+4); midiDuration=get32(h+8); eventIndex=0;
+      midiStart=millis(); nextMidiEvent(); mode=MIDI_FILE; return true;
+    }
+    // Allocate only the snapshot while loading; release it before live MIDI starts.
+    size_t n=65536u+get16(h+6); uint8_t *data=(uint8_t*)malloc(n);
+    if(!data) {
+      // Wi-Fi and BLE stacks leave too little contiguous heap for a snapshot.
+      // The IPL accepts separate blocks: stream ARAM from flash, buffering only
+      // one block and the restore stub that needs its gain patch.
+      size_t stubLength=get16(h+6);
+      uint8_t *stub=(uint8_t*)malloc(stubLength);
+      if(!stub) { f.close(); return false; }
+      f.seek(16+65536u);
+      bool ok=f.read(stub,stubLength)==stubLength && applySpcGain(stub,stubLength,spcGain);
+      uint8_t block[1024];
+      beginShvcTransfer(238u+0xFEC0u+stubLength);
+      f.seek(18);
+      ok=ok && f.read(block,238)==238 && spc::reset() && uploadBlock(2,block,238,true);
+      f.seek(16+0x100);
+      for(uint32_t address=0x100;ok && address<0xFFC0;address+=sizeof(block)) {
+        size_t count=min(size_t(0xFFC0-address),sizeof(block));
+        ok=f.read(block,count)==count && uploadBlock(address,block,count,false);
+      }
+      f.close();
+      ok=ok && uploadBlock(get16(h+4),stub,stubLength,false) && finishSpc(get16(h+4),h[8],h+9);
+      free(stub);Serial.printf("SPC streamed snapshot=%s\n",ok?"OK":"FAILED");return ok;
+    }
+    bool ok=f.read(data,n)==n; f.close();
+    ok=ok && applySpcGain(data+65536,get16(h+6),spcGain);
+    Serial.printf("SPC gain=%u patch=%s\n",spcGain,ok?"OK":"FAILED");
+    if(!ok) { free(data); return false; }
+    beginShvcTransfer(238u+0xFEC0u+get16(h+6));
+    ok=ok && spc::reset() && uploadBlock(2,data+2,238,true) &&
+      uploadBlock(0x100,data+0x100,0xFEC0,false) &&
+      uploadBlock(get16(h+4),data+65536,get16(h+6),false) && finishSpc(get16(h+4),h[8],h+9);
+    free(data); return ok;
+  }
+#ifdef HAVE_BOOT_SONG
+  uint8_t *stub=(uint8_t*)malloc(sizeof(RESTORE_STUB));
+  if(!stub) return false;
+  memcpy(stub,RESTORE_STUB,sizeof(RESTORE_STUB));
+  if(!applySpcGain(stub,sizeof(RESTORE_STUB),spcGain)) { free(stub); return false; }
+  beginShvcTransfer(238u+0xFEC0u+sizeof(RESTORE_STUB));
+  bool ok=spc::reset() && uploadBlock(2,SPC_RAM+2,238,true) &&
+    uploadBlock(0x100,SPC_RAM+0x100,0xFEC0,false) &&
+    uploadBlock(STUB_ADDRESS,stub,sizeof(RESTORE_STUB),false) &&
+    finishSpc(STUB_ADDRESS,START_SIGNAL,FINAL_PORTS);
+  free(stub); return ok;
+#else
+  return false;
+#endif
+}
+#include "pcm_stream.h"
+
+void midiEnqueue(uint8_t status,uint8_t d1,uint8_t d2) {
+  MidiMsg m{status,d1,d2}; if(xQueueSend(midi,&m,0)!=pdTRUE) { dropped++; midiOverflow=true; }
+}
+MidiStream midiStream(midiEnqueue);
+class MidiCallbacks : public BLECharacteristicCallbacks {
+  void onWrite(BLECharacteristic *c) override {
+    String s=c->getValue(); parseBleMidiPacket((const uint8_t*)s.c_str(),s.length(),midiStream);
+  }
+};
+class CommandCallbacks : public BLECharacteristicCallbacks {
+  void onWrite(BLECharacteristic *c) override {
+    String s=c->getValue();
+    if(s.length()<3 || s.length()>512) { dropped++; return; }
+    Packet p{}; p.length=s.length(); memcpy(p.bytes,s.c_str(),p.length);
+    if(xQueueSend(commands,&p,0)!=pdTRUE) dropped++;
+  }
+};
+class ServerCallbacks : public BLEServerCallbacks {
+  void onConnect(BLEServer*) override { connected=true; }
+  void onConnect(BLEServer*,esp_ble_gatts_cb_param_t *param) override {
+    memcpy(remoteAddress,param->connect.remote_bda,sizeof(remoteAddress));
+  }
+  void onDisconnect(BLEServer*) override { connected=false; disconnected=true; midiStream=MidiStream(midiEnqueue); if(!apuWifiBusy.load()) BLEDevice::startAdvertising(); }
+};
+void handle(const Packet &p) {
+  uint16_t seq=get16(p.bytes); uint8_t op=p.bytes[2],code=0;
+  const uint8_t *a=p.bytes+3; size_t n=p.length-3;
+  switch(op) {
+    case PCM_BEGIN:
+      if((n!=6 && n!=7) || (get16(a)!=8000 && get16(a)!=16000 && get16(a)!=32000) || (n==7 && a[6]!=1 && a[6]!=2) || get32(a+2)==0 || get32(a+2)%(9*(n==7?a[6]:1))) code=1;
+      else if(!beginPcmStream(get16(a),get32(a+2),n==7?a[6]:1)) code=4;
+      break;
+    case PCM_DATA:
+      if(n<13) code=1; else code=feedPcmStream(get32(a),a+4,n-4);
+      break;
+    case PCM_FAST_DATA:
+      if(pcmError) code=pcmError;
+      else if(n<17 || (crcUpdate(0xFFFFFFFF,a+8,n-8)^0xFFFFFFFF)!=get32(a+4)) code=2;
+      else code=feedPcmStream(get32(a),a+8,n-8);
+      if(code) { if(!pcmError) Serial.printf("PCM feed error=%u offset=%lu received=%lu n=%u\n",code,get32(a),received,unsigned(n-8)); pcmError=code; }
+      break;
+    case PCM_RESUME:
+      if(n!=4 || !pcmActive || get32(a)!=received) code=2; else pcmError=0;
+      break;
+    case PCM_START:
+      if(n || !startPcmStream()) code=4;
+      break;
+    case INFO: if(n) code=1; else if(pcmActive && pcmError) code=pcmError; else if(uploading && fastUploadError) code=fastUploadError; break;
+    case PLAY: if(n || uploading) code=1; else if(!playSaved()) code=4; break;
+    case STOP: if(n) code=1; else stopPlayback(); break;
+    case MUTE: if(n!=1 || a[0]>1) code=1; else { muted=a[0]; applyMute(); } break;
+    case MASTER:
+      if(n!=1 || a[0]>127 || !(mode==MIDI_LIVE || mode==MIDI_FILE || mode==STOPPED)) code=1;
+      else { master=a[0]; synth::masterVolume=master/127.0f;
+        if(mode==MIDI_LIVE || mode==MIDI_FILE) for(int c=0;c<16;c++) synth::refreshVolumes(c); }
+      break;
+    case MIDI_MODE: if(n || uploading) code=1; else if(!startMidi()) code=4; break;
+    case CHANNEL:
+      if(n!=3 || a[0]>15 || a[1]>127 || a[2]>127 || !(mode==MIDI_LIVE || mode==MIDI_FILE)) code=1;
+      else synth::controlChange(a[0],a[1],a[2]); break;
+    case PROGRAM:
+      if(n!=2 || a[0]>15 || a[1]>127 || !(mode==MIDI_LIVE || mode==MIDI_FILE)) code=1;
+      else synth::programChange(a[0],a[1]); break;
+    case SPC_GAIN: {
+      if(n!=2 || get16(a)>1024 || !(mode==SPC || mode==STOPPED)) { code=1; break; }
+      uint16_t old=spcGain,value=get16(a);
+      if(value==old) break;
+      spcGain=value;
+      // Zero is a hardware mute and stays silent even if the song changes DSP volume.
+      bool ok=true;
+      if(mode==SPC) {
+        if(value==0) applyMute();
+        else ok=playSaved(); // Reload from the immutable local file; never compound gain.
+      }
+      if(!ok) { spcGain=old; code=4; break; }
+      if(prefs.putUShort("spc-gain",value)!=2) { code=3; break; }
+      break;
+    }
+    case AMP_PROFILE:
+      if(n!=1 || a[0]>2) code=1;
+      else { amp.profile=a[0]; amp.reset(); updateAmp();
+        if(prefs.putUChar("amp-profile",amp.profile)!=1) code=3; }
+      break;
+    case AMP_LEVEL:
+      if(n!=1 || amp.profile!=1) code=1;
+      else { amp.level=a[0]; amp.reset(); updateAmp();
+        if(prefs.putUChar("amp-level",amp.level)!=1) code=3; }
+      break;
+    case AMP_FADE:
+      if(n!=4 || mode!=SPC || !amp.fade(millis(),get32(a))) code=1;
+      break;
+    case AMP_STATE: if(n) code=1; break;
+    case LOOP: if(n!=1 || a[0]>1) code=1; else { repeatMidi=a[0]; prefs.putBool("loop",repeatMidi); } break;
+    case BOOT: if(n!=1 || a[0]>1) code=1; else { bootPlay=a[0]; prefs.putBool("boot",bootPlay); } break;
+    case BEGIN_FILE:
+      if(n!=8 || !fsReady || get32(a)<16 || get32(a)>256000) { code=1; break; }
+      abortUpload(); fastUploadError=0; uploadSlot=1-activeSlot; total=get32(a); expectedCrc=get32(a+4);
+      received=0; runningCrc=0xFFFFFFFF;
+      // SPC snapshots fit in a bounded staging buffer. Avoid flash/cache stalls
+      // during BLE reception; larger files retain the acknowledged legacy path.
+      if(total<=98304) uploadRam=(uint8_t*)malloc(total);
+      incoming=LittleFS.open(slotPath(uploadSlot),"w");
+      uploading=bool(incoming); lastData=millis(); if(!uploading) code=3;
+      else if(connected) BLEDevice::getServer()->updateConnParams(remoteAddress,6,6,0,500);
+      break;
+    case RESUME_FILE:
+      if(n!=4 || !uploading || get32(a)!=received) code=2;
+      else fastUploadError=0;
+      break;
+    case CHECKED_DATA:
+      if(fastUploadError || !uploading || n<9 || get32(a)!=received || n-8>total-received ||
+        (crcUpdate(0xFFFFFFFF,a+8,n-8)^0xFFFFFFFF)!=get32(a+4)) { code=2; break; }
+      if(uploadRam) memcpy(uploadRam+received,a+8,n-8);
+      else if(incoming.write(a+8,n-8)!=n-8) { abortUpload(); code=3; break; }
+      runningCrc=crcUpdate(runningCrc,a+8,n-8); received+=n-8; lastData=millis(); break;
+    case FAST_DATA:
+    case DATA:
+      if(!uploading || n<5 || get32(a)!=received || n-4>total-received) {
+        Serial.printf("DATA reject op=%u offset=%lu expected=%lu n=%u dropped=%lu\n",op,
+          (unsigned long)(n>=4?get32(a):0),(unsigned long)received,unsigned(n),(unsigned long)dropped);
+        code=2; break;
+      }
+      if(uploadRam) memcpy(uploadRam+received,a+4,n-4);
+      else if(incoming.write(a+4,n-4)!=n-4) { abortUpload(); code=3; break; }
+      runningCrc=crcUpdate(runningCrc,a+4,n-4); received+=n-4; lastData=millis(); break;
+    case COMMIT: {
+      if(n || fastUploadError || !uploading || received!=total || (runningCrc^0xFFFFFFFF)!=expectedCrc) {
+        Serial.printf("COMMIT reject error=%u uploading=%u received=%lu total=%lu crc=%08lX expected=%08lX\n",
+          fastUploadError,uploading,(unsigned long)received,(unsigned long)total,
+          (unsigned long)(runningCrc^0xFFFFFFFF),(unsigned long)expectedCrc);
+        code=2; break;
+      }
+      if(uploadRam) {
+        if(incoming.write(uploadRam,total)!=total) { abortUpload(); code=3; break; }
+        free(uploadRam); uploadRam=nullptr;
+      }
+      incoming.close(); File f=LittleFS.open(slotPath(uploadSlot),"r"); bool ok=f && validSong(f); f.close();
+      if(!ok) { Serial.println("COMMIT invalid stored song"); abortUpload(); code=2; break; }
+      // NVS slot pointer changes only after the new complete file validates.
+      if(prefs.putUChar("slot",uploadSlot)!=1) { abortUpload(); code=3; break; }
+      activeSlot=uploadSlot; uploading=false; break;
+    }
+    case ABORT: if(n) code=1; else abortUpload(); break;
+    default: code=1;
+  }
+  if(code==4 || synth::driverError) { mode=ERROR_MODE; applyMute(); if(!code) code=4; }
+  refreshActivity();
+  if(op==FAST_DATA || op==CHECKED_DATA || op==PCM_FAST_DATA) {
+    if(code && op!=PCM_FAST_DATA) fastUploadError=code;
+    // An INFO barrier confirms each bounded window and reports any error.
+    return;
+  }
+  publish(seq,op,code);
+}
+void startPlayerBle() {
+  BLEDevice::init("SHVC-SOUND Player"); BLEDevice::setMTU(517);
+  BLEServer *server=BLEDevice::createServer(); server->setCallbacks(new ServerCallbacks());
+  BLEService *control=server->createService(SERVICE);
+  auto *command=control->createCharacteristic(COMMAND,BLECharacteristic::PROPERTY_WRITE|BLECharacteristic::PROPERTY_WRITE_NR);
+  command->setCallbacks(new CommandCallbacks());
+  statusChar=control->createCharacteristic(STATUS_UUID,BLECharacteristic::PROPERTY_READ|BLECharacteristic::PROPERTY_NOTIFY);
+  statusChar->addDescriptor(new BLE2902()); control->start();
+  BLEService *ms=server->createService(MIDI_SERVICE);
+  auto *mc=ms->createCharacteristic(MIDI_CHAR,BLECharacteristic::PROPERTY_READ|BLECharacteristic::PROPERTY_WRITE_NR|BLECharacteristic::PROPERTY_NOTIFY);
+  mc->addDescriptor(new BLE2902()); mc->setCallbacks(new MidiCallbacks()); ms->start();
+  auto *adv=BLEDevice::getAdvertising(); adv->addServiceUUID(SERVICE); adv->setScanResponse(true); BLEDevice::startAdvertising();
+  Serial.println("BLE READY SHVC-SOUND Player"); publish(0,INFO,0);
+
+}
+void enterApuWifi() {
+ apuWifiBusy=true;abortUpload();stopPlayback();xQueueReset(commands);xQueueReset(midi);
+ connected=false;disconnected=false;
+ BLEDevice::deinit(false);statusChar=nullptr;
+ disconnected=false;
+ // Keep amplifier control on the existing verified PWM pin/profile.
+ ampDuty=amp.duty(millis(),true);ledcWrite(33,ampDuty);
+ Serial.printf("OWNER WIFI free_heap=%lu\n",(unsigned long)ESP.getFreeHeap());
+}
+void leaveApuWifi() {
+ // Bluedroid does not reliably advertise after deinit/init on this core.
+ // Reboot into a clean BLE stack, keeping saved songs and stopping playback.
+ returnFromApuWifi=true;
+ Serial.println("OWNER BLE restart");Serial.flush();ESP.restart();
+}
+
+void setup() {
+  Serial.begin(115200); spc::begin(); ledcAttach(33,20000,8); ledcWrite(33,0);
+  pinMode(LED_BUILTIN,OUTPUT); digitalWrite(LED_BUILTIN,LOW);
+  if(xTaskCreatePinnedToCore(activityTask,"activity-led",2048,nullptr,1,nullptr,0)!=pdPASS) {
+    Serial.println("ERROR activity LED task"); while(true) delay(1000);
+  }
+  commands=xQueueCreate(64,sizeof(Packet)); midi=xQueueCreate(256,sizeof(MidiMsg));
+  if(!commands || !midi) { Serial.println("ERROR queues"); while(true) delay(1000); }
+  prefs.begin("ble-player",false); activeSlot=prefs.getUChar("slot",0)&1;
+  spcGain=prefs.getUShort("spc-gain",256); if(spcGain>1024) spcGain=256;
+  amp.profile=prefs.getUChar("amp-profile",0); if(amp.profile>2) amp.profile=0;
+  amp.level=prefs.getUChar("amp-level",160);
+  repeatMidi=prefs.getBool("loop",true); bootPlay=prefs.getBool("boot",true);
+  fsReady=LittleFS.begin(false); // do not silently erase an existing filesystem
+  if(!fsReady && !prefs.isKey("fs")) {
+    Serial.println("First install: initialize song filesystem");
+    fsReady=LittleFS.format() && LittleFS.begin(false);
+  }
+  if(fsReady) prefs.putBool("fs",true);
+  if(!fsReady) Serial.println("FILESYSTEM unavailable; use explicit first-install format");
+  startPlayerBle(); unified_apu::begin();
+  bool resumeBoot=bootPlay && !returnFromApuWifi;returnFromApuWifi=false;
+  if(resumeBoot && !playSaved()) { mode=ERROR_MODE; applyMute(); }
+  publish(0,INFO,0);
+}
+void loop() {
+  unified_apu::playerConnected(connected);
+  if(unified_apu::poll()) return;
+  if(disconnected) {
+    disconnected=false; abortUpload(); xQueueReset(commands); xQueueReset(midi);
+    if(mode==MIDI_LIVE) synth::allNotesOff(-1);
+    if(pcmActive) stopPlayback();
+  }
+  Packet p; if(xQueueReceive(commands,&p,0)==pdTRUE) handle(p);
+  updateAmp();
+  pollPcmStream();
+  if(uploading && uint32_t(millis()-lastData)>30000) abortUpload();
+  if(midiOverflow) {
+    midiOverflow=false; xQueueReset(midi);
+    if(mode==MIDI_LIVE) synth::allNotesOff(-1);
+    if(pcmActive) stopPlayback();
+  }
+  MidiMsg m; for(int i=0;i<32 && xQueueReceive(midi,&m,0)==pdTRUE;i++)
+    if(mode==MIDI_LIVE || (mode==MIDI_FILE && ((m.status&0xF0)==0xB0 || (m.status&0xF0)==0xC0 || (m.status&0xF0)==0xE0)))
+      synth::handleMessage(m.status,m.d1,m.d2);
+  if(mode==MIDI_FILE) {
+    for(int i=0;i<16 && haveEvent && uint32_t(millis()-midiStart)>=get32(nextEvent);i++) {
+      synth::handleMessage(nextEvent[4],nextEvent[5],nextEvent[6]); nextMidiEvent();
+    }
+    if(!haveEvent && uint32_t(millis()-midiStart)>=midiDuration) {
+      synth::allNotesOff(-1);
+      if(repeatMidi) { synth::resetChannels(); sequenceFile.seek(16); eventIndex=0; midiStart=millis(); nextMidiEvent(); }
+      else stopPlayback();
+    }
+  }
+  if(synth::driverError && mode!=ERROR_MODE) { mode=ERROR_MODE; applyMute(); publish(0,INFO,4); }
+  if(uxQueueMessagesWaiting(commands)==0) delay(1); else taskYIELD();
+}

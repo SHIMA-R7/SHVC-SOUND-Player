@@ -1,0 +1,5764 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-02T22:24:01",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.6",
+    "schematic_parity": [],
+    "source": "SHVC-SOUND-ESP32.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Courtyards overlap",
+            "items": [
+                {
+                    "description": "フットプリント J3",
+                    "pos": {
+                        "x": 124.0,
+                        "y": 153.0
+                    },
+                    "uuid": "bbbfba60-5609-401a-acae-b58c548731c6"
+                },
+                {
+                    "description": "フットプリント U7",
+                    "pos": {
+                        "x": 110.5,
+                        "y": 157.0
+                    },
+                    "uuid": "f8e8a3c7-f2a0-43a1-b61c-40bc8d738456"
+                }
+            ],
+            "severity": "error",
+            "type": "courtyards_overlap"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "セグメント (Edge.Cuts 上)",
+                    "pos": {
+                        "x": 174.09,
+                        "y": 100.0
+                    },
+                    "uuid": "7d66fbe7-fd26-4f18-8ad4-5822cb66edf4"
+                },
+                {
+                    "description": "セグメント of J1 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 159.89,
+                        "y": 164.95
+                    },
+                    "uuid": "7849dd1a-d086-404b-bd99-ab30c4f3ac6e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "セグメント (Edge.Cuts 上)",
+                    "pos": {
+                        "x": 174.09,
+                        "y": 100.0
+                    },
+                    "uuid": "7d66fbe7-fd26-4f18-8ad4-5822cb66edf4"
+                },
+                {
+                    "description": "セグメント of J1 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 174.09,
+                        "y": 153.45
+                    },
+                    "uuid": "ee72a691-3fe7-49d6-b7da-040e96a1b383"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "セグメント (Edge.Cuts 上)",
+                    "pos": {
+                        "x": 174.09,
+                        "y": 100.0
+                    },
+                    "uuid": "7d66fbe7-fd26-4f18-8ad4-5822cb66edf4"
+                },
+                {
+                    "description": "セグメント of J1 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 174.09,
+                        "y": 164.95
+                    },
+                    "uuid": "0d67c6ea-9cdc-46cf-85d7-317ceb3352c9"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "セグメント (Edge.Cuts 上)",
+                    "pos": {
+                        "x": 174.09,
+                        "y": 166.5
+                    },
+                    "uuid": "162d93e1-c661-4226-bf79-6e49738aaed1"
+                },
+                {
+                    "description": "セグメント of J5 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 116.13,
+                        "y": 158.78
+                    },
+                    "uuid": "fcb8932c-af23-4436-83ec-441e2b1419c6"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "セグメント (Edge.Cuts 上)",
+                    "pos": {
+                        "x": 174.09,
+                        "y": 166.5
+                    },
+                    "uuid": "162d93e1-c661-4226-bf79-6e49738aaed1"
+                },
+                {
+                    "description": "セグメント of J5 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 126.87,
+                        "y": 166.62
+                    },
+                    "uuid": "6ab78ee3-1535-4dc1-b9f7-2e9943f1bead"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "基板上のテキスト 'ESP32 DevKit V1' ( F.Silkscreen 上)",
+                    "pos": {
+                        "x": 158.0,
+                        "y": 112.3
+                    },
+                    "uuid": "39b5ed11-a086-4162-87c4-22c589465494"
+                },
+                {
+                    "description": "矩形 of J4 、F.Silkscreen 上",
+                    "pos": {
+                        "x": 169.65,
+                        "y": 111.59
+                    },
+                    "uuid": "4651ab39-1e24-4129-8081-6d9228fb8862"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 113.3,
+                        "y": 124.9
+                    },
+                    "uuid": "647fadf7-b0b7-4416-bfca-d4d7a32f970e"
+                },
+                {
+                    "description": "PTHパッド 14 [SHVC_RESET] (U3)",
+                    "pos": {
+                        "x": 112.88,
+                        "y": 124.24
+                    },
+                    "uuid": "e28a90d1-99f1-4f27-b425-a4308b3544bd"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 113.4,
+                        "y": 124.8
+                    },
+                    "uuid": "e525f2b8-c2c8-4d84-a4cf-47a4e3c1c091"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 113.4,
+                        "y": 124.8
+                    },
+                    "uuid": "e525f2b8-c2c8-4d84-a4cf-47a4e3c1c091"
+                },
+                {
+                    "description": "PTHパッド 14 [SHVC_RESET] (U3)",
+                    "pos": {
+                        "x": 112.88,
+                        "y": 124.24
+                    },
+                    "uuid": "e28a90d1-99f1-4f27-b425-a4308b3544bd"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 124.7
+                    },
+                    "uuid": "26d2071d-93c3-41ba-b813-ae4a76625752"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.6,
+                        "y": 124.6
+                    },
+                    "uuid": "78097e4d-4841-4ff6-9c0b-e6c478ff0e16"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.4,
+                        "y": 127.0
+                    },
+                    "uuid": "1d0726c1-a7b8-4cc7-bf04-6ac10c0f10d7"
+                },
+                {
+                    "description": "PTHパッド 8 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 126.78
+                    },
+                    "uuid": "22cbb2f7-86b4-4825-a8ac-0440f3f3d657"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 127.1
+                    },
+                    "uuid": "85fe9df3-3d89-4478-9cf0-61e46702042f"
+                },
+                {
+                    "description": "PTHパッド 8 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 126.78
+                    },
+                    "uuid": "22cbb2f7-86b4-4825-a8ac-0440f3f3d657"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.2,
+                        "y": 128.8
+                    },
+                    "uuid": "8feaf071-5c50-4c5d-a9d0-0aff45caed4c"
+                },
+                {
+                    "description": "PTHパッド 9 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 129.32
+                    },
+                    "uuid": "bc4bee66-eecf-46aa-b829-df520f05a2de"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.2,
+                        "y": 128.9
+                    },
+                    "uuid": "906900b0-1f64-471b-8e49-e8e1e080dc36"
+                },
+                {
+                    "description": "PTHパッド 9 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 129.32
+                    },
+                    "uuid": "bc4bee66-eecf-46aa-b829-df520f05a2de"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.4,
+                        "y": 129.5
+                    },
+                    "uuid": "767046cd-1151-420c-914e-7b151a868e16"
+                },
+                {
+                    "description": "PTHパッド 9 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 129.32
+                    },
+                    "uuid": "bc4bee66-eecf-46aa-b829-df520f05a2de"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 129.6
+                    },
+                    "uuid": "6bf4254f-54dd-46ba-8067-c0d03e6720b6"
+                },
+                {
+                    "description": "PTHパッド 9 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 129.32
+                    },
+                    "uuid": "bc4bee66-eecf-46aa-b829-df520f05a2de"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 129.6
+                    },
+                    "uuid": "6bf4254f-54dd-46ba-8067-c0d03e6720b6"
+                },
+                {
+                    "description": "PTHパッド 10 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 131.86
+                    },
+                    "uuid": "9ea0197c-5fe3-402b-a680-f80f8f73a0b7"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.0,
+                        "y": 122.4
+                    },
+                    "uuid": "8ab863cd-0a04-4a7b-acee-f70be799b7de"
+                },
+                {
+                    "description": "PTHパッド 6 [RESET_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 121.7
+                    },
+                    "uuid": "5681bf14-a99f-49ea-be11-6d705b9d9388"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.3,
+                        "y": 124.2
+                    },
+                    "uuid": "5f350fd3-0512-4bec-8c99-51c01a2910b0"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 118.7,
+                        "y": 124.3
+                    },
+                    "uuid": "f8794eca-1a5c-41c5-83f2-508c0d64a695"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 118.7,
+                        "y": 124.5
+                    },
+                    "uuid": "f3440ee0-8896-4990-ba26-dc1cbf6813f1"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 123.9
+                    },
+                    "uuid": "5d3c4b51-3bce-44c6-994a-bd29d91f5ec6"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 118.8,
+                        "y": 124.4
+                    },
+                    "uuid": "5731ee0b-8596-4942-b16a-0ec5e597da4d"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.4,
+                        "y": 124.1
+                    },
+                    "uuid": "25a16ee6-9eb0-4c8d-b5dd-375ded848f7e"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 123.8
+                    },
+                    "uuid": "b555069a-494f-40c0-8b05-582f5b48ca60"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.6,
+                        "y": 123.7
+                    },
+                    "uuid": "26760024-e665-449e-a06f-cf3cfc3cf52b"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.7,
+                        "y": 123.6
+                    },
+                    "uuid": "49c98087-1a39-4944-9596-78260d3a8f68"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 131.199999
+                    },
+                    "uuid": "35b0da49-2795-4f14-aaea-cf7a295a04ed"
+                },
+                {
+                    "description": "PTHパッド 10 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 131.86
+                    },
+                    "uuid": "9ea0197c-5fe3-402b-a680-f80f8f73a0b7"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 131.3
+                    },
+                    "uuid": "6d6bd0e9-15b7-46bd-b438-534026e1bad0"
+                },
+                {
+                    "description": "PTHパッド 10 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 131.86
+                    },
+                    "uuid": "9ea0197c-5fe3-402b-a680-f80f8f73a0b7"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 131.4
+                    },
+                    "uuid": "2d29603e-b5cc-41ae-937d-f8358117d957"
+                },
+                {
+                    "description": "PTHパッド 10 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 131.86
+                    },
+                    "uuid": "9ea0197c-5fe3-402b-a680-f80f8f73a0b7"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 131.5
+                    },
+                    "uuid": "56fa97a8-5a63-447d-8570-65ac9a8b77bb"
+                },
+                {
+                    "description": "PTHパッド 10 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 131.86
+                    },
+                    "uuid": "9ea0197c-5fe3-402b-a680-f80f8f73a0b7"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.6,
+                        "y": 131.9
+                    },
+                    "uuid": "2fa86c6a-4edb-4238-9da2-6c94320b4022"
+                },
+                {
+                    "description": "PTHパッド 10 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 131.86
+                    },
+                    "uuid": "9ea0197c-5fe3-402b-a680-f80f8f73a0b7"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 132.0
+                    },
+                    "uuid": "579679ef-2bb7-4e33-a8b8-62b31b7dbab9"
+                },
+                {
+                    "description": "PTHパッド 10 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 131.86
+                    },
+                    "uuid": "9ea0197c-5fe3-402b-a680-f80f8f73a0b7"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 126.9
+                    },
+                    "uuid": "4126e055-f2c1-41cb-9b38-70dd0a3fca39"
+                },
+                {
+                    "description": "PTHパッド 8 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 126.78
+                    },
+                    "uuid": "22cbb2f7-86b4-4825-a8ac-0440f3f3d657"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.6,
+                        "y": 126.5
+                    },
+                    "uuid": "899eaee6-9a16-4dd8-9f1f-442f0d4d089a"
+                },
+                {
+                    "description": "PTHパッド 8 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 126.78
+                    },
+                    "uuid": "22cbb2f7-86b4-4825-a8ac-0440f3f3d657"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.7,
+                        "y": 126.4
+                    },
+                    "uuid": "2c4848f1-4d2e-4554-88d6-c691aff29143"
+                },
+                {
+                    "description": "PTHパッド 8 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 126.78
+                    },
+                    "uuid": "22cbb2f7-86b4-4825-a8ac-0440f3f3d657"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 120.1,
+                        "y": 126.3
+                    },
+                    "uuid": "024f66de-3656-49fb-bad5-73b85e822ac0"
+                },
+                {
+                    "description": "PTHパッド 8 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 126.78
+                    },
+                    "uuid": "22cbb2f7-86b4-4825-a8ac-0440f3f3d657"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 116.3
+                    },
+                    "uuid": "50e0f2e8-7ee5-4ad8-9f55-653e3f34e84e"
+                },
+                {
+                    "description": "PTHパッド 4 [WR_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 116.62
+                    },
+                    "uuid": "50cc457d-c3aa-49dd-a89e-a2046d2dd480"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 116.4
+                    },
+                    "uuid": "c0ab8f16-eab1-4426-a232-c56d6d026fe6"
+                },
+                {
+                    "description": "PTHパッド 4 [WR_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 116.62
+                    },
+                    "uuid": "50cc457d-c3aa-49dd-a89e-a2046d2dd480"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.0,
+                        "y": 117.4
+                    },
+                    "uuid": "63fae807-76ea-4a67-9308-7eb0cb879c2a"
+                },
+                {
+                    "description": "PTHパッド 4 [WR_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 116.62
+                    },
+                    "uuid": "50cc457d-c3aa-49dd-a89e-a2046d2dd480"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 116.5
+                    },
+                    "uuid": "e9cf7e0f-8913-4e3b-bd15-97f05f7879aa"
+                },
+                {
+                    "description": "PTHパッド 4 [WR_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 116.62
+                    },
+                    "uuid": "50cc457d-c3aa-49dd-a89e-a2046d2dd480"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 115.8
+                    },
+                    "uuid": "72ab6578-da0c-4690-bf60-9eb2d60069cd"
+                },
+                {
+                    "description": "PTHパッド 4 [WR_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 116.62
+                    },
+                    "uuid": "50cc457d-c3aa-49dd-a89e-a2046d2dd480"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 118.3,
+                        "y": 119.2
+                    },
+                    "uuid": "0cfd5ae7-5248-46e3-b66b-c1a3265b80d9"
+                },
+                {
+                    "description": "PTHパッド 5 [RD_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 119.16
+                    },
+                    "uuid": "3cfdfc04-0f87-4607-bd7a-aa0f4d70e00e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 118.3,
+                        "y": 119.8
+                    },
+                    "uuid": "f9f8e96e-6108-4311-a46f-841e7a153c3a"
+                },
+                {
+                    "description": "PTHパッド 5 [RD_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 119.16
+                    },
+                    "uuid": "3cfdfc04-0f87-4607-bd7a-aa0f4d70e00e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 118.3,
+                        "y": 118.9
+                    },
+                    "uuid": "3bd8cf4a-315d-4734-94c2-f2d6062a2587"
+                },
+                {
+                    "description": "PTHパッド 5 [RD_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 119.16
+                    },
+                    "uuid": "3cfdfc04-0f87-4607-bd7a-aa0f4d70e00e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 118.4,
+                        "y": 118.8
+                    },
+                    "uuid": "9a808bdc-1b6f-4586-9c45-19d54a10d5d4"
+                },
+                {
+                    "description": "PTHパッド 5 [RD_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 119.16
+                    },
+                    "uuid": "3cfdfc04-0f87-4607-bd7a-aa0f4d70e00e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 118.8,
+                        "y": 118.7
+                    },
+                    "uuid": "b53dfe18-412f-49d0-83d0-135ef0938769"
+                },
+                {
+                    "description": "PTHパッド 5 [RD_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 119.16
+                    },
+                    "uuid": "3cfdfc04-0f87-4607-bd7a-aa0f4d70e00e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 118.9,
+                        "y": 118.3
+                    },
+                    "uuid": "968b4db6-a03c-402d-b8b8-d16fec7d6bcb"
+                },
+                {
+                    "description": "PTHパッド 5 [RD_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 119.16
+                    },
+                    "uuid": "3cfdfc04-0f87-4607-bd7a-aa0f4d70e00e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.4,
+                        "y": 122.1
+                    },
+                    "uuid": "e6fa91bf-4160-46ec-b19a-e191f9bc60e7"
+                },
+                {
+                    "description": "PTHパッド 6 [RESET_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 121.7
+                    },
+                    "uuid": "5681bf14-a99f-49ea-be11-6d705b9d9388"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.5,
+                        "y": 122.0
+                    },
+                    "uuid": "3bede33f-c383-4492-a130-649ae53cce66"
+                },
+                {
+                    "description": "PTHパッド 6 [RESET_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 121.7
+                    },
+                    "uuid": "5681bf14-a99f-49ea-be11-6d705b9d9388"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.6,
+                        "y": 121.9
+                    },
+                    "uuid": "12b8ae3b-5b04-4ca9-8d05-2714c49f0fc8"
+                },
+                {
+                    "description": "PTHパッド 6 [RESET_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 121.7
+                    },
+                    "uuid": "5681bf14-a99f-49ea-be11-6d705b9d9388"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.8,
+                        "y": 121.8
+                    },
+                    "uuid": "9af0d6fb-5798-4f0a-9dde-7ae5b8f759b0"
+                },
+                {
+                    "description": "PTHパッド 6 [RESET_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 121.7
+                    },
+                    "uuid": "5681bf14-a99f-49ea-be11-6d705b9d9388"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.9,
+                        "y": 121.7
+                    },
+                    "uuid": "8483c732-f082-4df0-bbe8-29378c6f7dab"
+                },
+                {
+                    "description": "PTHパッド 6 [RESET_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 121.7
+                    },
+                    "uuid": "5681bf14-a99f-49ea-be11-6d705b9d9388"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 120.1,
+                        "y": 121.6
+                    },
+                    "uuid": "4fbf65bd-4f03-4a8e-9084-f562841bbac2"
+                },
+                {
+                    "description": "PTHパッド 6 [RESET_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 121.7
+                    },
+                    "uuid": "5681bf14-a99f-49ea-be11-6d705b9d9388"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.4,
+                        "y": 117.3
+                    },
+                    "uuid": "220c079d-fa6c-4ec8-bc18-1049fcdca41d"
+                },
+                {
+                    "description": "PTHパッド 4 [WR_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 116.62
+                    },
+                    "uuid": "50cc457d-c3aa-49dd-a89e-a2046d2dd480"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.0,
+                        "y": 111.6
+                    },
+                    "uuid": "259c1b95-bac9-450a-b552-19cb806fb985"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.1,
+                        "y": 111.5
+                    },
+                    "uuid": "b1e29299-d06f-4201-9d85-3a0b073ec853"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.6,
+                        "y": 111.4
+                    },
+                    "uuid": "398e4c17-59b2-414f-8ab1-2bb0ec265106"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.7,
+                        "y": 111.0
+                    },
+                    "uuid": "de750930-1e6d-430f-bba9-2f1a6a72c506"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.8,
+                        "y": 110.9
+                    },
+                    "uuid": "c691b869-dcd1-47c1-a181-0ede04433367"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.3,
+                        "y": 110.8
+                    },
+                    "uuid": "dc49611c-aa93-42fe-a1e5-814d82abecfe"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.4,
+                        "y": 110.3
+                    },
+                    "uuid": "e669e980-414d-4529-b244-6f8cb63bd9fa"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.1,
+                        "y": 111.6
+                    },
+                    "uuid": "95a350b6-e928-4c6c-96dc-2fb2db149adf"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.199999,
+                        "y": 111.7
+                    },
+                    "uuid": "576d16ea-2dc0-4d98-a555-1bfd9c5d04d6"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.3,
+                        "y": 112.1
+                    },
+                    "uuid": "c8b3776d-384d-42af-bd8f-cac094d662d1"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.8,
+                        "y": 112.2
+                    },
+                    "uuid": "b0e08fbe-1b64-40d6-91c8-dc5601cd35cc"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.1,
+                        "y": 118.7
+                    },
+                    "uuid": "0271565f-42dc-4207-a67c-f7348a400af0"
+                },
+                {
+                    "description": "PTHパッド 24 [D3_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 119.24
+                    },
+                    "uuid": "741b3aae-557e-497f-8bcd-acf93733da6b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.1,
+                        "y": 119.9
+                    },
+                    "uuid": "fa1c29c0-f1e8-4a51-a3d9-49d9c1a42a0f"
+                },
+                {
+                    "description": "PTHパッド 24 [D3_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 119.24
+                    },
+                    "uuid": "741b3aae-557e-497f-8bcd-acf93733da6b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.6,
+                        "y": 118.2
+                    },
+                    "uuid": "f8b6c8b4-e612-40f9-a708-8227d9ebd644"
+                },
+                {
+                    "description": "PTHパッド 24 [D3_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 119.24
+                    },
+                    "uuid": "741b3aae-557e-497f-8bcd-acf93733da6b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.7,
+                        "y": 117.3
+                    },
+                    "uuid": "b17083f3-ae5c-41e5-88fc-405220b76aa0"
+                },
+                {
+                    "description": "PTHパッド 25 [D2_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 116.7
+                    },
+                    "uuid": "52275e32-e4d7-4770-89d5-ab2713d1416e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.7,
+                        "y": 117.4
+                    },
+                    "uuid": "327db097-ea8d-4adb-8505-18ac6d1cc3a7"
+                },
+                {
+                    "description": "PTHパッド 25 [D2_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 116.7
+                    },
+                    "uuid": "52275e32-e4d7-4770-89d5-ab2713d1416e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.7,
+                        "y": 117.5
+                    },
+                    "uuid": "9b49a66c-0923-4d8e-9d76-c78cd3cf6027"
+                },
+                {
+                    "description": "PTHパッド 25 [D2_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 116.7
+                    },
+                    "uuid": "52275e32-e4d7-4770-89d5-ab2713d1416e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.9,
+                        "y": 112.3
+                    },
+                    "uuid": "89633a8c-1859-4261-8f0c-ea7d83df0246"
+                },
+                {
+                    "description": "PTHパッド 27 [unconnected-(U1-IO2-Pad27)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 111.62
+                    },
+                    "uuid": "2ce40251-781f-4485-a479-2c9b7ca673a8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.5,
+                        "y": 118.6
+                    },
+                    "uuid": "650187cf-c017-4142-a1ae-6d49edac35aa"
+                },
+                {
+                    "description": "PTHパッド 24 [D3_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 119.24
+                    },
+                    "uuid": "741b3aae-557e-497f-8bcd-acf93733da6b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 120.2,
+                        "y": 126.2
+                    },
+                    "uuid": "b21cdcce-b6a5-4d44-9a31-ef8a2ed35c83"
+                },
+                {
+                    "description": "PTHパッド 8 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 126.78
+                    },
+                    "uuid": "22cbb2f7-86b4-4825-a8ac-0440f3f3d657"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 120.3,
+                        "y": 126.1
+                    },
+                    "uuid": "c3013aa4-2d26-41df-b08f-3482d3767747"
+                },
+                {
+                    "description": "PTHパッド 8 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 126.78
+                    },
+                    "uuid": "22cbb2f7-86b4-4825-a8ac-0440f3f3d657"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 120.4,
+                        "y": 125.8
+                    },
+                    "uuid": "36817f01-58c1-470a-b494-e99e14f3f87d"
+                },
+                {
+                    "description": "PTHパッド 8 [GND] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 126.78
+                    },
+                    "uuid": "22cbb2f7-86b4-4825-a8ac-0440f3f3d657"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 125.9,
+                        "y": 122.7
+                    },
+                    "uuid": "5596e6ea-599b-4f06-a696-e9296de4d85b"
+                },
+                {
+                    "description": "PTHパッド 1 [MUTE_3V3] (R15)",
+                    "pos": {
+                        "x": 125.93,
+                        "y": 122.0
+                    },
+                    "uuid": "0d13d4c0-e376-49d9-8ed9-bc92b1413d13"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 126.3,
+                        "y": 122.6
+                    },
+                    "uuid": "e67ab75a-bbf7-4fbb-b7cc-1ca2ea85edee"
+                },
+                {
+                    "description": "PTHパッド 1 [MUTE_3V3] (R15)",
+                    "pos": {
+                        "x": 125.93,
+                        "y": 122.0
+                    },
+                    "uuid": "0d13d4c0-e376-49d9-8ed9-bc92b1413d13"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 126.4,
+                        "y": 122.2
+                    },
+                    "uuid": "1ba33e38-abb7-4425-9af7-e7a38a73194e"
+                },
+                {
+                    "description": "PTHパッド 1 [MUTE_3V3] (R15)",
+                    "pos": {
+                        "x": 125.93,
+                        "y": 122.0
+                    },
+                    "uuid": "0d13d4c0-e376-49d9-8ed9-bc92b1413d13"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 126.4,
+                        "y": 122.3
+                    },
+                    "uuid": "6e22360e-5702-4996-9d16-5f0d275a2bad"
+                },
+                {
+                    "description": "PTHパッド 1 [MUTE_3V3] (R15)",
+                    "pos": {
+                        "x": 125.93,
+                        "y": 122.0
+                    },
+                    "uuid": "0d13d4c0-e376-49d9-8ed9-bc92b1413d13"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 126.4,
+                        "y": 122.5
+                    },
+                    "uuid": "9e4a7d68-c2c3-44c1-9e9e-338d0ae15fbe"
+                },
+                {
+                    "description": "PTHパッド 1 [MUTE_3V3] (R15)",
+                    "pos": {
+                        "x": 125.93,
+                        "y": 122.0
+                    },
+                    "uuid": "0d13d4c0-e376-49d9-8ed9-bc92b1413d13"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 124.0,
+                        "y": 127.0
+                    },
+                    "uuid": "13e846d8-94a2-46db-8ce1-61c1eae84749"
+                },
+                {
+                    "description": "PTHパッド 21 [D5_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 126.86
+                    },
+                    "uuid": "919bb6d9-7609-43a0-abc5-0e10e137a1fa"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 124.4,
+                        "y": 126.3
+                    },
+                    "uuid": "133184d7-6f04-428c-9ec5-702b094270bb"
+                },
+                {
+                    "description": "PTHパッド 21 [D5_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 126.86
+                    },
+                    "uuid": "919bb6d9-7609-43a0-abc5-0e10e137a1fa"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 125.3,
+                        "y": 127.1
+                    },
+                    "uuid": "5356b9ba-70b2-4df1-8d69-98af337c9419"
+                },
+                {
+                    "description": "PTHパッド 21 [D5_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 126.86
+                    },
+                    "uuid": "919bb6d9-7609-43a0-abc5-0e10e137a1fa"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 125.4,
+                        "y": 127.2
+                    },
+                    "uuid": "6c51ad7b-f4e3-4171-afaf-9aaa3b657958"
+                },
+                {
+                    "description": "PTHパッド 21 [D5_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 126.86
+                    },
+                    "uuid": "919bb6d9-7609-43a0-abc5-0e10e137a1fa"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 125.5,
+                        "y": 127.3
+                    },
+                    "uuid": "95b543b8-dc72-4a4e-ab88-76218b8be790"
+                },
+                {
+                    "description": "PTHパッド 21 [D5_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 126.86
+                    },
+                    "uuid": "919bb6d9-7609-43a0-abc5-0e10e137a1fa"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 125.6,
+                        "y": 127.4
+                    },
+                    "uuid": "8700b466-04b7-4510-b53d-172af2a8c07c"
+                },
+                {
+                    "description": "PTHパッド 21 [D5_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 126.86
+                    },
+                    "uuid": "919bb6d9-7609-43a0-abc5-0e10e137a1fa"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.7,
+                        "y": 127.5
+                    },
+                    "uuid": "154426fd-2dc7-4de2-9f86-71adc72fa84d"
+                },
+                {
+                    "description": "PTHパッド 21 [D5_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 126.86
+                    },
+                    "uuid": "919bb6d9-7609-43a0-abc5-0e10e137a1fa"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.6,
+                        "y": 124.2
+                    },
+                    "uuid": "5bd39c3d-2b18-47b4-ac44-f972e5b1a3cc"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.1,
+                        "y": 123.8
+                    },
+                    "uuid": "42733021-876b-4414-bef6-2a569c847236"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.1,
+                        "y": 124.2
+                    },
+                    "uuid": "66110d51-4ed5-4be7-9604-76809ca8015c"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.199999,
+                        "y": 123.7
+                    },
+                    "uuid": "06fa37f1-b365-4e7f-911d-b0bed3f6a0ec"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.199999,
+                        "y": 123.6
+                    },
+                    "uuid": "7d3c54a5-3af9-45fc-87a6-768a8e95c2a3"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.3,
+                        "y": 123.4
+                    },
+                    "uuid": "0ef1897a-c019-409c-af14-4f655e55efb2"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.3,
+                        "y": 123.5
+                    },
+                    "uuid": "0621d57d-d9a3-4118-b3c7-e33b6f9e3512"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.9,
+                        "y": 122.3
+                    },
+                    "uuid": "aa482258-7e33-491f-abed-d709f1b05855"
+                },
+                {
+                    "description": "PTHパッド 23 [OE_R] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 121.78
+                    },
+                    "uuid": "76157880-20d2-439f-824f-98efcfe52b7f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 129.9,
+                        "y": 122.4
+                    },
+                    "uuid": "24711391-bbac-4ded-904f-707b8ac2ff41"
+                },
+                {
+                    "description": "PTHパッド 23 [OE_R] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 121.78
+                    },
+                    "uuid": "76157880-20d2-439f-824f-98efcfe52b7f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 130.0,
+                        "y": 122.2
+                    },
+                    "uuid": "999b02e7-ce5a-4f6e-bb2b-165ed10c9bbf"
+                },
+                {
+                    "description": "PTHパッド 23 [OE_R] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 121.78
+                    },
+                    "uuid": "76157880-20d2-439f-824f-98efcfe52b7f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.1,
+                        "y": 122.3
+                    },
+                    "uuid": "879e0aaa-d392-4343-8f5a-ace40ec412dd"
+                },
+                {
+                    "description": "PTHパッド 6 [RESET_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 121.7
+                    },
+                    "uuid": "5681bf14-a99f-49ea-be11-6d705b9d9388"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 119.2,
+                        "y": 122.2
+                    },
+                    "uuid": "e29625a7-bffe-4b8b-b46a-e2b3db183457"
+                },
+                {
+                    "description": "PTHパッド 6 [RESET_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 121.7
+                    },
+                    "uuid": "5681bf14-a99f-49ea-be11-6d705b9d9388"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 120.2,
+                        "y": 123.5
+                    },
+                    "uuid": "f1626c41-54ff-4655-8451-8763f4dcc1b8"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 121.1,
+                        "y": 124.5
+                    },
+                    "uuid": "c457a857-625a-4f7a-b0ff-981fd59159a6"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 121.2,
+                        "y": 124.6
+                    },
+                    "uuid": "2bda8fd4-9a19-4cfd-afe9-38d29e35c0fd"
+                },
+                {
+                    "description": "PTHパッド 7 [MUTE_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 124.24
+                    },
+                    "uuid": "7e5cdae6-4b52-4e08-8130-29cd0c11db1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 122.0,
+                        "y": 121.3
+                    },
+                    "uuid": "39d14614-b790-43eb-84a1-b554d8a5f300"
+                },
+                {
+                    "description": "PTHパッド 2 [GND] (R15)",
+                    "pos": {
+                        "x": 123.39,
+                        "y": 122.0
+                    },
+                    "uuid": "f569aa83-6e66-4ff2-81d0-0b32ab37c241"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 122.1,
+                        "y": 121.7
+                    },
+                    "uuid": "69b0699f-4ced-49c5-a537-f5d7e7b861f9"
+                },
+                {
+                    "description": "PTHパッド 2 [GND] (R15)",
+                    "pos": {
+                        "x": 123.39,
+                        "y": 122.0
+                    },
+                    "uuid": "f569aa83-6e66-4ff2-81d0-0b32ab37c241"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.5,
+                        "y": 114.8
+                    },
+                    "uuid": "c41d2b55-2a7c-4773-9d2e-ca11cb2f87aa"
+                },
+                {
+                    "description": "PTHパッド 26 [OE_W] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 114.16
+                    },
+                    "uuid": "21a28c29-a448-4add-a3a9-02057c04301c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.5,
+                        "y": 114.8
+                    },
+                    "uuid": "c41d2b55-2a7c-4773-9d2e-ca11cb2f87aa"
+                },
+                {
+                    "description": "PTHパッド 3 [A1_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 114.08
+                    },
+                    "uuid": "293b2f77-a063-4300-810f-4bb6d2c28fbd"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.5,
+                        "y": 114.8
+                    },
+                    "uuid": "c41d2b55-2a7c-4773-9d2e-ca11cb2f87aa"
+                },
+                {
+                    "description": "PTHパッド 20 [+5V] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 114.5
+                    },
+                    "uuid": "b5fbc4c6-af0e-475d-9aca-40828434a620"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.6,
+                        "y": 114.2
+                    },
+                    "uuid": "d9a0fbfb-7114-4de0-b341-676d314f7496"
+                },
+                {
+                    "description": "PTHパッド 26 [OE_W] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 114.16
+                    },
+                    "uuid": "21a28c29-a448-4add-a3a9-02057c04301c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.6,
+                        "y": 114.2
+                    },
+                    "uuid": "d9a0fbfb-7114-4de0-b341-676d314f7496"
+                },
+                {
+                    "description": "PTHパッド 3 [A1_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 114.08
+                    },
+                    "uuid": "293b2f77-a063-4300-810f-4bb6d2c28fbd"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.6,
+                        "y": 114.2
+                    },
+                    "uuid": "d9a0fbfb-7114-4de0-b341-676d314f7496"
+                },
+                {
+                    "description": "PTHパッド 20 [+5V] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 114.5
+                    },
+                    "uuid": "b5fbc4c6-af0e-475d-9aca-40828434a620"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.7,
+                        "y": 114.1
+                    },
+                    "uuid": "c63880c2-762d-4226-bbb2-08d2e5836502"
+                },
+                {
+                    "description": "PTHパッド 26 [OE_W] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 114.16
+                    },
+                    "uuid": "21a28c29-a448-4add-a3a9-02057c04301c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.7,
+                        "y": 114.1
+                    },
+                    "uuid": "c63880c2-762d-4226-bbb2-08d2e5836502"
+                },
+                {
+                    "description": "PTHパッド 3 [A1_3V3] (U3)",
+                    "pos": {
+                        "x": 120.5,
+                        "y": 114.08
+                    },
+                    "uuid": "293b2f77-a063-4300-810f-4bb6d2c28fbd"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.7,
+                        "y": 114.1
+                    },
+                    "uuid": "c63880c2-762d-4226-bbb2-08d2e5836502"
+                },
+                {
+                    "description": "PTHパッド 20 [+5V] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 114.5
+                    },
+                    "uuid": "b5fbc4c6-af0e-475d-9aca-40828434a620"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 125.0,
+                        "y": 114.0
+                    },
+                    "uuid": "8b800581-d8ee-49de-8c1d-4a2d93dc198c"
+                },
+                {
+                    "description": "PTHパッド 26 [OE_W] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 114.16
+                    },
+                    "uuid": "21a28c29-a448-4add-a3a9-02057c04301c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 125.1,
+                        "y": 113.9
+                    },
+                    "uuid": "324e4ee8-8e23-43a2-8c05-6940366fea70"
+                },
+                {
+                    "description": "PTHパッド 26 [OE_W] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 114.16
+                    },
+                    "uuid": "21a28c29-a448-4add-a3a9-02057c04301c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.5,
+                        "y": 115.0
+                    },
+                    "uuid": "a39f6aa7-0844-4dcb-915f-105b5399f19b"
+                },
+                {
+                    "description": "PTHパッド 20 [+5V] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 114.5
+                    },
+                    "uuid": "b5fbc4c6-af0e-475d-9aca-40828434a620"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 of J4 、F.Silkscreen 上",
+                    "pos": {
+                        "x": 169.65,
+                        "y": 111.59
+                    },
+                    "uuid": "4651ab39-1e24-4129-8081-6d9228fb8862"
+                },
+                {
+                    "description": "PTHパッド 1 [+5V] (C8)",
+                    "pos": {
+                        "x": 138.5,
+                        "y": 111.3
+                    },
+                    "uuid": "fa956937-b862-4104-bb33-9905881aabab"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.0,
+                        "y": 118.8
+                    },
+                    "uuid": "ca6643b6-4896-49d2-a8f3-b78f1829d9fe"
+                },
+                {
+                    "description": "PTHパッド 24 [D3_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 119.24
+                    },
+                    "uuid": "741b3aae-557e-497f-8bcd-acf93733da6b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.0,
+                        "y": 118.9
+                    },
+                    "uuid": "f61a1f24-fd89-41b8-ab01-47ebf012a1be"
+                },
+                {
+                    "description": "PTHパッド 24 [D3_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 119.24
+                    },
+                    "uuid": "741b3aae-557e-497f-8bcd-acf93733da6b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.7,
+                        "y": 117.2
+                    },
+                    "uuid": "17453616-3982-4c43-9eb9-7adb8b79d71d"
+                },
+                {
+                    "description": "PTHパッド 25 [D2_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 116.7
+                    },
+                    "uuid": "52275e32-e4d7-4770-89d5-ab2713d1416e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.8,
+                        "y": 117.1
+                    },
+                    "uuid": "6014ec87-659d-4387-b226-40578f60c6f0"
+                },
+                {
+                    "description": "PTHパッド 25 [D2_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 116.7
+                    },
+                    "uuid": "52275e32-e4d7-4770-89d5-ab2713d1416e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.199999,
+                        "y": 117.0
+                    },
+                    "uuid": "c484aaf5-2ee5-4ea7-a5e2-0f70d066e6a1"
+                },
+                {
+                    "description": "PTHパッド 25 [D2_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 116.7
+                    },
+                    "uuid": "52275e32-e4d7-4770-89d5-ab2713d1416e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.3,
+                        "y": 115.9
+                    },
+                    "uuid": "2df59f2c-cd3b-4486-a0b1-6b62cfc36bd5"
+                },
+                {
+                    "description": "PTHパッド 25 [D2_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 116.7
+                    },
+                    "uuid": "52275e32-e4d7-4770-89d5-ab2713d1416e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 134.9,
+                        "y": 116.7
+                    },
+                    "uuid": "a5a7e629-fe9f-483c-9fec-1f20c76e86a3"
+                },
+                {
+                    "description": "PTHパッド 19 [GND] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 117.04
+                    },
+                    "uuid": "e76ffa8e-fd40-433e-915b-db9958de7b28"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 134.1,
+                        "y": 118.5
+                    },
+                    "uuid": "6f0bbe95-6778-49f9-a2e4-8caede73251c"
+                },
+                {
+                    "description": "PTHパッド 18 [SHVC_D0] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 119.58
+                    },
+                    "uuid": "05264196-ff81-4659-8254-c518d637d2a4"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 134.199999,
+                        "y": 119.9
+                    },
+                    "uuid": "9246966b-51ed-4d46-8181-d5de261ffaea"
+                },
+                {
+                    "description": "PTHパッド 18 [SHVC_D0] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 119.58
+                    },
+                    "uuid": "05264196-ff81-4659-8254-c518d637d2a4"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 134.7,
+                        "y": 120.0
+                    },
+                    "uuid": "6b5b158e-b231-447c-81bd-1a9a7cd1718e"
+                },
+                {
+                    "description": "PTHパッド 18 [SHVC_D0] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 119.58
+                    },
+                    "uuid": "05264196-ff81-4659-8254-c518d637d2a4"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 134.8,
+                        "y": 120.1
+                    },
+                    "uuid": "b108c062-1779-4250-a634-a0cb9adf0617"
+                },
+                {
+                    "description": "PTHパッド 18 [SHVC_D0] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 119.58
+                    },
+                    "uuid": "05264196-ff81-4659-8254-c518d637d2a4"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 134.9,
+                        "y": 116.3
+                    },
+                    "uuid": "608a8c90-236f-4a92-91e2-d92434b91b25"
+                },
+                {
+                    "description": "PTHパッド 19 [GND] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 117.04
+                    },
+                    "uuid": "e76ffa8e-fd40-433e-915b-db9958de7b28"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 134.9,
+                        "y": 116.5
+                    },
+                    "uuid": "f3eef842-045e-4311-86ea-b09d791123c3"
+                },
+                {
+                    "description": "PTHパッド 19 [GND] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 117.04
+                    },
+                    "uuid": "e76ffa8e-fd40-433e-915b-db9958de7b28"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 134.9,
+                        "y": 116.6
+                    },
+                    "uuid": "32e70198-7202-4264-833e-b527114ec40e"
+                },
+                {
+                    "description": "PTHパッド 19 [GND] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 117.04
+                    },
+                    "uuid": "e76ffa8e-fd40-433e-915b-db9958de7b28"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.0,
+                        "y": 116.2
+                    },
+                    "uuid": "6a8adb1a-a9fa-4eae-b593-648600cfea3c"
+                },
+                {
+                    "description": "PTHパッド 19 [GND] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 117.04
+                    },
+                    "uuid": "e76ffa8e-fd40-433e-915b-db9958de7b28"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.6,
+                        "y": 115.1
+                    },
+                    "uuid": "5360c667-0df9-4b78-a6b5-517f7162691f"
+                },
+                {
+                    "description": "PTHパッド 20 [+5V] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 114.5
+                    },
+                    "uuid": "b5fbc4c6-af0e-475d-9aca-40828434a620"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 126.4,
+                        "y": 122.1
+                    },
+                    "uuid": "cf5489a9-6bc8-4dab-939c-c01c89fb491a"
+                },
+                {
+                    "description": "PTHパッド 1 [MUTE_3V3] (R15)",
+                    "pos": {
+                        "x": 125.93,
+                        "y": 122.0
+                    },
+                    "uuid": "0d13d4c0-e376-49d9-8ed9-bc92b1413d13"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 126.5,
+                        "y": 122.0
+                    },
+                    "uuid": "ade0abeb-b4a3-4a29-b184-65024f38ae74"
+                },
+                {
+                    "description": "PTHパッド 1 [MUTE_3V3] (R15)",
+                    "pos": {
+                        "x": 125.93,
+                        "y": 122.0
+                    },
+                    "uuid": "0d13d4c0-e376-49d9-8ed9-bc92b1413d13"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 130.0,
+                        "y": 122.1
+                    },
+                    "uuid": "0eb86da3-3383-43c4-8693-b6a90d0292c0"
+                },
+                {
+                    "description": "PTHパッド 23 [OE_R] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 121.78
+                    },
+                    "uuid": "76157880-20d2-439f-824f-98efcfe52b7f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 130.1,
+                        "y": 122.0
+                    },
+                    "uuid": "4ca46c44-38fa-4b3e-bc32-f25324aafdd2"
+                },
+                {
+                    "description": "PTHパッド 23 [OE_R] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 121.78
+                    },
+                    "uuid": "76157880-20d2-439f-824f-98efcfe52b7f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.1,
+                        "y": 114.9
+                    },
+                    "uuid": "3f7320a7-eea1-4090-a805-573bd17ed0a4"
+                },
+                {
+                    "description": "PTHパッド 26 [OE_W] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 114.16
+                    },
+                    "uuid": "21a28c29-a448-4add-a3a9-02057c04301c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 117.1,
+                        "y": 114.9
+                    },
+                    "uuid": "3f7320a7-eea1-4090-a805-573bd17ed0a4"
+                },
+                {
+                    "description": "PTHパッド 20 [+5V] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 114.5
+                    },
+                    "uuid": "b5fbc4c6-af0e-475d-9aca-40828434a620"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.4,
+                        "y": 115.8
+                    },
+                    "uuid": "48bb6f38-e5c8-45e1-a5f6-62cfef56f376"
+                },
+                {
+                    "description": "PTHパッド 25 [D2_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 116.7
+                    },
+                    "uuid": "52275e32-e4d7-4770-89d5-ab2713d1416e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.699999,
+                        "y": 115.0
+                    },
+                    "uuid": "6a0dc1ea-f185-42c3-8816-28ae6c33e247"
+                },
+                {
+                    "description": "PTHパッド 26 [OE_W] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 114.16
+                    },
+                    "uuid": "21a28c29-a448-4add-a3a9-02057c04301c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.4,
+                        "y": 124.4
+                    },
+                    "uuid": "61dc9f32-7fd4-4b0e-a885-a906922b45bf"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.4,
+                        "y": 124.5
+                    },
+                    "uuid": "50e6f0d9-0d3d-4e91-9b7b-e61da9e7fa3c"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.5,
+                        "y": 124.3
+                    },
+                    "uuid": "e6458a5d-6f1c-469f-ba13-2af77508ef02"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 127.8,
+                        "y": 124.9
+                    },
+                    "uuid": "34f6e4d0-b297-43a1-9e17-2cc55336f628"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.199999,
+                        "y": 124.8
+                    },
+                    "uuid": "da119082-8e5e-481c-b0e2-33bd9d01500d"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 128.3,
+                        "y": 124.6
+                    },
+                    "uuid": "1bfa9325-07b1-4177-87ef-4711af545353"
+                },
+                {
+                    "description": "PTHパッド 22 [D4_3V3] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 124.32
+                    },
+                    "uuid": "7f68590f-a0f5-43f3-8e68-e2012826409c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 125.0,
+                        "y": 133.9
+                    },
+                    "uuid": "bd1792b2-3544-478d-a9e5-53c17000fd5a"
+                },
+                {
+                    "description": "PTHパッド 18 [unconnected-(U1-TX0/IO1-Pad18)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 134.48
+                    },
+                    "uuid": "ff07d43d-911f-4456-af50-d9615c5039dc"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 124.9,
+                        "y": 133.3
+                    },
+                    "uuid": "e1a18191-bce6-46ad-b0fb-3350d660a473"
+                },
+                {
+                    "description": "PTHパッド 18 [unconnected-(U1-TX0/IO1-Pad18)] (U1)",
+                    "pos": {
+                        "x": 129.4,
+                        "y": 134.48
+                    },
+                    "uuid": "ff07d43d-911f-4456-af50-d9615c5039dc"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.5,
+                        "y": 126.4
+                    },
+                    "uuid": "f4876507-8ee7-42b3-87e0-c20b0b197dc2"
+                },
+                {
+                    "description": "PTHパッド 15 [SHVC_D3] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 127.2
+                    },
+                    "uuid": "f0de42be-803a-4b85-8794-24bae35887c1"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.6,
+                        "y": 126.5
+                    },
+                    "uuid": "b84c7b51-c76d-43d4-b9bd-3c54cb45bde7"
+                },
+                {
+                    "description": "PTHパッド 15 [SHVC_D3] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 127.2
+                    },
+                    "uuid": "f0de42be-803a-4b85-8794-24bae35887c1"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.6,
+                        "y": 126.7
+                    },
+                    "uuid": "1055eaea-9ed9-40a7-8704-2a3486955f1d"
+                },
+                {
+                    "description": "PTHパッド 15 [SHVC_D3] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 127.2
+                    },
+                    "uuid": "f0de42be-803a-4b85-8794-24bae35887c1"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.1,
+                        "y": 122.8
+                    },
+                    "uuid": "cc030a6e-0a8f-4c5c-a7a7-468cb6241ba7"
+                },
+                {
+                    "description": "PTHパッド 17 [SHVC_D1] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 122.12
+                    },
+                    "uuid": "93a58809-c1db-48da-a31f-3645755a6a3b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.2,
+                        "y": 122.7
+                    },
+                    "uuid": "ebed80dd-3c0d-4aa4-84e7-3e02b3e13add"
+                },
+                {
+                    "description": "PTHパッド 17 [SHVC_D1] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 122.12
+                    },
+                    "uuid": "93a58809-c1db-48da-a31f-3645755a6a3b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.3,
+                        "y": 122.6
+                    },
+                    "uuid": "f265876e-8600-48e5-9e6c-de1722f4b092"
+                },
+                {
+                    "description": "PTHパッド 17 [SHVC_D1] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 122.12
+                    },
+                    "uuid": "93a58809-c1db-48da-a31f-3645755a6a3b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 136.3,
+                        "y": 123.7
+                    },
+                    "uuid": "2056e376-10d8-47a6-8abe-d45104811858"
+                },
+                {
+                    "description": "PTHパッド 16 [SHVC_D2] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 124.66
+                    },
+                    "uuid": "15bade40-4407-4fbc-a7cf-4a5d296e0b5a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 136.4,
+                        "y": 124.2
+                    },
+                    "uuid": "906fd34b-8e73-45d6-be6f-9b5dde8d91c8"
+                },
+                {
+                    "description": "PTHパッド 16 [SHVC_D2] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 124.66
+                    },
+                    "uuid": "15bade40-4407-4fbc-a7cf-4a5d296e0b5a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.5,
+                        "y": 125.0
+                    },
+                    "uuid": "04588eb8-3d0a-435d-9f14-d2cf0d0deda8"
+                },
+                {
+                    "description": "PTHパッド 5 [D3_3V3] (U2)",
+                    "pos": {
+                        "x": 143.62,
+                        "y": 124.66
+                    },
+                    "uuid": "cfdac9c7-e4c8-4aad-8807-2ed8c9d2a72d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.5,
+                        "y": 125.0
+                    },
+                    "uuid": "04588eb8-3d0a-435d-9f14-d2cf0d0deda8"
+                },
+                {
+                    "description": "PTHパッド 16 [SHVC_D2] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 124.66
+                    },
+                    "uuid": "15bade40-4407-4fbc-a7cf-4a5d296e0b5a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.6,
+                        "y": 125.1
+                    },
+                    "uuid": "b22602fb-6b50-4616-946b-3ea38fc22de0"
+                },
+                {
+                    "description": "PTHパッド 5 [D3_3V3] (U2)",
+                    "pos": {
+                        "x": 143.62,
+                        "y": 124.66
+                    },
+                    "uuid": "cfdac9c7-e4c8-4aad-8807-2ed8c9d2a72d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.6,
+                        "y": 125.1
+                    },
+                    "uuid": "b22602fb-6b50-4616-946b-3ea38fc22de0"
+                },
+                {
+                    "description": "PTHパッド 16 [SHVC_D2] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 124.66
+                    },
+                    "uuid": "15bade40-4407-4fbc-a7cf-4a5d296e0b5a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.6,
+                        "y": 125.2
+                    },
+                    "uuid": "541fba8a-78cb-4c99-99b7-4d7d9002d175"
+                },
+                {
+                    "description": "PTHパッド 16 [SHVC_D2] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 124.66
+                    },
+                    "uuid": "15bade40-4407-4fbc-a7cf-4a5d296e0b5a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.6,
+                        "y": 125.3
+                    },
+                    "uuid": "4ba2ce5a-629a-4015-8bf2-795df071fbc7"
+                },
+                {
+                    "description": "PTHパッド 16 [SHVC_D2] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 124.66
+                    },
+                    "uuid": "15bade40-4407-4fbc-a7cf-4a5d296e0b5a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 135.7,
+                        "y": 125.4
+                    },
+                    "uuid": "3f33177e-40e4-414f-b567-bd719636f172"
+                },
+                {
+                    "description": "PTHパッド 16 [SHVC_D2] (U2)",
+                    "pos": {
+                        "x": 136.0,
+                        "y": 124.66
+                    },
+                    "uuid": "15bade40-4407-4fbc-a7cf-4a5d296e0b5a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 141.2,
+                        "y": 124.9
+                    },
+                    "uuid": "6ef3da63-24ca-43b0-bf3e-68678d8e24cd"
+                },
+                {
+                    "description": "PTHパッド 5 [D3_3V3] (U2)",
+                    "pos": {
+                        "x": 143.62,
+                        "y": 124.66
+                    },
+                    "uuid": "cfdac9c7-e4c8-4aad-8807-2ed8c9d2a72d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 141.3,
+                        "y": 124.7
+                    },
+                    "uuid": "508dd2ad-d21d-47b3-80f9-20121332caff"
+                },
+                {
+                    "description": "PTHパッド 5 [D3_3V3] (U2)",
+                    "pos": {
+                        "x": 143.62,
+                        "y": 124.66
+                    },
+                    "uuid": "cfdac9c7-e4c8-4aad-8807-2ed8c9d2a72d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 141.4,
+                        "y": 124.6
+                    },
+                    "uuid": "7c057285-28e3-4773-ac8b-6f88f692115d"
+                },
+                {
+                    "description": "PTHパッド 5 [D3_3V3] (U2)",
+                    "pos": {
+                        "x": 143.62,
+                        "y": 124.66
+                    },
+                    "uuid": "cfdac9c7-e4c8-4aad-8807-2ed8c9d2a72d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 141.6,
+                        "y": 124.5
+                    },
+                    "uuid": "d457bab3-1eed-446c-963e-90f3b77ee324"
+                },
+                {
+                    "description": "PTHパッド 5 [D3_3V3] (U2)",
+                    "pos": {
+                        "x": 143.62,
+                        "y": 124.66
+                    },
+                    "uuid": "cfdac9c7-e4c8-4aad-8807-2ed8c9d2a72d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 141.8,
+                        "y": 124.3
+                    },
+                    "uuid": "edef108a-55ed-41b9-a347-4c225cdceb57"
+                },
+                {
+                    "description": "PTHパッド 5 [D3_3V3] (U2)",
+                    "pos": {
+                        "x": 143.62,
+                        "y": 124.66
+                    },
+                    "uuid": "cfdac9c7-e4c8-4aad-8807-2ed8c9d2a72d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 141.8,
+                        "y": 124.4
+                    },
+                    "uuid": "252a0d55-357c-4d94-8424-fabac575140c"
+                },
+                {
+                    "description": "PTHパッド 5 [D3_3V3] (U2)",
+                    "pos": {
+                        "x": 143.62,
+                        "y": 124.66
+                    },
+                    "uuid": "cfdac9c7-e4c8-4aad-8807-2ed8c9d2a72d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.1,
+                        "y": 137.8
+                    },
+                    "uuid": "737d6e41-a4d8-45ff-8a3b-ba0a1b7cad6d"
+                },
+                {
+                    "description": "PTHパッド 2 [unconnected-(U1-IO36-Pad2)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 137.02
+                    },
+                    "uuid": "08404dfc-f201-4fee-bb6e-a0fc27dca788"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.1,
+                        "y": 138.6
+                    },
+                    "uuid": "7bb4d8e1-da7a-43d7-b9bf-bebe632b8d17"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.1,
+                        "y": 138.8
+                    },
+                    "uuid": "63c31695-bc60-483e-987e-f03f18fffa5c"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.1,
+                        "y": 138.9
+                    },
+                    "uuid": "9a3e6e4c-6318-4a36-af6e-e5c295878a6a"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.9,
+                        "y": 139.5
+                    },
+                    "uuid": "8f2697c9-4263-4132-8d97-e94d1fe88ad1"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.9,
+                        "y": 139.6
+                    },
+                    "uuid": "79f60d7b-8ccd-464e-ba4f-f15c173e5c06"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.2,
+                        "y": 139.0
+                    },
+                    "uuid": "4be9a506-0809-46de-a043-a6c7a02ef835"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.8,
+                        "y": 139.1
+                    },
+                    "uuid": "67fe5bac-3702-4d05-8238-5f132a191095"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.9,
+                        "y": 139.2
+                    },
+                    "uuid": "fbce4c3d-a564-446b-bb56-84c5a83ccfea"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.9,
+                        "y": 139.4
+                    },
+                    "uuid": "2032f296-19ff-47be-880d-90ea9228caf8"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.2,
+                        "y": 137.7
+                    },
+                    "uuid": "d7cef7ad-a81a-471f-ad60-06b4b3627f5a"
+                },
+                {
+                    "description": "PTHパッド 2 [unconnected-(U1-IO36-Pad2)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 137.02
+                    },
+                    "uuid": "08404dfc-f201-4fee-bb6e-a0fc27dca788"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.8,
+                        "y": 137.6
+                    },
+                    "uuid": "ce86cf9b-30f3-4d2c-911f-97b1df489e7a"
+                },
+                {
+                    "description": "PTHパッド 2 [unconnected-(U1-IO36-Pad2)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 137.02
+                    },
+                    "uuid": "08404dfc-f201-4fee-bb6e-a0fc27dca788"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 102.9,
+                        "y": 137.1
+                    },
+                    "uuid": "a8708f73-f71b-4005-8cf0-993cde7349d1"
+                },
+                {
+                    "description": "PTHパッド 2 [unconnected-(U1-IO36-Pad2)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 137.02
+                    },
+                    "uuid": "08404dfc-f201-4fee-bb6e-a0fc27dca788"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 103.0,
+                        "y": 137.0
+                    },
+                    "uuid": "bda45611-5de7-42f4-9a7c-e778001722e4"
+                },
+                {
+                    "description": "PTHパッド 2 [unconnected-(U1-IO36-Pad2)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 137.02
+                    },
+                    "uuid": "08404dfc-f201-4fee-bb6e-a0fc27dca788"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 103.4,
+                        "y": 136.9
+                    },
+                    "uuid": "6ba9a4ab-d928-40cd-8738-7fed7c615814"
+                },
+                {
+                    "description": "PTHパッド 2 [unconnected-(U1-IO36-Pad2)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 137.02
+                    },
+                    "uuid": "08404dfc-f201-4fee-bb6e-a0fc27dca788"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 103.0,
+                        "y": 139.9
+                    },
+                    "uuid": "c27e197b-5e13-40d2-902e-3195fd995fdc"
+                },
+                {
+                    "description": "PTHパッド 1 [unconnected-(U1-EN-Pad1)] (U1)",
+                    "pos": {
+                        "x": 104.0,
+                        "y": 139.56
+                    },
+                    "uuid": "718450b6-a98d-4be4-bbe6-91b7c3f801f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 108.1,
+                        "y": 139.6
+                    },
+                    "uuid": "45daeef6-68bb-4404-ad1a-5a01885bbc8e"
+                },
+                {
+                    "description": "PTHパッド 2 [OE_W] (R7)",
+                    "pos": {
+                        "x": 113.38,
+                        "y": 140.6
+                    },
+                    "uuid": "9558820d-da53-4441-a184-433d4cf76d15"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 111.2,
+                        "y": 140.1
+                    },
+                    "uuid": "488572a7-5f7c-4260-bd7c-cfb0c851196c"
+                },
+                {
+                    "description": "PTHパッド 2 [OE_W] (R7)",
+                    "pos": {
+                        "x": 113.38,
+                        "y": 140.6
+                    },
+                    "uuid": "9558820d-da53-4441-a184-433d4cf76d15"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 111.3,
+                        "y": 140.2
+                    },
+                    "uuid": "0a3e88ca-d9fe-4a8f-9bbf-86a41059db00"
+                },
+                {
+                    "description": "PTHパッド 2 [OE_W] (R7)",
+                    "pos": {
+                        "x": 113.38,
+                        "y": 140.6
+                    },
+                    "uuid": "9558820d-da53-4441-a184-433d4cf76d15"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 143.2
+                    },
+                    "uuid": "010d1d2e-535e-4c48-bfbe-1474af2b2dbb"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R8)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 143.7
+                    },
+                    "uuid": "7fa57008-254f-4e73-9477-cfbba201161a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 143.6
+                    },
+                    "uuid": "14bc1e6a-23bf-414a-be53-42cae2280e2b"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R8)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 143.7
+                    },
+                    "uuid": "7fa57008-254f-4e73-9477-cfbba201161a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 143.7
+                    },
+                    "uuid": "db65ca72-14a7-49c2-80ca-d95367289220"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R8)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 143.7
+                    },
+                    "uuid": "7fa57008-254f-4e73-9477-cfbba201161a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 143.8
+                    },
+                    "uuid": "64a93428-f0f1-4c16-bc7f-2c82e540da3b"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R8)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 143.7
+                    },
+                    "uuid": "7fa57008-254f-4e73-9477-cfbba201161a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 144.1
+                    },
+                    "uuid": "b6be6534-7709-408a-9533-908b253f7285"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R8)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 143.7
+                    },
+                    "uuid": "7fa57008-254f-4e73-9477-cfbba201161a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 144.2
+                    },
+                    "uuid": "e261b3cb-7669-44e3-82a0-6432706a8103"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R8)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 143.7
+                    },
+                    "uuid": "7fa57008-254f-4e73-9477-cfbba201161a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 144.3
+                    },
+                    "uuid": "38ab3ebf-8029-40a1-830b-a26079c0e700"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R8)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 143.7
+                    },
+                    "uuid": "7fa57008-254f-4e73-9477-cfbba201161a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 145.9
+                    },
+                    "uuid": "78195844-c492-46c4-b6fc-53eda5d065c0"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R9)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 146.8
+                    },
+                    "uuid": "fb820ad1-6bc3-45c9-a470-2f54fe32c21b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 146.2
+                    },
+                    "uuid": "cd94721b-fd95-4c53-9586-5c5e5ae9c915"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R9)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 146.8
+                    },
+                    "uuid": "fb820ad1-6bc3-45c9-a470-2f54fe32c21b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 146.3
+                    },
+                    "uuid": "2f9347ac-ed2b-484f-80b0-c9c89a5b7d73"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R9)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 146.8
+                    },
+                    "uuid": "fb820ad1-6bc3-45c9-a470-2f54fe32c21b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 146.4
+                    },
+                    "uuid": "984003ed-0da7-4432-8334-b7773c3004f5"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R9)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 146.8
+                    },
+                    "uuid": "fb820ad1-6bc3-45c9-a470-2f54fe32c21b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "矩形 (F.Silkscreen 上)",
+                    "pos": {
+                        "x": 116.5,
+                        "y": 146.9
+                    },
+                    "uuid": "052361c4-62dc-47c6-ba05-eca8296c66d2"
+                },
+                {
+                    "description": "PTHパッド 1 [+3V3] (R9)",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 146.8
+                    },
+                    "uuid": "fb820ad1-6bc3-45c9-a470-2f54fe32c21b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "基板上のテキスト 'Made by SHIMA' ( F.Silkscreen 上)",
+                    "pos": {
+                        "x": 123.75,
+                        "y": 162.1
+                    },
+                    "uuid": "68163791-8a4c-4717-9d43-d0d09adf58e4"
+                },
+                {
+                    "description": "PTHパッド 3 [LINE_R] (J5)",
+                    "pos": {
+                        "x": 118.0,
+                        "y": 162.0
+                    },
+                    "uuid": "d5cb54d2-20df-4c16-8ed2-c3e0ae208e62"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "R5のリファレンスフィールド",
+                    "pos": {
+                        "x": 168.69,
+                        "y": 129.13
+                    },
+                    "uuid": "50ef7ea3-2d64-4ebe-b34c-b90c3d2e7079"
+                },
+                {
+                    "description": "セグメント of R6 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 171.96,
+                        "y": 128.87
+                    },
+                    "uuid": "aff1d771-b05a-49aa-a29f-9c82e66fe90b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C4のリファレンスフィールド",
+                    "pos": {
+                        "x": 169.55,
+                        "y": 132.75
+                    },
+                    "uuid": "7f93a277-2214-4327-98eb-1a79938a0cee"
+                },
+                {
+                    "description": "セグメント of R5 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 171.96,
+                        "y": 132.87
+                    },
+                    "uuid": "c9edf753-6204-410f-93c8-be8abad30e1e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "R1のリファレンスフィールド",
+                    "pos": {
+                        "x": 151.81,
+                        "y": 146.63
+                    },
+                    "uuid": "292f4778-246d-4869-8bc2-4d4c2480c8f2"
+                },
+                {
+                    "description": "セグメント of C7 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 148.38,
+                        "y": 146.37
+                    },
+                    "uuid": "6c063a3c-ff93-43c9-aedb-df539741ab76"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of R1 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 155.08,
+                        "y": 150.37
+                    },
+                    "uuid": "731d2042-feff-4745-abbb-dbdf2c577b6e"
+                },
+                {
+                    "description": "R2のリファレンスフィールド",
+                    "pos": {
+                        "x": 151.81,
+                        "y": 150.13
+                    },
+                    "uuid": "ca68c5c1-d5c8-42df-b50e-37f6f46bf4d2"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C6のリファレンスフィールド",
+                    "pos": {
+                        "x": 151.0,
+                        "y": 139.0
+                    },
+                    "uuid": "46ae84a7-e23a-4c38-bb1e-035383a5b1f1"
+                },
+                {
+                    "description": "セグメント of U4 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 154.96,
+                        "y": 138.69
+                    },
+                    "uuid": "9c89f6d1-ac37-49af-be94-f7b6d9ded741"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C5のリファレンスフィールド",
+                    "pos": {
+                        "x": 161.0,
+                        "y": 139.25
+                    },
+                    "uuid": "3c566208-04a8-408d-a38c-7b3205f7654e"
+                },
+                {
+                    "description": "セグメント of C3 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 159.485,
+                        "y": 138.92
+                    },
+                    "uuid": "bdf8f2ca-120f-4c3e-8f92-b1858cff5a7f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C7のリファレンスフィールド",
+                    "pos": {
+                        "x": 151.0,
+                        "y": 142.5
+                    },
+                    "uuid": "5ab199d2-c97b-45e5-8745-883bed8b1ceb"
+                },
+                {
+                    "description": "セグメント of C6 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 148.38,
+                        "y": 142.87
+                    },
+                    "uuid": "c46ddde3-7257-4b8a-977b-23359b7f3366"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.29,
+                        "y": 151.74
+                    },
+                    "uuid": "c5b917fd-b940-4852-a205-dbe9e72b7a47"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.33,
+                        "y": 151.74
+                    },
+                    "uuid": "5c869711-0100-4c3b-9aa1-05d8d36a4d5d"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.37,
+                        "y": 151.74
+                    },
+                    "uuid": "7c14ba65-8a9d-4f55-9bad-d112b823f781"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.41,
+                        "y": 151.74
+                    },
+                    "uuid": "3714d765-88c3-4639-8e9a-dc716517babd"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 151.74
+                    },
+                    "uuid": "667d2f4b-8a37-45c7-a584-d1a8b9cf9cd7"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "U1のリファレンスフィールド",
+                    "pos": {
+                        "x": 116.7,
+                        "y": 150.06
+                    },
+                    "uuid": "06ceb2dc-4709-49e7-9410-a77be680cd1a"
+                },
+                {
+                    "description": "セグメント of U7 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 118.96,
+                        "y": 150.38
+                    },
+                    "uuid": "1b171667-ae7f-4087-a08c-1b6f5c5295de"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of U7 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 118.96,
+                        "y": 150.38
+                    },
+                    "uuid": "1b171667-ae7f-4087-a08c-1b6f5c5295de"
+                },
+                {
+                    "description": "矩形 of J3 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 129.25,
+                        "y": 148.75
+                    },
+                    "uuid": "5441742a-da09-49e4-ae84-87060ea24683"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.33,
+                        "y": 151.74
+                    },
+                    "uuid": "9f882bea-48e6-4c85-9053-8c336c1c37f4"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.45,
+                        "y": 151.74
+                    },
+                    "uuid": "4057f76c-2e51-440a-8435-27a2e27b3aec"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.49,
+                        "y": 151.74
+                    },
+                    "uuid": "07cc2495-e0c0-4375-83b8-3f4561a8b16e"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.53,
+                        "y": 151.74
+                    },
+                    "uuid": "2c12aa51-60aa-43e9-a402-a3bdfae0b3e3"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.57,
+                        "y": 151.74
+                    },
+                    "uuid": "c48535b4-a9c6-4871-b7b6-c31d0c981057"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.37,
+                        "y": 151.74
+                    },
+                    "uuid": "d3e6747d-0def-4cd7-9bfe-a340e0b5d494"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.41,
+                        "y": 151.74
+                    },
+                    "uuid": "56ffe981-8409-4bfd-aa08-6c7330ed3ced"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                },
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.61,
+                        "y": 151.74
+                    },
+                    "uuid": "fbcb0638-b235-4b55-940a-bfdbca75953a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.65,
+                        "y": 151.74
+                    },
+                    "uuid": "6d823829-5df6-4f8e-8013-24bc44f5b5bb"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.69,
+                        "y": 151.74
+                    },
+                    "uuid": "808a9320-8973-4dd2-916f-7ceccbcc8a8b"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.73,
+                        "y": 151.74
+                    },
+                    "uuid": "71c38368-9516-4cb1-afc4-8a822df95676"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                },
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.77,
+                        "y": 151.74
+                    },
+                    "uuid": "e72e34b3-20ca-4389-a3c1-8c3849ca8bbb"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.81,
+                        "y": 151.74
+                    },
+                    "uuid": "1b537f63-2735-4908-a0e2-3042b4fdc18c"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                },
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.85,
+                        "y": 151.74
+                    },
+                    "uuid": "e3304cba-f0cf-45cd-a99e-17785fa1df28"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                },
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.89,
+                        "y": 151.74
+                    },
+                    "uuid": "eebf10ea-b66b-4fae-a646-934c7e68ff03"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.93,
+                        "y": 151.74
+                    },
+                    "uuid": "479ff138-3fa4-4d2a-97cb-183b1f1dc62c"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                },
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 131.97,
+                        "y": 151.74
+                    },
+                    "uuid": "f6cdb2fe-d7f7-4d92-ac16-fb1a2a27545e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.01,
+                        "y": 151.74
+                    },
+                    "uuid": "37553144-22e2-469d-a30c-1dcebfef6e04"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.09,
+                        "y": 151.74
+                    },
+                    "uuid": "655aef33-6041-4e6f-b531-c973d74097ec"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.13,
+                        "y": 151.74
+                    },
+                    "uuid": "b0e9b30f-cdef-4b30-98bd-47e2cfbe7b71"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.17,
+                        "y": 151.74
+                    },
+                    "uuid": "018c57b2-34b3-47da-bf25-3f0bbe53d446"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.21,
+                        "y": 151.74
+                    },
+                    "uuid": "801a9c00-1813-472a-b739-6279a714852f"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "セグメント of C14 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 132.25,
+                        "y": 151.74
+                    },
+                    "uuid": "295c39a5-78e7-4985-adc2-41551c387cb2"
+                },
+                {
+                    "description": "C15のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 152.35
+                    },
+                    "uuid": "e259392c-07a9-4b8f-acbb-e947d9b490f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "矩形 of J3 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 129.25,
+                        "y": 148.75
+                    },
+                    "uuid": "5441742a-da09-49e4-ae84-87060ea24683"
+                },
+                {
+                    "description": "J5のリファレンスフィールド",
+                    "pos": {
+                        "x": 121.5,
+                        "y": 157.78
+                    },
+                    "uuid": "65ad7ba9-0d46-43e8-8d68-9abcaeaeca2f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "矩形 of J3 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 129.25,
+                        "y": 148.75
+                    },
+                    "uuid": "5441742a-da09-49e4-ae84-87060ea24683"
+                },
+                {
+                    "description": "セグメント of U7 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 118.96,
+                        "y": 158.12
+                    },
+                    "uuid": "e9d12397-9d38-4674-aa6a-bc497eacb221"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "円 of C13 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 103.8,
+                        "y": 154.0
+                    },
+                    "uuid": "455713cf-70a3-4bc7-9dc3-58e1b963d11f"
+                },
+                {
+                    "description": "U7のリファレンスフィールド",
+                    "pos": {
+                        "x": 106.0,
+                        "y": 154.25
+                    },
+                    "uuid": "f692768e-3991-4bb5-89f8-2a4a2268dddf"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "円 of R13 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 125.93,
+                        "y": 143.0
+                    },
+                    "uuid": "2fe23583-5253-44c3-ae3e-1572d91a7160"
+                },
+                {
+                    "description": "R14のリファレンスフィールド",
+                    "pos": {
+                        "x": 124.66,
+                        "y": 143.83
+                    },
+                    "uuid": "57a18555-fad5-4309-a1fe-6d944ce6a4f6"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "C14のリファレンスフィールド",
+                    "pos": {
+                        "x": 132.45,
+                        "y": 147.65
+                    },
+                    "uuid": "3ccf86bc-67f3-48a4-afb7-a75966d8b495"
+                },
+                {
+                    "description": "円 of R12 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 133.26,
+                        "y": 146.2
+                    },
+                    "uuid": "92217b69-8fae-4a2c-9dcc-81554d82d6ec"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "R12のリファレンスフィールド",
+                    "pos": {
+                        "x": 131.99,
+                        "y": 143.83
+                    },
+                    "uuid": "ac55ca02-9203-49c1-9ab2-71639f991a6e"
+                },
+                {
+                    "description": "円 of R11 、B.Silkscreen 上",
+                    "pos": {
+                        "x": 133.26,
+                        "y": 143.0
+                    },
+                    "uuid": "f60b8195-3dbf-4d05-8797-e4faec49df65"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        }
+    ]
+}

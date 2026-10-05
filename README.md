@@ -1,5 +1,20 @@
 # SHVC-SOUND スタンドアロンプレイヤー
 
+## ESP32 r0.4基板を使う場合
+
+PCからSPCファイルを再生するESP32用ファームは
+`SHVC-SOUND_python/esp32_spc_uploader/`。
+準備・書き込み・IPL診断・テスト音の順序は
+[ESP32 SPC立ち上げ手順](docs/esp32-spc-bringup.md)を参照。
+2026-10-04にSPC全体転送3回連続成功、タイトル曲とWAV由来の短い音声の可聴再生を確認。
+WAV一括再生は`SHVC-SOUND_python/tools/wav_clip_esp32.py`を使用する。
+[実機確認結果・WAVの使い方・アンプのバイパス](docs/esp32-playback-results.md)も参照。
+PCを使わず電源投入から再生する場合は、[単体再生ファーム](docs/esp32-standalone.md)を使用する。
+BluetoothでSPC・MIDI・短いWAVを保存・再生し、MIDI演奏や音量・パン・音色を操作する場合は、
+[Bluetooth PlayerとWindows操作画面](docs/esp32-bluetooth.md)を使用する。
+既存の`esp32_ble_midi/`はBLE／USB MIDI演奏用の別ファーム。
+以下のArduino配線と自己診断スケッチはUno／Nano用。
+
 Arduino Uno R3 / Nano (ATmega328P・5Vロジック) で SHVC-SOUND(スーファミ音源モジュール: S-SMP + S-DSP + ARAM + DAC)を駆動し、
 `.spc` ファイルを実チップで再生するプロジェクト。音声は TDA7053A(ステレオBTL)で増幅し3.5mmジャックへ出力する。
 

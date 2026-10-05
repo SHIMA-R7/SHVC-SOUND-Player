@@ -7,6 +7,9 @@
 #include <Preferences.h>
 #define SHVC_FAST_GPIO 1
 #include "spc_bus.h"
+#include "apu_wifi_bridge.h"
+static std::atomic<bool> apuWifiBusy{false};
+RTC_DATA_ATTR bool returnFromApuWifi=false;
 #include "spc_volume.h"
 #include "amp_control.h"
 #include "bank_data.h"
@@ -67,7 +70,7 @@ void refreshActivity() {
 void activityTask(void*) {
   LedState previous=LED_OFF; uint32_t started=millis();
   for(;;) {
-    LedState state=activityState.load(std::memory_order_relaxed);
+    LedState state=apuWifiBusy.load()? (unified_apu::audible.load()?LED_PLAYING:LED_OFF):activityState.load(std::memory_order_relaxed);
     uint32_t now=millis();
     if(state!=previous) { previous=state; started=now; }
     uint32_t interval=state==LED_RECEIVING?500:75;
@@ -208,7 +211,28 @@ bool playSaved() {
     }
     // Allocate only the snapshot while loading; release it before live MIDI starts.
     size_t n=65536u+get16(h+6); uint8_t *data=(uint8_t*)malloc(n);
-    if(!data) { f.close(); return false; }
+    if(!data) {
+      // Wi-Fi and BLE stacks leave too little contiguous heap for a snapshot.
+      // The IPL accepts separate blocks: stream ARAM from flash, buffering only
+      // one block and the restore stub that needs its gain patch.
+      size_t stubLength=get16(h+6);
+      uint8_t *stub=(uint8_t*)malloc(stubLength);
+      if(!stub) { f.close(); return false; }
+      f.seek(16+65536u);
+      bool ok=f.read(stub,stubLength)==stubLength && applySpcGain(stub,stubLength,spcGain);
+      uint8_t block[1024];
+      beginShvcTransfer(238u+0xFEC0u+stubLength);
+      f.seek(18);
+      ok=ok && f.read(block,238)==238 && spc::reset() && uploadBlock(2,block,238,true);
+      f.seek(16+0x100);
+      for(uint32_t address=0x100;ok && address<0xFFC0;address+=sizeof(block)) {
+        size_t count=min(size_t(0xFFC0-address),sizeof(block));
+        ok=f.read(block,count)==count && uploadBlock(address,block,count,false);
+      }
+      f.close();
+      ok=ok && uploadBlock(get16(h+4),stub,stubLength,false) && finishSpc(get16(h+4),h[8],h+9);
+      free(stub);Serial.printf("SPC streamed snapshot=%s\n",ok?"OK":"FAILED");return ok;
+    }
     bool ok=f.read(data,n)==n; f.close();
     ok=ok && applySpcGain(data+65536,get16(h+6),spcGain);
     Serial.printf("SPC gain=%u patch=%s\n",spcGain,ok?"OK":"FAILED");
@@ -258,7 +282,7 @@ class ServerCallbacks : public BLEServerCallbacks {
   void onConnect(BLEServer*,esp_ble_gatts_cb_param_t *param) override {
     memcpy(remoteAddress,param->connect.remote_bda,sizeof(remoteAddress));
   }
-  void onDisconnect(BLEServer*) override { connected=false; disconnected=true; midiStream=MidiStream(midiEnqueue); BLEDevice::startAdvertising(); }
+  void onDisconnect(BLEServer*) override { connected=false; disconnected=true; midiStream=MidiStream(midiEnqueue); if(!apuWifiBusy.load()) BLEDevice::startAdvertising(); }
 };
 void handle(const Packet &p) {
   uint16_t seq=get16(p.bytes); uint8_t op=p.bytes[2],code=0;
@@ -390,6 +414,37 @@ void handle(const Packet &p) {
   }
   publish(seq,op,code);
 }
+void startPlayerBle() {
+  BLEDevice::init("SHVC-SOUND Player"); BLEDevice::setMTU(517);
+  BLEServer *server=BLEDevice::createServer(); server->setCallbacks(new ServerCallbacks());
+  BLEService *control=server->createService(SERVICE);
+  auto *command=control->createCharacteristic(COMMAND,BLECharacteristic::PROPERTY_WRITE|BLECharacteristic::PROPERTY_WRITE_NR);
+  command->setCallbacks(new CommandCallbacks());
+  statusChar=control->createCharacteristic(STATUS_UUID,BLECharacteristic::PROPERTY_READ|BLECharacteristic::PROPERTY_NOTIFY);
+  statusChar->addDescriptor(new BLE2902()); control->start();
+  BLEService *ms=server->createService(MIDI_SERVICE);
+  auto *mc=ms->createCharacteristic(MIDI_CHAR,BLECharacteristic::PROPERTY_READ|BLECharacteristic::PROPERTY_WRITE_NR|BLECharacteristic::PROPERTY_NOTIFY);
+  mc->addDescriptor(new BLE2902()); mc->setCallbacks(new MidiCallbacks()); ms->start();
+  auto *adv=BLEDevice::getAdvertising(); adv->addServiceUUID(SERVICE); adv->setScanResponse(true); BLEDevice::startAdvertising();
+  Serial.println("BLE READY SHVC-SOUND Player"); publish(0,INFO,0);
+
+}
+void enterApuWifi() {
+ apuWifiBusy=true;abortUpload();stopPlayback();xQueueReset(commands);xQueueReset(midi);
+ connected=false;disconnected=false;
+ BLEDevice::deinit(false);statusChar=nullptr;
+ disconnected=false;
+ // Keep amplifier control on the existing verified PWM pin/profile.
+ ampDuty=amp.duty(millis(),true);ledcWrite(33,ampDuty);
+ Serial.printf("OWNER WIFI free_heap=%lu\n",(unsigned long)ESP.getFreeHeap());
+}
+void leaveApuWifi() {
+ // Bluedroid does not reliably advertise after deinit/init on this core.
+ // Reboot into a clean BLE stack, keeping saved songs and stopping playback.
+ returnFromApuWifi=true;
+ Serial.println("OWNER BLE restart");Serial.flush();ESP.restart();
+}
+
 void setup() {
   Serial.begin(115200); spc::begin(); ledcAttach(33,20000,8); ledcWrite(33,0);
   pinMode(LED_BUILTIN,OUTPUT); digitalWrite(LED_BUILTIN,LOW);
@@ -410,22 +465,14 @@ void setup() {
   }
   if(fsReady) prefs.putBool("fs",true);
   if(!fsReady) Serial.println("FILESYSTEM unavailable; use explicit first-install format");
-  BLEDevice::init("SHVC-SOUND Player"); BLEDevice::setMTU(517);
-  BLEServer *server=BLEDevice::createServer(); server->setCallbacks(new ServerCallbacks());
-  BLEService *control=server->createService(SERVICE);
-  auto *command=control->createCharacteristic(COMMAND,BLECharacteristic::PROPERTY_WRITE|BLECharacteristic::PROPERTY_WRITE_NR);
-  command->setCallbacks(new CommandCallbacks());
-  statusChar=control->createCharacteristic(STATUS_UUID,BLECharacteristic::PROPERTY_READ|BLECharacteristic::PROPERTY_NOTIFY);
-  statusChar->addDescriptor(new BLE2902()); control->start();
-  BLEService *ms=server->createService(MIDI_SERVICE);
-  auto *mc=ms->createCharacteristic(MIDI_CHAR,BLECharacteristic::PROPERTY_READ|BLECharacteristic::PROPERTY_WRITE_NR|BLECharacteristic::PROPERTY_NOTIFY);
-  mc->addDescriptor(new BLE2902()); mc->setCallbacks(new MidiCallbacks()); ms->start();
-  auto *adv=BLEDevice::getAdvertising(); adv->addServiceUUID(SERVICE); adv->setScanResponse(true); BLEDevice::startAdvertising();
-  Serial.println("BLE READY SHVC-SOUND Player"); publish(0,INFO,0);
-  if(bootPlay && !playSaved()) { mode=ERROR_MODE; applyMute(); }
+  startPlayerBle(); unified_apu::begin();
+  bool resumeBoot=bootPlay && !returnFromApuWifi;returnFromApuWifi=false;
+  if(resumeBoot && !playSaved()) { mode=ERROR_MODE; applyMute(); }
   publish(0,INFO,0);
 }
 void loop() {
+  unified_apu::playerConnected(connected);
+  if(unified_apu::poll()) return;
   if(disconnected) {
     disconnected=false; abortUpload(); xQueueReset(commands); xQueueReset(midi);
     if(mode==MIDI_LIVE) synth::allNotesOff(-1);
